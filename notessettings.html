@@ -15,28 +15,27 @@
 			<h1>Notes on the Fretboard <span>Settings</span></h1>
 		</header>
 
-		<h2>Time Limit <span class="rightLabel"><output for="timeSlider" id="timeSliderOutput">5</output> mins</span></h2>
+		<h2>Time Limit <span class="rightLabel"><span id="timeSliderOutput">5</span> mins</span></h2>
 
 		<div class="row">
-			<input type="range" min="1" max="10" value="5" id="timeSlider" onchange="timeOutputUpdate(value); saveSettings()" />
+			<input type="range" min="1" max="10" value="5" id="timeSlider" onchange="timeOutputUpdate(this.value); saveSettings()" oninput="timeOutputUpdate(this.value); saveSettings()" />
 
 			<script>
 				localStorage.setItem("timeLimit", 5)
 
 				function timeOutputUpdate(time) {
-					document.querySelector('#timeSliderOutput').value = time;
+					document.getElementById("timeSliderOutput").innerHTML = time;
 				}
 
 			</script>
 
 		</div>
-
 		<div class="row">
 			<div class="half column">
-				<a href="index.html" ontouchstart="activeLink(this)" class="mainNav acceptBtn">Back</a>
+				<a href="index.html" onclick="activeLink(this);" ontouchstart="activeLink(this)"  class="mainNav acceptBtn">Back</a>
 			</div>
 			<div class="half column">
-				<a href="notesexercise.html" ontouchstart="activeLink(this); saveSettings();" class="mainNav acceptBtn">Accept</a>
+				<a href="notesexercise.html" onclick="activeLink(this); saveSettings();" ontouchstart="activeLink(this); saveSettings();" class="mainNav acceptBtn">Accept</a>
 			</div>
 		</div>
 
