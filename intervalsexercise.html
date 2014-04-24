@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<script type="text/javascript" src="js/shared.js"></script>
+
+		<title>Bass Guitar Music Theory</title>
+	</head>
+	<body>
+
+		<header>
+			<h1 class="left">Time Left: <em id="timer"></em></h1>
+
+			<h1 class="right"><em id="score">-</em>% correct (<em id="correct">0</em>/<em id="total">0</em>)</h1>
+		</header>
+
+		<div id="container"></div>
+
+		<div id="outOfTime">
+			<div class="ootInner">
+				<h1 id="ootHeader"></h1>
+				<p>You managed to get <em id="finalCorrect">0</em> correct answers, out of <em id="finalTotal">0</em> questions</p>
+
+				<p id="noRecord">Good job! You set a record of <em id="noPreviousRecordValue">X</em></p>
+
+				<p id="beatRecord">Good job! You beat your previous record of <em id="beatPreviousRecordValue">X</em></p>
+
+				<p id="lostRecord">Bad luck! You didn't beat your previous record of <em id="lostPreviousRecordValue">X</em></p>
+
+				<a href="intervalsexercise.html" onclick="activeLink(this)" class="mainNav">Back</a>
+			</div>
+		</div>
+
+
+		<script type="text/javascript" src="js/kinetic-v5.0.1.min.js"></script>
+		<script type="text/javascript" src="js/shared.js"></script>
+
+		<script>
+		var maxFrets = 5;
+		var rootNote = ""
+		var previousRecordIntervals = localStorage.getItem("previousRecordIntervals");
+	
+		var stage = new Kinetic.Stage({
+			container: 'container',
+			width: window.innerWidth,
+			height: 400
+		})
+
+		function drawStrings() {
+			var backgroundLayer = new Kinetic.Layer();
+
+			stringLength = stage.getWidth() - 50;
+			// Draw STRINGS
+			for (var i = 0; i < maxStrings; i++) {
+				drawLine(50, 50 + (stringSpacing * i), stringLength, 50 + (stringSpacing * i), 9, "#444", "round", backgroundLayer);
+			}
+
+			// Draw STRING LABELS 
+			drawText("G", 20, 42, backgroundLayer);
+			drawText("D", 20, 42 + stringSpacing, backgroundLayer);
+			drawText("A", 20, 42 + (stringSpacing * 2), backgroundLayer);
+			drawText("E", 20, 42 + (stringSpacing * 3), backgroundLayer);
+
+			// draw FRETS
+			for (var i = 0; i < maxFrets; i++) {
+				// offset by 50 from start of the string
+				fretLineX = (50 + ((stringLength / maxFrets) / 2)) + (((stringLength - 50) / maxFrets)  * i)
+				drawLine(fretLineX, 35, fretLineX, 50 + (stringSpacing * 3) + 15, 5, "#aaa", "round", backgroundLayer);
+
+				drawText(i + 1, fretLineX - 4, 10, backgroundLayer, "center");
+			}
+
+			stage.add(backgroundLayer)
+		}
+
+		function drawCircles() {
+			var circleLayer = new Kinetic.Layer();
+			var rootFret = 0
+			var rootString = 3
+
+			for (var string = 0; string < 4; string++) {
+				for (var fret = 0; fret < 5; fret++ ) {
+					
+					if (fret == rootFret && string == rootString) {
+						drawCircle((50 + ((stringLength / maxFrets) / 2)) + (((stringLength - 50) / maxFrets)  * rootFret), 50 + (rootString * stringSpacing), 15, "rootNote", "#E51400", circleLayer);
+					}
+					else{
+						drawCircle((50 + ((stringLength / maxFrets) / 2)) + (((stringLength - 50) / maxFrets)  * fret), 50 + (string * stringSpacing), 15, string.toString() + fret.toString(),  "black", circleLayer, 0.75);
+					}
+				}
+			}
+
+			stage.add(circleLayer)
+		}
+		var test = []
+		var textLayer = new Kinetic.Layer();
+		var instructions = new Kinetic.Text({
+			text: "",
+			x: stage.width() / 2,
+			y: 180,
+			fontFamily: "Arial",
+			fontSize: 32,
+			fill: "black",
+			align: "center"
+		})
+		instructions.offsetX(instructions.getWidth() / 2)
+
+		var feedback = new Kinetic.Text({
+			text: "",
+			x: stage.width() / 2,
+			y: 180 + instructions.height(),
+			fontFamily: "Arial",
+			fontSize: 32,
+			fill: "black",
+			align: "center",
+			opacity: 0
+		})
+		feedback.offsetX(feedback.getWidth() / 2)
+
+		textLayer.add(feedback);
+		textLayer.add(instructions);
+		stage.add(textLayer);
+
+		function setInstructionText(newIns) {
+			instructions.text(newIns)
+			instructions.offsetX(instructions.getWidth() / 2)
+			textLayer.draw()
+
+			var scaleTween = new Kinetic.Tween({
+				node: instructions, 
+				duration: 0.25,
+				scaleX: 1.15,
+				scaleY: 1.15,
+				easing: Kinetic.Easings.EaseInOut,
+				onFinish: function() {
+					scaleTween.reverse();
+				}
+			});
+
+			scaleTween.play()
+		}
+
+		function setFeedbackText(newFeedback, colour) {
+			feedback.text(newFeedback)
+			feedback.offsetX(feedback.getWidth() / 2)
+			feedback.setFill(colour)
+			textLayer.draw()
+
+			var scaleTween = new Kinetic.Tween({
+				node: feedback, 
+				duration: 0.25,
+				scaleX: 1.5,
+				scaleY: 1.5,
+				easing: Kinetic.Easings.EaseInOut,
+				onFinish: function() {
+					scaleTween.reverse();
+				}
+			});
+
+			scaleTween.play()
+
+			var opacityTween = new Kinetic.Tween({
+				node: feedback, 
+				duration: 1,
+				opacity: 1,
+				easing: Kinetic.Easings.ElasticEaseOut,
+			});
+
+			opacityTween.play()
+		}
+
+		drawStrings()
+		drawCircles()
+
+		var intervals = {}
+		intervals = {
+			"Minor 2nd": "31",
+			"Major 2nd": "32",
+			"Minor 3rd": "33",
+			"Major 3rd": "34",
+			"Perfect 4th": "20",
+			"Tritone": "21",
+			"Perfect 5th": "22",
+			"Minor 6th": "23",
+			"Major 6th": "24",
+			"Minor 7th": "10",
+			"Major 7th": "11",
+			"Octave": "12",
+		}
+
+		var intervalsKeys = Object.keys(intervals);
+		var currentInterval;
+		var timerR;
+
+		function buttonClicked(interval) {
+			if(exRunning) {
+				if(interval == currentInterval) {
+					setFeedbackText("Correct!", "green")
+					score += 1
+				}
+				else {
+					setFeedbackText("Incorrect!", "red")
+				}
+
+				totalQuestions += 1
+				totalDisplay.innerHTML = totalQuestions
+				scoreDisplay.innerHTML = Math.round((score / totalQuestions) * 100)
+				correctDisplay.innerHTML = score
+
+				gameState()
+			}
+		}
+
+		var intervalButtons = []
+		function makeFunction(interval) {
+			return function() {
+				buttonClicked(interval)
+			} 
+		}
+
+		// attach interval names to correct buttons
+		for(var interval in intervals) {
+			intervalButtons[interval] = stage.find("#" + intervals[interval])[0];
+
+			intervalButtons[interval].off("mousedown touchstart") //remove previous function
+			intervalButtons[interval].on("mousedown touchstart", makeFunction(interval))
+		}
+
+		function gameState() {
+			currentInterval = intervalsKeys[Math.floor(Math.random() * intervalsKeys.length)]
+			setInstructionText(currentInterval)
+		}
+
+
+		function updateTimer() {
+			var extraZero = 0;
+
+			timerSeconds -= 1;
+
+			if (timerSeconds < 0) {
+				timerMinutes -= 1
+				timerSeconds = 59
+			}
+
+			if (timerSeconds < 10) {
+				extraZero = 0;
+			}
+			else {
+				extraZero = "";
+			}
+
+			timerDisplay.innerHTML = timerMinutes + ":" + extraZero + timerSeconds
+
+			// check if out of time
+			if (timerSeconds == 0 && timerMinutes == 0) {
+
+				endExercise()
+
+			}
+		}
+
+		function endExercise() {
+			exRunning = false;
+			clearInterval(timerR)
+			timerDisplay.innerHTML = "0:00"
+
+			document.getElementById("ootHeader").innerHTML = "Time's up!";
+			document.getElementById("finalCorrect").innerHTML = score;					
+			document.getElementById("finalTotal").innerHTML = totalQuestions;
+			document.getElementById("outOfTime").style.display = "block"	
+
+			if (!previousRecordIntervals) {
+				document.getElementById("noRecord").style.display = "block"
+				document.getElementById("noPreviousRecordValue").innerHTML = score
+				localStorage.setItem("previousRecordIntervals", score)
+			}	
+			else if (previousRecordIntervals < score) {
+				document.getElementById("beatRecord").style.display = "block"
+				document.getElementById("beatPreviousRecordValue").innerHTML = previousRecordIntervals
+				localStorage.setItem("previousRecordIntervals", score)
+			}
+			else {
+				document.getElementById("lostRecord").style.display = "block"
+				document.getElementById("lostPreviousRecordValue").innerHTML = previousRecordIntervals	
+			}
+
+		}
+
+		var buttonLayer = new Kinetic.Layer();
+		var startButton = new Kinetic.Rect({
+			x: stage.width() / 2 - 125,
+			y: 155 / 2,
+			width: 250,
+			height: 50,
+			fill: "lightgrey",
+			stroke: "black",
+			strokeWidth: 4,
+			cornerRadius: 5,
+		});
+		var startButtonText = new Kinetic.Text({
+			text: "Start",
+			x: stage.width() / 2 - 100,
+			y: 155 / 2 + 7, // magic number !!
+			width: 200,
+			height: 50,
+			fontFamily: "Arial",
+			fontSize: 32,
+			fill: "black",
+			align: "center"
+		});
+
+		buttonLayer.add(startButton)
+		buttonLayer.add(startButtonText)
+		stage.add(buttonLayer);
+		
+		startButton.on("mousedown touchstart", function() { start() })
+		startButtonText.on("mousedown touchstart", function() { start() })
+
+		function start() {
+			buttonLayer.destroy()
+			exRunning = true;
+			timerR = setInterval(updateTimer, timerTickMS); // in ms - 1000 msec = 1 sec
+			gameState()
+			updateTimer()
+		}
+
+
+		</script>
+
+ 	</body>
+</html>

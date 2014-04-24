@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<script type="text/javascript" src="js/shared.js"></script>
+
+		<title>Bass Guitar Music Theory</title>
+	</head>
+	<body>
+
+		<header>
+			<h1>Bass Guitar Music Theory</h1>
+		</header>
+
+		<div class="row">
+			<div class="small column">
+				<a href="javascript:void(0);" ontouchstart="toggleDescription(1, this); activeLink(this);" onclick="toggleDescription(1, this); activeLink(this);" class="expand mainNav">+</a>
+			</div>
+			<div class="big column">
+				<a href="notessettings.html" ontouchstart="activeLink(this)" onclick="activeLink(this)" class="mainNav">Notes on the fretboard</a>
+			</div>
+			<div class="description" id="desc1">
+				<p>This exercise will help you to learn the notes on the fretboard. In the exercise a fret will be highlighted with a red dot, you need to select the note at this fret by clicking the corresponding button at the bottom of the screen.</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="small column">
+				<a href="javascript:void(0);" ontouchstart="toggleDescription(2, this); activeLink(this);" onclick="toggleDescription(2, this); activeLink(this);" class="expand mainNav">+</a>
+			</div>
+			<div class="big column">
+				<a href="intervalssettings.html" ontouchstart="activeLink(this)" onclick="activeLink(this)" class="mainNav">Intervals</a>
+			</div>
+			<div class="description" id="desc2">
+				<p>This exercise will help you to learn the 12 basic intervals. Intervals are one of the key pieces of knowledge needed to learn chords and scales. They are also incredibly useful shorthand when talking to other musicians. In the exercise the root note will be highlighted with a red dot and the desired interval will be displayed at the bottom of the screen. You need to select the note that represents the interval from the root note.</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="small column">
+				<a href="javascript:void(0);" ontouchstart="toggleDescription(3, this); activeLink(this);" onclick="toggleDescription(3, this); activeLink(this);" class="expand mainNav">+</a>
+			</div>
+			<div class="big column">
+				<a href="scalessettings.html" ontouchstart="activeLink(this)" onclick="activeLink(this)" class="mainNav">Scales</a>
+			</div>
+			<div class="description" id="desc3">
+				<p>This exercise will help you to learn scales, which are incredibly important when working with other musicians. In the exercise the root note will be highlighted with a red dot and a random note from the chosen scale will be displayed at the bottom of the screen. You need to select the desired note from the fretboard.</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="small column">
+			</div>
+			<div class="big column">
+				<a class="mainNav" href="javascript:void(0);" ontouchstart="clearData(); activeLink(this)" onclick="clearData(); activeLink(this)">Clear Saved Data</a>
+			</div>
+
+		</div>
+
+
+		<script type="text/javascript">
+
+			var lastID = -1;
+			var lastLink = -1;
+
+			function toggleDescription(idnum, link) {
+				var allDivs = document.getElementById("desc" + idnum)
+
+				if (allDivs.style.display == "block") {
+						allDivs.style.display="none"
+					}
+				else {
+						allDivs.style.display="block"
+					}
+
+				if (lastID != -1 && lastID != idnum) {
+					document.getElementById("desc" + lastID).style.display="none"
+				}
+
+				lastID = idnum
+
+				if (link.innerHTML == "+") {
+					link.innerHTML = "-"
+				}
+				else if (link.innerHTML == "-") {
+					link.innerHTML = "+"
+				}
+
+				if (lastLink.innerHTML == "-" && lastLink != link) {
+					lastLink.innerHTML = "+"
+				}
+
+				lastLink = link;
+			}
+
+
+			function clearData() {
+				localStorage.removeItem("timeLimit")
+				localStorage.removeItem("selectedKey")
+				localStorage.removeItem("selectedScale")
+
+				localStorage.removeItem("previousRecordNotes")
+				localStorage.removeItem("previousRecordIntervals")
+				localStorage.removeItem("previousRecordScales")
+			}
+
+		</script>
+
+	</body>
+</html>

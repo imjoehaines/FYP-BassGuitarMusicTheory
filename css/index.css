@@ -1,0 +1,267 @@
+@font-face {
+    font-family: 'lobster two';
+    src: url('../fonts/lobstertwo-regular-webfont.eot');
+    src: url('../fonts/lobstertwo-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/lobstertwo-regular-webfont.woff') format('woff'),
+         url('../fonts/lobstertwo-regular-webfont.ttf') format('truetype'),
+         url('../fonts/lobstertwo-regular-webfont.svg#lobster_tworegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+}
+
+body {
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    margin:0px;
+    padding:0px;
+}
+
+img {
+    display: inline-block;
+    float: left;
+}
+
+header {
+    background-color:#E4E4E4;
+    color:#444;
+    border-bottom: 1px solid #b7b7b7;
+    padding: 15px;
+    width: 100%;
+    text-align:center;
+    overflow: hidden;
+}
+
+h1 {
+    font-family: 'lobster two', serif;
+    font-size:200%;
+    font-weight:normal;
+    margin: 0;
+}
+
+header h2 {
+    font-size: 100%;
+    margin: 0px;
+}
+
+header em {
+    font-style: normal;
+    color: #E51400;
+    font-family: sans-serif;
+}
+
+header .left {
+    float: left;
+    width: 45%;
+    text-align: left;
+}
+
+header .right {
+    float: right;
+    width: 45%;
+    text-align: right;
+}
+
+h1 span {
+    color:#E51400;
+    font-size: 90%;
+}
+
+h2 {
+    font-weight: normal;
+    margin: 15px;
+}
+
+span.rightLabel {
+    color:#E51400;
+    font-weight: normal;
+    font-size: 90%;
+    float: right;
+}
+
+ul {
+    list-style: none;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+a.mainNav {
+    color:#E51400;
+    text-decoration:none;
+    float:left; 
+    padding: 10px;
+    font-size: 100%;
+    width: 100%;
+
+    transition-property: color, background;
+    transition-duration: 0.10s;
+}
+
+a.activeLink {
+
+    color: #fff;
+    background: #E51400;
+}
+
+a.acceptBtn {
+    text-align: center;
+    font-size: 125%;
+    width: 100%;
+    margin: 15px auto;
+    padding: 25px 25px;
+    border: none;
+}
+
+.expand {
+    text-align: center;
+}
+
+.description {
+    width: 100%;
+    margin:0 auto;
+    padding: 15px;
+    border-top: 1px solid #eee;
+    overflow: hidden;
+}
+
+.description p {
+    margin: 0;
+    padding: 0;
+}
+
+a.noDesc {
+    width:100%;
+}
+
+#desc1, #desc2, #desc3, #desc4, #desc5 {
+    display: none;
+}
+
+input[type=range] {
+    width: 96%;
+    margin: 2%;
+}
+
+.row {
+    margin: 0 auto;
+    overflow: hidden;
+    border-bottom: 1px solid #eee;
+}
+
+.column {
+    float: left;
+    min-height: 1px;
+    position: relative;
+}
+
+.row .small {
+    width: 20%;
+}
+
+.row .big {
+    width: 80%;
+}
+
+.row .quarter {
+    width: 25%;
+    text-align: center;
+    border-right: 1px solid #fff;
+    margin-bottom: 1px;
+}
+
+.quarter:last-child, .quarter:nth-child(4n) {
+    border: none;
+}
+
+.row .half {
+    width: 50%;
+}
+
+.row:after {
+    clear:both;
+}
+
+#notesCanvas {
+
+}
+
+#outOfTime {
+    background: rgba(0, 0, 0, 0.66);
+    padding: 2%;
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    top: 0px;
+    display: none;
+}
+
+.ootInner {
+    text-align: center;
+    background: #fff;
+    padding: 5%;
+    padding-bottom: 0;
+    position:relative;
+    width: 80%;
+    text-shadow: 1px 1px 1px #ddd;
+    font-size: 125%;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.ootInner a {
+    padding: 5%;
+}
+
+.ootInner p {
+    margin-bottom: 0;
+}
+
+.ootInner em {
+    font-style: normal;
+    color: #E51400;
+    font-size: 125%;
+}
+
+#feedback {
+    width: 30%;
+    position:absolute;
+    top:0;
+    left: 35%;
+    padding: 15px;
+    margin: 0 auto;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    text-align: center;
+    opacity: 0;
+
+
+    transition-property: opacity;
+    transition-duration: 0.5s;
+}
+
+.correctAnswer {
+    background: rgba(0, 255, 0, 0.5);
+}
+
+.incorrectAnswer {
+    background: rgba(255, 0, 0, 0.5);
+
+}
+
+select {
+    margin: 15px;
+    margin-top:0;
+} 
+
+#noRecord, #beatRecord, #lostRecord {
+    display:none;
+}

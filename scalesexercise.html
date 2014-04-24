@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<script type="text/javascript" src="js/shared.js"></script>
+
+		<title>Bass Guitar Music Theory</title>
+	</head>
+	<body >
+
+		<header>
+			<h1 class="left">Time Left: <em id="timer"></em></h1>
+
+			<h1 class="right"><em id="score">-</em>% correct (<em id="correct">0</em>/<em id="total">0</em>)</h1>
+		</header>
+
+		<div id="container"></div>
+
+		<div id="outOfTime">
+			<div class="ootInner">
+				<h1 id="ootHeader"></h1>
+				<p>You managed to get <em id="finalCorrect">0</em> correct answers, out of <em id="finalTotal">0</em> questions</p>
+
+				<p id="noRecord">Good job! You set a record of <em id="noPreviousRecordValue">X</em></p>
+
+				<p id="beatRecord">Good job! You beat your previous record of <em id="beatPreviousRecordValue">X</em></p>
+
+				<p id="lostRecord">Bad luck! You didn't beat your previous record of <em id="lostPreviousRecordValue">X</em></p>
+
+				<a href="scalesexercise.html" onclick="activeLink(this)" class="mainNav">Back</a>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="js/shared.js"></script>
+
+		<script type="text/javascript" src="js/kinetic-v5.0.1.min.js"></script>
+		<script>
+
+		var rootNote = ""
+
+		var previousRecordScales = localStorage.getItem("previousRecordScales");
+
+		var notes = [
+			["G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"], // G string
+			["D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"], // D string
+			["A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"], // A string
+			["F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"]  // E string
+		]
+		var selectedScale = localStorage.getItem("selectedScale");
+		var scaleNames = [
+			"Major",
+			"Minor Pentatonic",
+			"Major Pentatonic",
+			"Major Triad",
+			"Major 7th",
+			"Dominant 7th",
+			"Mixolydian"
+		]
+		var root = localStorage.getItem("selectedKey")
+		var rootNoteList = [
+			[3,4], 	//A
+			[3,5],	//A#
+			[3,6],	//B
+			[2,2],	//C
+			[2,3],	//C#
+			[2,4],	//D
+			[2,5],	//D#
+			[2,6],	//E
+			[2,7],	//F
+			[2,8],	//F#
+			[3,2],	//G
+			[3,3]		//G#
+		]
+		var rootNote = rootNoteList[root]
+
+		var scaleName = notes[rootNote[0]][rootNote[1]] + " " + scaleNames[selectedScale]
+
+		var scaleList = [
+			Major = [
+				"Major 2nd",
+				"Major 3rd",
+				"Perfect 4th",
+				"Perfect 5th",
+				"Major 6th",
+				"Major 7th",
+				"Octave"
+			],
+
+			MinorPentatonic =[
+				"Minor 3rd",
+				"Perfect 4th",
+				"Perfect 5th",
+				"Minor 7th",
+				"Octave"
+			],
+
+			MajorPentatonic =[
+				"Major 2nd",
+				"Major 3rd",
+				"Perfect 5th",
+				"Major 6th",
+				"Octave"
+			],
+
+			MajorTriad = [
+				"Major 3rd",
+				"Perfect 5th",
+				"Octave"
+			],
+
+			Major7th = [
+				"Major 3rd",
+				"Perfect 5th",
+				"Major 7th",
+				"Octave"
+			],
+
+			Dominant7th = [
+				"Major 3rd",
+				"Perfect 5th",
+				"Minor 7th",
+				"Octave"
+			],
+
+			Mixolydian =[
+				"Major 2nd",
+				"Major 3rd",
+				"Perfect 4th",
+				"Perfect 5th",
+				"Major 6th",
+				"Minor 7th",
+				"Octave"
+			]
+		]
+
+		var selectedScale = scaleList[selectedScale];
+
+		var scale = [
+			rootNote
+		]
+
+		var intervalDifference = {
+			"Minor 2nd": [0,1],
+			"Major 2nd": [0,2],
+			"Minor 3rd": [0, 3],
+			"Major 3rd": [-1,-1],
+			"Perfect 4th": [-1,0],
+			"Tritone": [-1,1],
+			"Perfect 5th": [-1,2],
+			//"minor 6th": "", //UNUSED
+			"Major 6th": [-2,-1],
+			"Minor 7th": [-2,0],
+			"Major 7th": [-2,1],
+			"Octave": [-2,2],
+		}
+
+		var intervalDifferenceKeys = Object.keys(intervalDifference)
+
+		// Get Note Positions
+		//		Creates the scale table with positions of each note in the selected scale
+		for (var i = 0; i < intervalDifferenceKeys.length; i++) {
+			for (var j = 0; j < selectedScale.length; j++) {
+				if(selectedScale[j] == intervalDifferenceKeys[i]) {
+					scale.push([rootNote[0] + intervalDifference[intervalDifferenceKeys[i]][0],rootNote[1] + intervalDifference[intervalDifferenceKeys[i]][1]])
+				}
+			}
+		}
+
+		var intervals = {
+			"Minor 2nd": [2,3],
+			"Major 2nd": [2,4],
+			//"minor 3rd": "", //UNUSED
+			"Major 3rd": [1,1],
+			"Perfect 4th": [1,2],
+			"Tritone": [1,3],
+			"Perfect 5th": [1,4],
+			//"minor 6th": "", //UNUSED
+			"Major 6th": [0,1],
+			"Minor 7th": [0,2],
+			"Major 7th": [0,3],
+			"Octave": [0,4],
+		}
+
+		function getIntervalName(currentNote) {
+			for (var i = 0; i < scale.length; i++) {
+				if (currentNote.toString() == scale[i].toString()) {
+
+					return(selectedScale[i - 1]) // -1 because no root note in selectedScale table
+				}
+			}
+		}
+
+		function getNoteName(string, fret) {
+			return notes[string][fret]
+		}
+
+		var stage = new Kinetic.Stage({
+			container: 'container',
+			width: window.innerWidth,
+			height: 400
+		})
+
+		function drawStrings() {
+			var backgroundLayer = new Kinetic.Layer();
+
+			stringLength = stage.getWidth() - 50;
+			// Draw STRINGS
+			for (var i = 0; i < maxStrings; i++) {
+				drawLine(50, 50 + (stringSpacing * i), stringLength, 50 + (stringSpacing * i), 9, "#444", "round", backgroundLayer);
+			}
+
+			// Draw STRING LABELS 
+			drawText("G", 20, 42, backgroundLayer);
+			drawText("D", 20, 42 + stringSpacing, backgroundLayer);
+			drawText("A", 20, 42 + (stringSpacing * 2), backgroundLayer);
+			drawText("E", 20, 42 + (stringSpacing * 3), backgroundLayer);
+
+			// draw FRETS
+			for (var i = 0; i < maxFrets; i++) {
+				// offset by 50 from start of the string
+				fretLineX = (50 + ((stringLength / maxFrets) / 2)) + (((stringLength - 50) / maxFrets)  * i)
+				drawLine(fretLineX, 35, fretLineX, 50 + (stringSpacing * 3) + 15, 5, "#aaa", "round", backgroundLayer);
+
+				drawText(i + 1, fretLineX - 4, 10, backgroundLayer, "center");
+			}
+
+			stage.add(backgroundLayer)
+		}
+
+		function drawCircles() {
+			var circleLayer = new Kinetic.Layer();
+			var rootFret = scale[0][1]
+			var rootString = scale[0][0]
+
+			for (var string = 0; string < 4; string++) {
+				for (var fret = 0; fret < maxFrets; fret++ ) {
+					if (fret == rootFret && string == rootString) {
+						drawCircle((50 + ((stringLength / maxFrets) / 2)) + (((stringLength - 50) / maxFrets)  * rootFret), 50 + (rootString * stringSpacing), 15, [string,fret], "#E51400", circleLayer);
+					}
+					else {
+						drawCircle((50 + ((stringLength / maxFrets) / 2)) + (((stringLength - 50) / maxFrets)  * fret), 50 + (string * stringSpacing), 15, [string,fret],  "black", circleLayer, 0.75);
+					}
+				}
+			}
+
+			stage.add(circleLayer)
+		}
+
+		var textLayer = new Kinetic.Layer();
+		var instructions = new Kinetic.Text({
+			text: "",
+			x: stage.width() / 2,
+			y: 180,
+			fontFamily: "Arial",
+			fontSize: 32,
+			fill: "black",
+			align: "center"
+		})
+		instructions.offsetX(instructions.getWidth() / 2)
+
+		var feedback = new Kinetic.Text({
+			text: "",
+			x: stage.width() / 2,
+			y: 180 + instructions.height(),
+			fontFamily: "Arial",
+			fontSize: 32,
+			fill: "black",
+			align: "center",
+			opacity: 0
+		})
+		feedback.offsetX(feedback.getWidth() / 2)
+
+		textLayer.add(feedback);
+		textLayer.add(instructions);
+		stage.add(textLayer);
+
+		function setInstructionText(newIns) {
+			instructions.text(newIns)
+			instructions.offsetX(instructions.getWidth() / 2)
+			textLayer.draw()
+
+			var scaleTween = new Kinetic.Tween({
+				node: instructions, 
+				duration: 0.25,
+				scaleX: 1.15,
+				scaleY: 1.15,
+				easing: Kinetic.Easings.EaseInOut,
+				onFinish: function() {
+					scaleTween.reverse();
+				}
+			});
+
+			scaleTween.play()
+		}
+
+		function setFeedbackText(newFeedback, colour) {
+			feedback.text(newFeedback)
+			feedback.offsetX(feedback.getWidth() / 2)
+			feedback.setFill(colour)
+			textLayer.draw()
+
+			var scaleTween = new Kinetic.Tween({
+				node: feedback, 
+				duration: 0.25,
+				scaleX: 1.5,
+				scaleY: 1.5,
+				easing: Kinetic.Easings.EaseInOut,
+				onFinish: function() {
+					scaleTween.reverse();
+				}
+			});
+
+			scaleTween.play()
+
+			var opacityTween = new Kinetic.Tween({
+				node: feedback, 
+				duration: 1,
+				opacity: 1,
+				easing: Kinetic.Easings.ElasticEaseOut,
+			});
+
+			opacityTween.play()
+		}
+
+		drawStrings()
+
+		function buttonClicked(note) {
+			note = note.join(separator="")
+			if(exRunning) {
+				if(note == currentNote.join(separator="")) {
+					setFeedbackText("Correct!", "green")
+					score += 1
+				}
+				else {
+					setFeedbackText("Incorrect!", "red")
+				}
+
+				totalQuestions += 1
+				totalDisplay.innerHTML = totalQuestions
+				scoreDisplay.innerHTML = Math.round((score / totalQuestions) * 100)
+				correctDisplay.innerHTML = score
+
+				gameState()
+			}
+		}
+
+		function makeFunction(note) {
+			return function() {
+				buttonClicked(note)
+			} 
+		}
+
+
+		function gameState() {
+			do {
+				currentNote = scale[Math.floor(Math.random() * scale.length)]
+			} while (currentNote == scale[0])
+			setInstructionText(getIntervalName(currentNote) + " (" + getNoteName(currentNote[0], currentNote[1]) + ")")
+		}
+
+
+		function updateTimer() {
+			var extraZero = 0;
+
+			timerSeconds -= 1;
+
+			if (timerSeconds < 0) {
+				timerMinutes -= 1
+				timerSeconds = 59
+			}
+
+			if (timerSeconds < 10) {
+				extraZero = 0;
+			}
+			else {
+				extraZero = "";
+			}
+
+			timerDisplay.innerHTML = timerMinutes + ":" + extraZero + timerSeconds
+
+			// check if out of time
+			if (timerSeconds == 0 && timerMinutes == 0) {
+
+				endExercise()
+
+			}
+		}
+
+		function endExercise() {
+			exRunning = false;
+			clearInterval(timerR)
+			timerDisplay.innerHTML = "0:00"
+
+			document.getElementById("ootHeader").innerHTML = "Time's up!";
+			document.getElementById("finalCorrect").innerHTML = score;					
+			document.getElementById("finalTotal").innerHTML = totalQuestions;
+			document.getElementById("outOfTime").style.display = "block"	
+
+			if (!previousRecordScales) {
+				document.getElementById("noRecord").style.display = "block"
+				document.getElementById("noPreviousRecordValue").innerHTML = score
+				localStorage.setItem("previousRecordScales", score)
+			}	
+			else if (previousRecordScales < score) {
+				document.getElementById("beatRecord").style.display = "block"
+				document.getElementById("beatPreviousRecordValue").innerHTML = previousRecordScales
+				localStorage.setItem("previousRecordScales", score)
+			}
+			else {
+				document.getElementById("lostRecord").style.display = "block"
+				document.getElementById("lostPreviousRecordValue").innerHTML = previousRecordScales	
+			}
+
+		}
+
+		var buttonLayer = new Kinetic.Layer();
+		function drawButtons() {
+			var startButton = new Kinetic.Rect({
+				x: stage.width() / 3 - 150,
+				y: 155 / 2,
+				width: 250,
+				height: 50,
+				fill: "lightgrey",
+				stroke: "black",
+				strokeWidth: 4,
+				cornerRadius: 5,
+			});
+			var startButtonText = new Kinetic.Text({
+				text: "Start",
+				x: stage.width() / 3 - 125,
+				y: 155 / 2 + 7, // magic number !!
+				width: 200,
+				height: 50,
+				fontFamily: "Arial",
+				fontSize: 32,
+				fill: "black",
+				align: "center"
+			});
+
+			var viewScaleButton = new Kinetic.Rect({
+				x: stage.width() / 3 + 150,
+				y: 155 / 2,
+				width: 250,
+				height: 50,
+				fill: "lightgrey",
+				stroke: "black",
+				strokeWidth: 4,
+				cornerRadius: 5,
+			});
+			var viewScaleButtonText = new Kinetic.Text({
+				text: "View Scale",
+				x: stage.width() / 3 + 175,
+				y: 155 / 2 + 7, // magic number !!
+				width: 200,
+				height: 50,
+				fontFamily: "Arial",
+				fontSize: 32,
+				fill: "black",
+				align: "center"
+			});
+
+			buttonLayer.add(startButton)
+			buttonLayer.add(startButtonText)
+			buttonLayer.add(viewScaleButton)
+			buttonLayer.add(viewScaleButtonText)
+			stage.add(buttonLayer);
+			
+			startButton.on("mousedown touchstart", function() { start() })
+			startButtonText.on("mousedown touchstart", function() { start() })
+			viewScaleButton.on("mousedown touchstart", function() { viewScale() })
+			viewScaleButtonText.on("mousedown touchstart", function() { viewScale() })
+		}
+
+		function start() {
+			buttonLayer.destroy()
+			exRunning = true;
+			timerR = setInterval(updateTimer, timerTickMS); // in ms - 1000 msec = 1 sec
+			drawCircles()
+			gameState()
+			updateTimer()
+		}
+
+		var circleLayer = new Kinetic.Layer();
+		function viewScale() {
+			buttonLayer.destroy()
+			drawBackButton()
+			setInstructionText(scaleName)
+
+			for (var string = 0; string < 4; string++) {
+				for (var fret = 0; fret < maxFrets; fret++ ) {
+					for (var i = 0; i < scale.length; i++) {
+						if (scale[0][0] == string && scale[0][1] == fret) {
+							drawCircle((50 + ((stringLength / maxFrets) / 2)) + (((stringLength - 50) / maxFrets)  * fret), 50 + (string * stringSpacing), 15, "", "#E51400", circleLayer);
+							drawText(getNoteName(scale[0][0], scale[0][1]), (50 + ((stringLength / maxFrets) / 2)) + (((stringLength - 50) / maxFrets)  * fret) - 6, 50 + (string * stringSpacing) - 7, circleLayer)
+
+						}
+						else if (scale[i][0] == string && scale[i][1] == fret) {
+							drawCircle((50 + ((stringLength / maxFrets) / 2)) + (((stringLength - 50) / maxFrets)  * fret), 50 + (string * stringSpacing), 15, "", "black", circleLayer);
+							drawText(getNoteName(scale[i][0], scale[i][1]), (50 + ((stringLength / maxFrets) / 2)) + (((stringLength - 50) / maxFrets)  * fret) - 6, 50 + (string * stringSpacing) - 7, circleLayer, false, false, false, "white")
+
+						}
+
+					}
+
+				}
+			}
+
+			stage.add(circleLayer)
+		}
+
+		function resetEx() {
+			backButtonLayer.destroy()
+			drawButtons()
+			circleLayer.destroy()
+			setInstructionText("")
+		}
+
+		var backButtonLayer = new Kinetic.Layer()
+		function drawBackButton() {
+			var backButton = new Kinetic.Rect({
+				x: stage.width() / 2 - 125,
+				y: 155 / 2 + 150,
+				width: 250,
+				height: 50,
+				fill: "lightgrey",
+				stroke: "black",
+				strokeWidth: 4,
+				cornerRadius: 5,
+			});
+			var backButtonText = new Kinetic.Text({
+				text: "Back",
+				x: stage.width() / 2 - 100,
+				y: 155 / 2 + 157, // 7 = magic number !!
+				width: 200,
+				height: 50,
+				fontFamily: "Arial",
+				fontSize: 32,
+				fill: "black",
+				align: "center",
+			});
+
+			backButtonLayer.add(backButton)
+			backButtonLayer.add(backButtonText)
+			stage.add(backButtonLayer)
+			backButtonLayer.draw()
+			backButton.on("mousedown touchstart", function() { resetEx() })
+			backButtonText.on("mousedown touchstart", function() { resetEx() })
+		}
+
+		drawButtons()
+
+		</script>
+
+ 	</body>
+</html>
