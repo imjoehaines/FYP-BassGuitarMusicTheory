@@ -272,7 +272,6 @@ for(var interval in intervals) {
 
 /**
  * Updates the gamestate - set currentInterval and updates instruction text
- * @return {[type]} [description]
  */
 function gameState() {
     currentInterval = intervalsKeys[Math.floor(Math.random() * intervalsKeys.length)];
