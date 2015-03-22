@@ -4,8 +4,7 @@ var scale = [
     ROOT_NOTE
 ];
 
-// Get Note Positions
-//      Creates the scale table with positions of each note in the selected scale
+// Creates the scale table with positions of each note in the selected scale
 for (var i = 0; i < INTERVAL_DIFFERENCE_KEYS.length; i++) {
     for (var j = 0; j < SELECTED_SCALE_LIST.length; j++) {
         if(SELECTED_SCALE_LIST[j] == INTERVAL_DIFFERENCE_KEYS[i]) {
@@ -14,14 +13,28 @@ for (var i = 0; i < INTERVAL_DIFFERENCE_KEYS.length; i++) {
     }
 }
 
+/**
+ * Gets the name of the interval from a given note
+ * @param  {int} currentNote The coordinates of a note
+ * @return {string}          The name of the interval from root note to the given note
+ */
 function getIntervalName(currentNote) {
     for (var i = 0; i < scale.length; i++) {
+
+        // if the given note matches one in the scale it is the correct interval
         if (currentNote.toString() == scale[i].toString()) {
-            return(SELECTED_SCALE_LIST[i - 1]); // -1 because no root note in selectedScale table
+            // -1 because no root note in selectedScale table
+            return(SELECTED_SCALE_LIST[i - 1]);
         }
     }
 }
 
+/**
+ * Gets the name of a note from a given string & fret
+ * @param  {int} string The string the note is on
+ * @param  {int} fret   The fret the note is on
+ * @return {string}     The name of the note at the given string/fret
+ */
 function getNoteName(string, fret) {
     return NOTES[string][fret];
 }
@@ -32,6 +45,9 @@ var stage = new Kinetic.Stage({
     height: 400
 });
 
+/**
+ * Draws buttons on each fret
+ */
 function drawCircles() {
     var circleLayer = new Kinetic.Layer();
     var rootFret = scale[0][1];
@@ -81,6 +97,10 @@ textLayer.add(feedback);
 textLayer.add(instructions);
 stage.add(textLayer);
 
+/**
+ * Sets the text for instructions
+ * @param {string} The new instruction text
+ */
 function setInstructionText(newInstruction) {
     instructions.text(newInstruction);
     instructions.offsetX(instructions.getWidth() / 2);
@@ -100,6 +120,11 @@ function setInstructionText(newInstruction) {
     scaleTween.play();
 }
 
+/**
+ * Sets the text for feedback (correct/incorrect) 
+ * @param {string} newFeedback The new feedback text
+ * @param {string} colour      The colour of the text
+ */
 function setFeedbackText(newFeedback, colour) {
     feedback.text(newFeedback);
     feedback.offsetX(feedback.getWidth() / 2);
@@ -131,6 +156,10 @@ function setFeedbackText(newFeedback, colour) {
 
 drawStrings();
 
+/**
+ * Function called on a button click
+ * @param  {string} note The coordinates of the clicked note
+ */
 function buttonClicked(note) {
     note = note.join(separator = "");
     if(exerciseIsRunning) {
@@ -151,13 +180,20 @@ function buttonClicked(note) {
     }
 }
 
+/**
+ * Sets the current note to a random note on the scale that isn't the root
+ */
 function gameState() {
     do {
         currentNote = scale[Math.floor(Math.random() * scale.length)];
     } while (currentNote == scale[0]);
+
     setInstructionText(getIntervalName(currentNote) + " (" + getNoteName(currentNote[0], currentNote[1]) + ")");
 }
 
+/**
+ * Called once a second to update the timer text
+ */
 function updateTimer() {
     var extraZero = 0;
 
@@ -183,6 +219,9 @@ function updateTimer() {
     }
 }
 
+/**
+ * Called at the end of the exercise to display score & highscores
+ */
 function endExercise() {
     exerciseIsRunning = false;
     clearInterval(timerR);
@@ -211,6 +250,10 @@ function endExercise() {
 }
 
 var buttonLayer = new Kinetic.Layer();
+
+/**
+ * Draws the buttons for viewing a scale and starting the exercise
+ */
 function drawButtons() {
     var startButton = new Kinetic.Rect({
         x: stage.width() / 3 - 150,
@@ -279,6 +322,9 @@ function drawButtons() {
     });
 }
 
+/**
+ * Starts the exercise - hides buttons, starts timer and draws circle buttons
+ */
 function start() {
     buttonLayer.destroy();
     exerciseIsRunning = true;
@@ -289,6 +335,10 @@ function start() {
 }
 
 var circleLayer = new Kinetic.Layer();
+
+/**
+ * Function to view the selected scale
+ */
 function viewScale() {
     buttonLayer.destroy();
     drawBackButton();
@@ -311,7 +361,10 @@ function viewScale() {
     stage.add(circleLayer);
 }
 
-function resetEx() {
+/**
+ * Resets the exercise to initial state
+ */
+function resetExercise() {
     backButtonLayer.destroy();
     drawButtons();
     circleLayer.destroy();
@@ -320,6 +373,9 @@ function resetEx() {
 
 var backButtonLayer = new Kinetic.Layer();
 
+/**
+ * Draws the back button when viewing an exercise
+ */
 function drawBackButton() {
     var backButton = new Kinetic.Rect({
         x: stage.width() / 2 - 125,
@@ -350,11 +406,11 @@ function drawBackButton() {
     backButtonLayer.draw();
 
     backButton.on("mousedown touchstart", function() {
-        resetEx();
+        resetExercise();
     });
 
     backButtonText.on("mousedown touchstart", function() {
-        resetEx();
+        resetExercise();
     });
 }
 
