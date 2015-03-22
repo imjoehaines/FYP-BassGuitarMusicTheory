@@ -1,59 +1,59 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
 
-		<link rel="stylesheet" type="text/css" href="css/index.css" />
-		<script type="text/javascript" src="js/shared.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <script type="text/javascript" src="js/shared.js"></script>
 
-		<title>Bass Guitar Music Theory</title>
-	</head>
-	<body>
+        <title>Bass Guitar Music Theory</title>
+    </head>
+    <body>
 
-		<header>
-			<h1>Intervals <span>Settings</span></h1>
-		</header>
+        <header>
+            <h1>Intervals <span>Settings</span></h1>
+        </header>
 
-		<h2>Time Limit <span class="rightLabel"><span id="timeSliderOutput">5</span> mins</span></h2>
+        <h2>Time Limit <span class="rightLabel"><span id="timeSliderOutput">5</span> mins</span></h2>
 
-		<div class="row">
-			<input type="range" min="1" max="10" value="5" id="timeSlider" onchange="timeOutputUpdate(this.value); saveSettings()" oninput="timeOutputUpdate(this.value); saveSettings()" />
+        <div class="row">
+            <input type="range" min="1" max="10" value="5" id="timeSlider" onchange="timeOutputUpdate(this.value); saveSettings()" oninput="timeOutputUpdate(this.value); saveSettings()" />
 
-			<script>
-				localStorage.setItem("timeLimit", 5)
+            <script>
+                localStorage.setItem("timeLimit", 5);
 
-				function timeOutputUpdate(time) {
-					document.getElementById("timeSliderOutput").innerHTML = time;
-				}
+                function timeOutputUpdate(time) {
+                    document.getElementById("timeSliderOutput").innerHTML = time;
+                }
 
-			</script>
+            </script>
 
-		</div>
+        </div>
 
-		<div class="row">
-			<div class="half column">
-				<a href="index.html" onclick="activeLink(this);" ontouchstart="activeLink(this)" class="mainNav acceptBtn">Back</a>
-			</div>
-			<div class="half column">
-				<a href="intervalsexercise.html" onclick="activeLink(this); saveSettings();" ontouchstart="activeLink(this); saveSettings();" class="mainNav acceptBtn">Accept</a>
-			</div>
-		</div>
+        <div class="row">
+            <div class="half column">
+                <a href="index.html" onclick="activeLink(this);" ontouchstart="activeLink(this)" class="mainNav acceptBtn">Back</a>
+            </div>
+            <div class="half column">
+                <a href="intervalsexercise.html" onclick="activeLink(this); saveSettings();" ontouchstart="activeLink(this); saveSettings();" class="mainNav acceptBtn">Accept</a>
+            </div>
+        </div>
 
-		<script type="text/javascript">
+        <script type="text/javascript">
 
-			function saveSettings() {
+            function saveSettings() {
 
-				localStorage.removeItem("timeLimit")
+                localStorage.removeItem("timeLimit");
 
-				var timeLimit = document.getElementById("timeSlider").value;
-				localStorage.setItem("timeLimit", timeLimit)
-			}
+                var timeLimit = document.getElementById("timeSlider").value;
+                localStorage.setItem("timeLimit", timeLimit);
+            }
 
-			// update label values for first load
-			timeOutputUpdate(document.getElementById("timeSlider").value);
+            // update label values for first load
+            timeOutputUpdate(document.getElementById("timeSlider").value);
 
-		</script>
+        </script>
 
-	</body>
+    </body>
 </html>
