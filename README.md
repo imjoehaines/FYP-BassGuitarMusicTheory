@@ -1,6 +1,8 @@
-# My Final Year Project
+# Bass Guitar Music Theory
 
-An app to teach basic music theory for the bass guitar. Some very basic knowledge is assumed as the app is intended as a learning aid and is *not* a replacement for more detailed lessons.
+This repo hosts my final year project - an app to teach basic music theory for the bass guitar. Some very basic knowledge is assumed as the app is intended as a learning aid and is *not* a replacement for more detailed lessons.
+
+See [the todo list](todo.md) for future development goals
 
 ## Exercises
 
