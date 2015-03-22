@@ -14,7 +14,6 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
-
 }
 
 body {
@@ -97,7 +96,7 @@ ul {
 a.mainNav {
     color:#E51400;
     text-decoration:none;
-    float:left; 
+    float:left;
     padding: 10px;
     font-size: 100%;
     width: 100%;
@@ -260,7 +259,7 @@ input[type=range] {
 select {
     margin: 15px;
     margin-top:0;
-} 
+}
 
 #noRecord, #beatRecord, #lostRecord {
     display:none;
