@@ -151,12 +151,6 @@ function buttonClicked(note) {
     }
 }
 
-function makeFunction(note) {
-    return function() {
-        buttonClicked(note);
-    };
-}
-
 function gameState() {
     do {
         currentNote = scale[Math.floor(Math.random() * scale.length)];
@@ -306,16 +300,11 @@ function viewScale() {
                 if (scale[0][0] == string && scale[0][1] == fret) {
                     drawCircle((50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * fret), 50 + (string * STRING_SPACING), 15, "", "#E51400", circleLayer);
                     drawText(getNoteName(scale[0][0], scale[0][1]), (50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * fret) - 6, 50 + (string * STRING_SPACING) - 7, circleLayer);
-
-                }
-                else if (scale[i][0] == string && scale[i][1] == fret) {
+                } else if (scale[i][0] == string && scale[i][1] == fret) {
                     drawCircle((50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * fret), 50 + (string * STRING_SPACING), 15, "", "black", circleLayer);
                     drawText(getNoteName(scale[i][0], scale[i][1]), (50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * fret) - 6, 50 + (string * STRING_SPACING) - 7, circleLayer, false, false, false, "white");
-
                 }
-
             }
-
         }
     }
 

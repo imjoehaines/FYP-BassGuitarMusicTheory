@@ -23,10 +23,6 @@ var NOTES = [
     ["F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"]  // E string
 ];
 
-/**
- * Intervals and Scales only 
- */
-
 function drawStrings() {
     var backgroundLayer = new Kinetic.Layer();
     var i;
@@ -104,4 +100,10 @@ function drawCircle(centerX, centerY, radius, id, fillColour, layer, opacity) {
 
     layer.add(circle);
     circle.on("mousedown touchstart", makeFunction(id));
+}
+
+function makeFunction(button) {
+    return function() {
+        buttonClicked(button);
+    };
 }

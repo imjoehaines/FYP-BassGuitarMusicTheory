@@ -17,10 +17,25 @@ function drawCircles() {
         for (var fret = 0; fret < 5; fret++ ) {
 
             if (fret == rootFret && string == rootString) {
-                drawCircle((50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * rootFret), 50 + (rootString * STRING_SPACING), 15, "rootNote", "#E51400", circleLayer);
+                drawCircle(
+                    (50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * rootFret),
+                    50 + (rootString * STRING_SPACING),
+                    15,
+                    "rootNote",
+                    "#E51400",
+                    circleLayer
+                );
             }
             else{
-                drawCircle((50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * fret), 50 + (string * STRING_SPACING), 15, string.toString() + fret.toString(),  "black", circleLayer, 0.75);
+                drawCircle(
+                    (50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * fret),
+                    50 + (string * STRING_SPACING),
+                    15,
+                    string.toString() + fret.toString(),
+                    "black",
+                    circleLayer,
+                    0.75
+                );
             }
         }
     }
@@ -149,11 +164,6 @@ function buttonClicked(interval) {
 }
 
 var intervalButtons = [];
-function makeFunction(interval) {
-    return function() {
-        buttonClicked(interval);
-    };
-}
 
 // attach interval names to correct buttons
 for(var interval in intervals) {
