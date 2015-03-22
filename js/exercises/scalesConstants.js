@@ -18,17 +18,17 @@ var SCALE_NAMES = [
 // holds coordinates for each root note - x being the string, y the fret
 var ROOT_NOTE_COORDINATES = [
     [3,4], // A
-    [3,5], // A#
+    [3,5], // A♯
     [3,6], // B
     [2,2], // C
-    [2,3], // C#
+    [2,3], // C♯
     [2,4], // D
-    [2,5], // D#
+    [2,5], // D♯
     [2,6], // E
     [2,7], // F
-    [2,8], // F#
+    [2,8], // F♯
     [3,2], // G
-    [3,3]  // G#
+    [3,3]  // G♯
 ];
 
 // the position of the root note for the scale in the given key
