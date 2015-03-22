@@ -1,6 +1,8 @@
 var FEEDBACK_DIV = document.getElementById("feedback");
 var FEEDBACK_DISPLAY = document.getElementById("feedbackDisplay");
-var STRING_SPACING = 25;  // vertical spacing between strings
+
+// overwrite string spacing as this canvas is smaller than others
+var STRING_SPACING = 25;
 
 var previousRecordNotes = localStorage.getItem("previousRecordNotes");
 var stringLength;
@@ -13,12 +15,17 @@ var stage = new Kinetic.Stage({
     height: 150
 });
 
+// layer to hold notes
 var circleLayer = new Kinetic.Layer();
 
 // empty function as button clicks wont do anything in this exercise
 // TODO: fix this
 function buttonClicked() {}
 
+/**
+ * Draws a circle at a random position on the fretboard. Updates currentNote
+ * variable with the new note.
+ */
 function drawRandomNote() {
     // Intersections are at x = (50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)
     // y values are 50, 100, 150, 200 for G, D, A, E strings
@@ -42,9 +49,13 @@ function drawRandomNote() {
     stage.add(circleLayer);
 }
 
+/**
+ * Function called when a button is clicked on the notes page. Handles answers,
+ * updates score and draws a new random note.
+ * @param  {object} link The link that was clicked
+ */
 function answerButton(link) {
     if (exerciseIsRunning) {
-
         var answer = link.innerHTML;
 
         if (currentNote == answer) {
@@ -67,6 +78,9 @@ function answerButton(link) {
     }
 }
 
+/**
+ * Displays feedback (correct/incorrect) after an answer has been submitted
+ */
 function displayFeedback() {
     var classToAdd;
     var timeout = 1250;
@@ -86,6 +100,9 @@ function displayFeedback() {
     FEEDBACK_DIV.classList.add(classToAdd);
 }
 
+/**
+ * Called every second to update the timer
+ */
 function updateTimer() {
     var extraZero = 0;
 
@@ -110,6 +127,9 @@ function updateTimer() {
     }
 }
 
+/**
+ * Ends the exercise, showing total score and record
+ */
 function endExercise() {
     exerciseIsRunning = false;
     clearInterval(timerR);
@@ -134,6 +154,7 @@ function endExercise() {
     }
 }
 
+// update the timer before interval starts so it displays correctly on page load
 updateTimer();
 
 // create a variable to allow clearInterval to work
