@@ -1,5 +1,5 @@
+// overwrite max frets as this exercise doesn't need the whole fretboard
 var MAX_FRETS = 5;
-var rootNote = "";
 var previousRecordIntervals = localStorage.getItem("previousRecordIntervals");
 
 var stage = new Kinetic.Stage({
@@ -8,6 +8,10 @@ var stage = new Kinetic.Stage({
     height: 400
 });
 
+/**
+ * Function to draw all circle 'buttons' at each fret. Root note will be
+ * highlighted red, others semi-transparent black
+ */
 function drawCircles() {
     var circleLayer = new Kinetic.Layer();
     var rootFret = 0;
@@ -73,6 +77,9 @@ textLayer.add(feedback);
 textLayer.add(instructions);
 stage.add(textLayer);
 
+/**
+ * Function to set the instruction text and play an animation.
+ */
 function setInstructionText(newInstruction) {
     instructions.text(newInstruction);
     instructions.offsetX(instructions.getWidth() / 2);
@@ -92,6 +99,9 @@ function setInstructionText(newInstruction) {
     scaleTween.play();
 }
 
+/**
+ * Function to set the feedback text and play an animation.
+ */
 function setFeedbackText(newFeedback, colour) {
     feedback.text(newFeedback);
     feedback.offsetX(feedback.getWidth() / 2);
@@ -120,63 +130,6 @@ function setFeedbackText(newFeedback, colour) {
 
     opacityTween.play();
 }
-
-drawStrings();
-drawCircles();
-
-var intervals = {};
-intervals = {
-    "Minor 2nd": "31",
-    "Major 2nd": "32",
-    "Minor 3rd": "33",
-    "Major 3rd": "34",
-    "Perfect 4th": "20",
-    "Tritone": "21",
-    "Perfect 5th": "22",
-    "Minor 6th": "23",
-    "Major 6th": "24",
-    "Minor 7th": "10",
-    "Major 7th": "11",
-    "Octave": "12",
-};
-
-var intervalsKeys = Object.keys(intervals);
-var currentInterval;
-
-function buttonClicked(interval) {
-    if(exerciseIsRunning) {
-        if(interval == currentInterval) {
-            setFeedbackText("Correct!", "green");
-            score += 1;
-        }
-        else {
-            setFeedbackText("Incorrect!", "red");
-        }
-
-        totalQuestions += 1;
-        TOTAL_DISPLAY.innerHTML = totalQuestions;
-        SCORE_DISPLAY.innerHTML = Math.round((score / totalQuestions) * 100);
-        CORRECT_DISPLAY.innerHTML = score;
-
-        gameState();
-    }
-}
-
-var intervalButtons = [];
-
-// attach interval names to correct buttons
-for(var interval in intervals) {
-    intervalButtons[interval] = stage.find("#" + intervals[interval])[0];
-
-    intervalButtons[interval].off("mousedown touchstart"); //remove previous function
-    intervalButtons[interval].on("mousedown touchstart", makeFunction(interval));
-}
-
-function gameState() {
-    currentInterval = intervalsKeys[Math.floor(Math.random() * intervalsKeys.length)];
-    setInstructionText(currentInterval);
-}
-
 
 function updateTimer() {
     var extraZero = 0;
@@ -259,14 +212,76 @@ buttonLayer.add(startButton);
 buttonLayer.add(startButtonText);
 stage.add(buttonLayer);
 
-startButton.on("mousedown touchstart", function() {
-    start();
-});
+// object to hold interval names and IDs used when drawing buttons - IDs are
+// the X & Y coordinates of each interval where 00 is 1st fret of G string
+var intervals = {
+    "Minor 2nd": "31",
+    "Major 2nd": "32",
+    "Minor 3rd": "33",
+    "Major 3rd": "34",
+    "Perfect 4th": "20",
+    "Tritone": "21",
+    "Perfect 5th": "22",
+    "Minor 6th": "23",
+    "Major 6th": "24",
+    "Minor 7th": "10",
+    "Major 7th": "11",
+    "Octave": "12",
+};
 
-startButtonText.on("mousedown touchstart", function() {
-    start();
-});
+var intervalsKeys = Object.keys(intervals);
+var currentInterval;
 
+/**
+ * Function called when a circle 'button' is clicked. Marks an answer correct
+ * and updates score before updating gamestate (moving onto next interval)
+ * @param  {string} interval The ID of the button that was clicked
+ */
+function buttonClicked(interval) {
+    if(exerciseIsRunning) {
+        if(interval == currentInterval) {
+            setFeedbackText("Correct!", "green");
+            score += 1;
+        }
+        else {
+            setFeedbackText("Incorrect!", "red");
+        }
+
+        totalQuestions += 1;
+        TOTAL_DISPLAY.innerHTML = totalQuestions;
+        SCORE_DISPLAY.innerHTML = Math.round((score / totalQuestions) * 100);
+        CORRECT_DISPLAY.innerHTML = score;
+
+        gameState();
+    }
+}
+
+// draw the strings and all circles to initialise canvas
+drawStrings();
+drawCircles();
+
+var intervalButtons = [];
+
+// attach interval names to correct buttons
+for(var interval in intervals) {
+    intervalButtons[interval] = stage.find("#" + intervals[interval])[0];
+
+    intervalButtons[interval].off("mousedown touchstart"); //remove previous function
+    intervalButtons[interval].on("mousedown touchstart", makeFunction(interval));
+}
+
+/**
+ * Updates the gamestate - set currentInterval and updates instruction text
+ * @return {[type]} [description]
+ */
+function gameState() {
+    currentInterval = intervalsKeys[Math.floor(Math.random() * intervalsKeys.length)];
+    setInstructionText(currentInterval);
+}
+
+/**
+ * Called to start the exercise - hides buttons, starts timer and updates game state
+ */
 function start() {
     buttonLayer.destroy();
     exerciseIsRunning = true;
@@ -274,3 +289,12 @@ function start() {
     gameState();
     updateTimer();
 }
+
+// sets start button to start the exercise
+startButton.on("mousedown touchstart", function() {
+    start();
+});
+
+startButtonText.on("mousedown touchstart", function() {
+    start();
+});
