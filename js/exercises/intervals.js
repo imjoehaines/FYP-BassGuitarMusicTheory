@@ -142,7 +142,6 @@ intervals = {
 
 var intervalsKeys = Object.keys(intervals);
 var currentInterval;
-var timerR;
 
 function buttonClicked(interval) {
     if(exerciseIsRunning) {

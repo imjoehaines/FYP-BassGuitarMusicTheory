@@ -158,7 +158,7 @@ function endExercise() {
 updateTimer();
 
 // create a variable to allow clearInterval to work
-var timerR = setInterval(updateTimer, TIMER_TICK_MS);
+timerR = setInterval(updateTimer, TIMER_TICK_MS);
 
 drawStrings();
 drawRandomNote();
