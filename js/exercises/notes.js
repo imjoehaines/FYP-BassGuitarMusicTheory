@@ -1,3 +1,20 @@
+var FEEDBACK_DIV = document.getElementById("feedback");
+var FEEDBACK_DISPLAY = document.getElementById("feedbackDisplay");
+
+var canvas = document.getElementById("notesCanvas");
+var context = canvas.getContext("2d");
+
+var timerMinutes = localStorage.getItem("timeLimit");
+var previousRecordNotes = localStorage.getItem("previousRecordNotes");
+
+var stringLength;
+var currentNote;
+var MAX_FRETS = 12;
+var timerSeconds = 1; // add 1 second so first update shows correct total time
+var score = 0;
+var totalQuestions = 0;
+var exerciseIsRunning = true;
+
 function drawLine(startX, startY, endX, endY, width, colour, cap) {
     width = width || 10;
     colour = colour || "#000000";
@@ -37,26 +54,7 @@ function drawCircle(centerX, centerY, radius, fillColour, strokeColour, strokeWi
     context.fill();
 }
 
-
-var canvas = document.getElementById("notesCanvas");
-var context = canvas.getContext("2d");
-var stringLength;
-var currentNote;
-var MAX_FRETS = 12;
-var timerSeconds = 1; // add 1 second so first update shows correct total time
-var timerMinutes = localStorage.getItem("timeLimit");
-var TIMER_DISPLAY = document.getElementById("timer");
-var score = 0;
-var SCORE_DISPLAY = document.getElementById("score");
-var CORRECT_DISPLAY = document.getElementById("correct");
-var totalQuestions = 0;
-var TOTAL_DISPLAY = document.getElementById("total");
-var feedbackDiv = document.getElementById("feedback");
-var feedbackDisplay = document.getElementById("feedbackDisplay");
-var exerciseIsRunning = true;
-var previousRecordNotes = localStorage.getItem("previousRecordNotes");
-var notes;
-notes = [
+var notes = [
     ["G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"], // G string
     ["D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"], // D string
     ["A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"], // A string
@@ -114,10 +112,9 @@ function answerButton(link) {
 
         if (currentNote == answer) {
             score += 1;
-            feedbackDisplay.innerHTML = "Correct!";
-        }
-        else {
-            feedbackDisplay.innerHTML = "Incorrect!";
+            FEEDBACK_DISPLAY.innerHTML = "Correct!";
+        } else {
+            FEEDBACK_DISPLAY.innerHTML = "Incorrect!";
         }
 
         displayFeedback();
@@ -135,20 +132,19 @@ function displayFeedback() {
     var classToAdd;
     var timeout = 1250;
 
-    if (feedbackDisplay.innerHTML == "Correct!") {
+    if (FEEDBACK_DISPLAY.innerHTML == "Correct!") {
         classToAdd = "correctAnswer";
-    }
-    else {
+    } else {
         classToAdd = "incorrectAnswer";
     }
 
     setTimeout(function() {
-        feedbackDiv.classList.remove(classToAdd);
-        feedbackDiv.style.opacity = 0;
+        FEEDBACK_DIV.classList.remove(classToAdd);
+        FEEDBACK_DIV.style.opacity = 0;
     }, timeout);
 
-    feedbackDiv.style.opacity = 1;
-    feedbackDiv.classList.add(classToAdd);
+    FEEDBACK_DIV.style.opacity = 1;
+    FEEDBACK_DIV.classList.add(classToAdd);
 }
 
 function updateTimer() {
@@ -163,8 +159,7 @@ function updateTimer() {
 
     if (timerSeconds < 10) {
         extraZero = 0;
-    }
-    else {
+    } else {
         extraZero = "";
     }
 
@@ -190,13 +185,11 @@ function endExercise() {
         document.getElementById("noRecord").style.display = "block";
         document.getElementById("noPreviousRecordValue").innerHTML = score;
         localStorage.setItem("previousRecordNotes", score);
-    }
-    else if (previousRecordNotes < score) {
+    } else if (previousRecordNotes < score) {
         document.getElementById("beatRecord").style.display = "block";
         document.getElementById("beatPreviousRecordValue").innerHTML = previousRecordNotes;
         localStorage.setItem("previousRecordNotes", score);
-    }
-    else {
+    } else {
         document.getElementById("lostRecord").style.display = "block";
         document.getElementById("lostPreviousRecordValue").innerHTML = previousRecordNotes;
     }
