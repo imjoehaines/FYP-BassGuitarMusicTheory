@@ -1,4 +1,4 @@
-# Todo:
+# Todo
 
 - Shorter range of exercise lengths (e.g. 30 seconds - 5 mins)
 - Better highscore tracking:
@@ -7,3 +7,5 @@
 - Improve visuals
 - Update KineticJS version or switch to Konva
 - Refactor things so code is easier to follow
+- Fix pluralisation in settings pages
+- Use a library for timers
