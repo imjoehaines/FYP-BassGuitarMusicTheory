@@ -17,7 +17,7 @@
         <div class="row">
             <div style="float:left;">
                 <h2>Select the Key</h2>
-                <select id="keyList" onchange="saveSettings(true)">
+                <select id="keyList" onchange="saveScalesSettings()">
                     <option value="0">A</option>
                     <option value="1">A#</option>
                     <option value="2">B</option>
@@ -35,7 +35,7 @@
             <div style="float:left;">
 
                 <h2>Select a Scale</h2>
-                <select id="scaleList" onchange="saveSettings(true)">
+                <select id="scaleList" onchange="saveScalesSettings()">
                     <option value="0">Major</option>
                     <option value="1">Minor Pentatonic</option>
                     <option value="2">Major Pentatonic</option>
@@ -50,7 +50,7 @@
         <h2>Time Limit <span class="rightLabel"><span id="timeSliderOutput">5</span> mins</span></h2>
 
         <div class="row">
-            <input type="range" min="1" max="10" value="5" id="timeSlider" onchange="timeOutputUpdate(this.value); saveSettings(true)" oninput="timeOutputUpdate(this.value); saveSettings(true)" />
+            <input type="range" min="1" max="10" value="5" id="timeSlider" onchange="timeOutputUpdate(this.value); saveScalesSettings()" oninput="timeOutputUpdate(this.value); saveScalesSettings()" />
         </div>
 
         <div class="row">
@@ -58,7 +58,7 @@
                 <a href="index.html"onclick="activeLink(this);" ontouchstart="activeLink(this)"  class="mainNav acceptBtn">Back</a>
             </div>
             <div class="half column">
-                <a href="scalesexercise.html" ontouchstart="activeLink(this); saveSettings(true);" onclick="activeLink(this); saveSettings(true);" class="mainNav acceptBtn">Accept</a>
+                <a href="scalesexercise.html" ontouchstart="activeLink(this); saveScalesSettings();" onclick="activeLink(this); saveScalesSettings();" class="mainNav acceptBtn">Accept</a>
             </div>
         </div>
 

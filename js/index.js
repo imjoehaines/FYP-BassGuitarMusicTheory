@@ -1,6 +1,11 @@
 var lastID = -1;
 var lastLink = -1;
 
+/**
+ * Toggles the description of an exercise
+ * @param  {int} idnum    The ID of the given exercise
+ * @param  {object} link  The link that was clicked
+ */
 function toggleDescription(idnum, link) {
     var allDivs = document.getElementById("desc" + idnum);
 
@@ -31,7 +36,9 @@ function toggleDescription(idnum, link) {
     lastLink = link;
 }
 
-
+/**
+ * Clears the saved highscores from local storage
+ */
 function clearData() {
     localStorage.removeItem("timeLimit");
     localStorage.removeItem("selectedKey");
