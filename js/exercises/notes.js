@@ -2,9 +2,7 @@ var FEEDBACK_DIV = document.getElementById("feedback");
 var FEEDBACK_DISPLAY = document.getElementById("feedbackDisplay");
 var STRING_SPACING = 25;  // vertical spacing between strings
 
-var timerMinutes = localStorage.getItem("timeLimit");
 var previousRecordNotes = localStorage.getItem("previousRecordNotes");
-
 var stringLength;
 var currentNote;
 var exerciseIsRunning = true;
