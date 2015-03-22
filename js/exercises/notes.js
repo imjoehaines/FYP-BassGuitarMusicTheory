@@ -9,10 +9,6 @@ var previousRecordNotes = localStorage.getItem("previousRecordNotes");
 
 var stringLength;
 var currentNote;
-var MAX_FRETS = 12;
-var timerSeconds = 1; // add 1 second so first update shows correct total time
-var score = 0;
-var totalQuestions = 0;
 var exerciseIsRunning = true;
 
 function drawLine(startX, startY, endX, endY, width, colour, cap) {
@@ -53,13 +49,6 @@ function drawCircle(centerX, centerY, radius, fillColour, strokeColour, strokeWi
     }
     context.fill();
 }
-
-var notes = [
-    ["G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"], // G string
-    ["D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"], // D string
-    ["A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"], // A string
-    ["F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"]  // E string
-];
 
 canvas.width = 1;
 canvas.height = 1;
@@ -102,7 +91,7 @@ function startExercise() {
 
     drawCircle((50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * fret), 50 + (string * 25), 10, "#E51400");
 
-    currentNote = notes[string][fret];
+    currentNote = NOTES[string][fret];
 }
 
 function answerButton(link) {

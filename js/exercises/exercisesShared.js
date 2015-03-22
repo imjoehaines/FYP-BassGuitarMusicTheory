@@ -16,6 +16,13 @@ var totalQuestions = 0;
 var currentNote = 0;
 var timerR;
 
+var NOTES = [
+    ["G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"], // G string
+    ["D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"], // D string
+    ["A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"], // A string
+    ["F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"]  // E string
+];
+
 /**
  * Intervals and Scales only 
  */
