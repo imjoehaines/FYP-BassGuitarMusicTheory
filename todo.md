@@ -2,6 +2,7 @@
 
 In (rough) order: 
 
+- Fix display order of start button Intervals exercise page
 - Better highscore tracking:
     - Build a high scores page (replacing clear data link)
     - Track per time limit
