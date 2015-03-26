@@ -210,7 +210,6 @@ var startButtonText = new Kinetic.Text({
 
 buttonLayer.add(startButton);
 buttonLayer.add(startButtonText);
-stage.add(buttonLayer);
 
 // object to hold interval names and IDs used when drawing buttons - IDs are
 // the X & Y coordinates of each interval where 00 is 1st fret of G string
@@ -259,6 +258,8 @@ function buttonClicked(interval) {
 // draw the strings and all circles to initialise canvas
 drawStrings();
 drawCircles();
+
+stage.add(buttonLayer);
 
 var intervalButtons = [];
 
