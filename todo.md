@@ -2,7 +2,6 @@
 
 In (rough) order: 
 
-- Fix display order of start button Intervals exercise page
 - Namespace shared code so it is easier to see where functions & variables originate
 - Better highscore tracking:
     - Build a high scores page (replacing clear data link)
