@@ -1,5 +1,5 @@
 // integer representing the selected key - 0 for A, 11 for G#
-var ROOT = localStorage.getItem("selectedKey");
+var selectedKey = localStorage.getItem("selectedKey");
 
 // integer representing the selected scale (see intervalssettings.html & SCALE_NAMES)
 var selectedScale = localStorage.getItem("selectedScale");
@@ -32,7 +32,7 @@ var ROOT_NOTE_COORDINATES = [
 ];
 
 // the position of the root note for the scale in the given key
-var ROOT_NOTE = ROOT_NOTE_COORDINATES[ROOT];
+var ROOT_NOTE = ROOT_NOTE_COORDINATES[selectedKey];
 
 // holds a list of all intervals in each scale
 var SCALE_LIST = [
