@@ -7,7 +7,6 @@
          url('../fonts/lobstertwo-regular-webfont.svg#lobster_tworegular') format('svg');
     font-weight: normal;
     font-style: normal;
-
 }
 
 * {
@@ -93,7 +92,7 @@ ul {
     margin: 0;
 }
 
-a.mainNav {
+a {
     color:#E51400;
     text-decoration:none;
     float:left;
@@ -102,16 +101,15 @@ a.mainNav {
     width: 100%;
 
     transition-property: color, background;
-    transition-duration: 0.10s;
+    transition-duration: 0.25s;
 }
 
-a.activeLink {
-
+a:active {
     color: #fff;
     background: #E51400;
 }
 
-a.acceptBtn {
+.acceptBtn {
     text-align: center;
     font-size: 125%;
     width: 100%;
