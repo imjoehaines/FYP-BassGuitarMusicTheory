@@ -40,3 +40,8 @@ var testRetrieved = localStorage.getItem('testing');
 var testParsed = JSON.parse(testRetrieved);
 
 console.log(testParsed);
+
+document.getElementById('notesBestScore').innerHTML = testParsed.notes.best.score;
+document.getElementById('notesBestPercentage').innerHTML = testParsed.notes.best.percentage;
+document.getElementById('notesLatestScore').innerHTML = testParsed.notes.latest.score;
+document.getElementById('notesLatestPercentage').innerHTML = testParsed.notes.latest.percentage;
