@@ -5,7 +5,6 @@ var FEEDBACK_DISPLAY = document.getElementById("feedbackDisplay");
 var STRING_SPACING = 25;
 
 var previousRecordNotes = localStorage.getItem("previousRecordNotes");
-var stringLength;
 var currentNote;
 var exerciseIsRunning = true;
 
