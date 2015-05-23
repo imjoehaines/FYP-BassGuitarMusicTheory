@@ -1,4 +1,5 @@
-// overwrite max frets as this exercise doesn't need the whole fretboard
+var shared = require('./exercisesShared');
+
 var MAX_FRETS = 5;
 var previousRecordIntervals = localStorage.getItem("previousRecordIntervals");
 
@@ -7,6 +8,8 @@ var stage = new Kinetic.Stage({
     width: window.innerWidth,
     height: 400
 });
+
+var stringLength = stage.getWidth() - 50;
 
 /**
  * Function to draw all circle 'buttons' at each fret. Root note will be
@@ -21,24 +24,26 @@ function drawCircles() {
         for (var fret = 0; fret < 5; fret++ ) {
 
             if (fret == rootFret && string == rootString) {
-                drawCircle(
+                shared.drawCircle(
                     (50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * rootFret),
-                    50 + (rootString * STRING_SPACING),
+                    50 + (rootString * shared.STRING_SPACING),
                     15,
                     "rootNote",
                     "#E51400",
-                    circleLayer
+                    circleLayer,
+                    1,
+                    buttonClicked
                 );
-            }
-            else{
-                drawCircle(
+            } else {
+                shared.drawCircle(
                     (50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * fret),
-                    50 + (string * STRING_SPACING),
+                    50 + (string * shared.STRING_SPACING),
                     15,
                     string.toString() + fret.toString(),
                     "black",
                     circleLayer,
-                    0.75
+                    0.75,
+                    buttonClicked
                 );
             }
         }
@@ -134,49 +139,47 @@ function setFeedbackText(newFeedback, colour) {
 function updateTimer() {
     var extraZero = 0;
 
-    timerSeconds -= 1;
+    shared.timerSeconds -= 1;
 
-    if (timerSeconds < 0) {
-        timerMinutes -= 1;
-        timerSeconds = 59;
+    if (shared.timerSeconds < 0) {
+        shared.timerMinutes -= 1;
+        shared.timerSeconds = 59;
     }
 
-    if (timerSeconds < 10) {
+    if (shared.timerSeconds < 10) {
         extraZero = 0;
     }
     else {
         extraZero = "";
     }
 
-    TIMER_DISPLAY.innerHTML = timerMinutes + ":" + extraZero + timerSeconds;
+    shared.TIMER_DISPLAY.innerHTML = shared.timerMinutes + ":" + extraZero + shared.timerSeconds;
 
     // check if out of time
-    if (timerSeconds === 0 && timerMinutes === 0) {
-
+    if (shared.timerSeconds === 0 && shared.timerMinutes === 0) {
         endExercise();
-
     }
 }
 
 function endExercise() {
     exerciseIsRunning = false;
-    clearInterval(timerR);
-    TIMER_DISPLAY.innerHTML = "0:00";
+    clearInterval(shared.timerR);
+    shared.TIMER_DISPLAY.innerHTML = "0:00";
 
     document.getElementById("ootHeader").innerHTML = "Time's up!";
-    document.getElementById("finalCorrect").innerHTML = score;
-    document.getElementById("finalTotal").innerHTML = totalQuestions;
+    document.getElementById("finalCorrect").innerHTML = shared.score;
+    document.getElementById("finalTotal").innerHTML = shared.totalQuestions;
     document.getElementById("outOfTime").style.display = "block";
 
     if (!previousRecordIntervals) {
         document.getElementById("noRecord").style.display = "block";
-        document.getElementById("noPreviousRecordValue").innerHTML = score;
-        localStorage.setItem("previousRecordIntervals", score);
+        document.getElementById("noPreviousRecordValue").innerHTML = shared.score;
+        localStorage.setItem("previousRecordIntervals", shared.score);
     }
-    else if (previousRecordIntervals < score) {
+    else if (previousRecordIntervals < shared.score) {
         document.getElementById("beatRecord").style.display = "block";
         document.getElementById("beatPreviousRecordValue").innerHTML = previousRecordIntervals;
-        localStorage.setItem("previousRecordIntervals", score);
+        localStorage.setItem("previousRecordIntervals", shared.score);
     }
     else {
         document.getElementById("lostRecord").style.display = "block";
@@ -240,23 +243,23 @@ function buttonClicked(interval) {
     if(exerciseIsRunning) {
         if(interval == currentInterval) {
             setFeedbackText("Correct!", "green");
-            score += 1;
+            shared.score += 1;
         }
         else {
             setFeedbackText("Incorrect!", "red");
         }
 
-        totalQuestions += 1;
-        TOTAL_DISPLAY.innerHTML = totalQuestions;
-        SCORE_DISPLAY.innerHTML = Math.round((score / totalQuestions) * 100);
-        CORRECT_DISPLAY.innerHTML = score;
+        shared.totalQuestions += 1;
+        shared.TOTAL_DISPLAY.innerHTML = shared.totalQuestions;
+        shared.SCORE_DISPLAY.innerHTML = Math.round((shared.score / shared.totalQuestions) * 100);
+        shared.CORRECT_DISPLAY.innerHTML = shared.score;
 
         gameState();
     }
 }
 
 // draw the strings and all circles to initialise canvas
-drawStrings();
+shared.drawStrings(stage, null, MAX_FRETS);
 drawCircles();
 
 stage.add(buttonLayer);
@@ -268,7 +271,7 @@ for(var interval in intervals) {
     intervalButtons[interval] = stage.find("#" + intervals[interval])[0];
 
     intervalButtons[interval].off("mousedown touchstart"); //remove previous function
-    intervalButtons[interval].on("mousedown touchstart", makeFunction(interval));
+    intervalButtons[interval].on("mousedown touchstart", shared.makeFunction(interval, buttonClicked));
 }
 
 /**
@@ -285,7 +288,7 @@ function gameState() {
 function start() {
     buttonLayer.destroy();
     exerciseIsRunning = true;
-    timerR = setInterval(updateTimer, TIMER_TICK_MS); // in ms - 1000 msec = 1 sec
+    shared.timerR = setInterval(updateTimer, shared.TIMER_TICK_MS); // in ms - 1000 msec = 1 sec
     gameState();
     updateTimer();
 }

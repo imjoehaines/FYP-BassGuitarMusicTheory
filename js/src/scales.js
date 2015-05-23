@@ -51,6 +51,8 @@ var stage = new Kinetic.Stage({
     height: 400
 });
 
+var stringLength = stage.getWidth() - 50;
+
 /**
  * Draws buttons on each fret
  */

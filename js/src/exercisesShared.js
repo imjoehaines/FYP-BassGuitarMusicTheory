@@ -97,6 +97,8 @@ var shared = {
     currentNote: 0,
     timerR: null,
 
+    makeFunction: makeFunction,
+
     // array to hold the names of notes
     NOTES: [
         ["G♯", "A", "A♯", "B", "C", "C♯", "D", "D♯", "E", "F", "F♯", "G"], // G string
@@ -134,15 +136,17 @@ var shared = {
 
     /**
      * Function to draw the strings on screen.
-     * @param {object} localStage the stage to add the strings to
+     * @param {object} stage the stage to add the strings to
+     * @param {integer} stringSpacing custom string spacing (optional)
      */
-    drawStrings: function (localStage) {
-        stage = localStage || stage;
+    drawStrings: function (stage, stringSpacing, maxFrets) {
+        STRING_SPACING = stringSpacing || STRING_SPACING;
+        MAX_FRETS = maxFrets || MAX_FRETS;
         var backgroundLayer = new Kinetic.Layer();
         var i;
 
         // make strings slightly smaller than width of screen
-        stringLength = stage.getWidth() - 50;
+        var stringLength = stage.getWidth() - 50;
 
         // draw strings
         for (i = 0; i < MAX_STRINGS; i++) {
