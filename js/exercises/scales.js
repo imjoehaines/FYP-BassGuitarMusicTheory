@@ -1,14 +1,20 @@
+var consts = require('./scalesConstants');
+var shared = require('./exercisesShared');
+
 var previousRecordScales = localStorage.getItem("previousRecordScales");
 
 var scale = [
-    ROOT_NOTE
+    consts.ROOT_NOTE
 ];
 
 // Creates the scale table with positions of each note in the selected scale
-for (var i = 0; i < INTERVAL_DIFFERENCE_KEYS.length; i++) {
-    for (var j = 0; j < SELECTED_SCALE_LIST.length; j++) {
-        if(SELECTED_SCALE_LIST[j] == INTERVAL_DIFFERENCE_KEYS[i]) {
-            scale.push([ROOT_NOTE[0] + INTERVAL_DIFFERENCE[INTERVAL_DIFFERENCE_KEYS[i]][0],ROOT_NOTE[1] + INTERVAL_DIFFERENCE[INTERVAL_DIFFERENCE_KEYS[i]][1]]);
+for (var i = 0; i < consts.INTERVAL_DIFFERENCE_KEYS.length; i++) {
+    for (var j = 0; j < consts.SELECTED_SCALE_LIST.length; j++) {
+        if(consts.SELECTED_SCALE_LIST[j] == consts.INTERVAL_DIFFERENCE_KEYS[i]) {
+            scale.push([
+                consts.ROOT_NOTE[0] + consts.INTERVAL_DIFFERENCE[consts.INTERVAL_DIFFERENCE_KEYS[i]][0],
+                consts.ROOT_NOTE[1] + consts.INTERVAL_DIFFERENCE[consts.INTERVAL_DIFFERENCE_KEYS[i]][1]
+            ]);
         }
     }
 }
@@ -24,7 +30,7 @@ function getIntervalName(currentNote) {
         // if the given note matches one in the scale it is the correct interval
         if (currentNote.toString() == scale[i].toString()) {
             // -1 because no root note in selectedScale table
-            return(SELECTED_SCALE_LIST[i - 1]);
+            return(consts.SELECTED_SCALE_LIST[i - 1]);
         }
     }
 }
@@ -36,7 +42,7 @@ function getIntervalName(currentNote) {
  * @return {string}     The name of the note at the given string/fret
  */
 function getNoteName(string, fret) {
-    return NOTES[string][fret];
+    return shared.NOTES[string][fret];
 }
 
 var stage = new Kinetic.Stage({
@@ -54,12 +60,12 @@ function drawCircles() {
     var rootString = scale[0][0];
 
     for (var string = 0; string < 4; string++) {
-        for (var fret = 0; fret < MAX_FRETS; fret++ ) {
+        for (var fret = 0; fret < shared.MAX_FRETS; fret++ ) {
             if (fret == rootFret && string == rootString) {
-                drawCircle((50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * rootFret), 50 + (rootString * STRING_SPACING), 15, [string,fret], "#E51400", circleLayer);
+                shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * rootFret), 50 + (rootString * shared.STRING_SPACING), 15, [string,fret], "#E51400", circleLayer, 1, buttonClicked);
             }
             else {
-                drawCircle((50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * fret), 50 + (string * STRING_SPACING), 15, [string,fret],  "black", circleLayer, 0.75);
+                shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret), 50 + (string * shared.STRING_SPACING), 15, [string,fret],  "black", circleLayer, 0.75, buttonClicked);
             }
         }
     }
@@ -121,7 +127,7 @@ function setInstructionText(newInstruction) {
 }
 
 /**
- * Sets the text for feedback (correct/incorrect) 
+ * Sets the text for feedback (correct/incorrect)
  * @param {string} newFeedback The new feedback text
  * @param {string} colour      The colour of the text
  */
@@ -154,7 +160,7 @@ function setFeedbackText(newFeedback, colour) {
     opacityTween.play();
 }
 
-drawStrings();
+shared.drawStrings(stage);
 
 /**
  * Function called on a button click
@@ -165,16 +171,16 @@ function buttonClicked(note) {
     if(exerciseIsRunning) {
         if(note == currentNote.join(separator="")) {
             setFeedbackText("Correct!", "green");
-            score += 1;
+            shared.score += 1;
         }
         else {
             setFeedbackText("Incorrect!", "red");
         }
 
-        totalQuestions += 1;
-        TOTAL_DISPLAY.innerHTML = totalQuestions;
-        SCORE_DISPLAY.innerHTML = Math.round((score / totalQuestions) * 100);
-        CORRECT_DISPLAY.innerHTML = score;
+        shared.totalQuestions += 1;
+        shared.TOTAL_DISPLAY.innerHTML = shared.totalQuestions;
+        shared.SCORE_DISPLAY.innerHTML = Math.round((shared.score / shared.totalQuestions) * 100);
+        shared.CORRECT_DISPLAY.innerHTML = shared.score;
 
         gameState();
     }
@@ -197,24 +203,24 @@ function gameState() {
 function updateTimer() {
     var extraZero = 0;
 
-    timerSeconds -= 1;
+    shared.timerSeconds -= 1;
 
-    if (timerSeconds < 0) {
-        timerMinutes -= 1;
-        timerSeconds = 59;
+    if (shared.timerSeconds < 0) {
+        shared.timerMinutes -= 1;
+        shared.timerSeconds = 59;
     }
 
-    if (timerSeconds < 10) {
+    if (shared.timerSeconds < 10) {
         extraZero = 0;
     }
     else {
         extraZero = "";
     }
 
-    TIMER_DISPLAY.innerHTML = timerMinutes + ":" + extraZero + timerSeconds;
+    shared.TIMER_DISPLAY.innerHTML = shared.timerMinutes + ":" + extraZero + shared.timerSeconds;
 
     // check if out of time
-    if (timerSeconds === 0 && timerMinutes === 0) {
+    if (shared.timerSeconds === 0 && shared.timerMinutes === 0) {
         endExercise();
     }
 }
@@ -224,23 +230,23 @@ function updateTimer() {
  */
 function endExercise() {
     exerciseIsRunning = false;
-    clearInterval(timerR);
-    TIMER_DISPLAY.innerHTML = "0:00";
+    clearInterval(shared.timerR);
+    shared.TIMER_DISPLAY.innerHTML = "0:00";
 
     document.getElementById("ootHeader").innerHTML = "Time's up!";
-    document.getElementById("finalCorrect").innerHTML = score;
-    document.getElementById("finalTotal").innerHTML = totalQuestions;
+    document.getElementById("finalCorrect").innerHTML = shared.score;
+    document.getElementById("finalTotal").innerHTML = shared.totalQuestions;
     document.getElementById("outOfTime").style.display = "block";
-
+console.log(previousRecordScales)
     if (!previousRecordScales) {
         document.getElementById("noRecord").style.display = "block";
-        document.getElementById("noPreviousRecordValue").innerHTML = score;
-        localStorage.setItem("previousRecordScales", score);
+        document.getElementById("noPreviousRecordValue").innerHTML = shared.score;
+        localStorage.setItem("previousRecordScales", shared.score);
     }
-    else if (previousRecordScales < score) {
+    else if (previousRecordScales < shared.score) {
         document.getElementById("beatRecord").style.display = "block";
         document.getElementById("beatPreviousRecordValue").innerHTML = previousRecordScales;
-        localStorage.setItem("previousRecordScales", score);
+        localStorage.setItem("previousRecordScales", shared.score);
     }
     else {
         document.getElementById("lostRecord").style.display = "block";
@@ -328,7 +334,7 @@ function drawButtons() {
 function start() {
     buttonLayer.destroy();
     exerciseIsRunning = true;
-    timerR = setInterval(updateTimer, TIMER_TICK_MS); // in ms - 1000 msec = 1 sec
+    shared.timerR = setInterval(updateTimer, shared.TIMER_TICK_MS); // in ms - 1000 msec = 1 sec
     drawCircles();
     gameState();
     updateTimer();
@@ -342,17 +348,25 @@ var circleLayer = new Kinetic.Layer();
 function viewScale() {
     buttonLayer.destroy();
     drawBackButton();
-    setInstructionText(SCALE_NAME);
+    setInstructionText(consts.SCALE_NAME);
 
     for (var string = 0; string < 4; string++) {
-        for (var fret = 0; fret < MAX_FRETS; fret++ ) {
+        for (var fret = 0; fret < shared.MAX_FRETS; fret++ ) {
             for (var i = 0; i < scale.length; i++) {
                 if (scale[0][0] == string && scale[0][1] == fret) {
-                    drawCircle((50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * fret), 50 + (string * STRING_SPACING), 15, "", "#E51400", circleLayer);
-                    drawText(getNoteName(scale[0][0], scale[0][1]), (50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * fret) - 6, 50 + (string * STRING_SPACING) - 7, circleLayer);
+                    shared.drawCircle(
+                        (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret),
+                        50 + (string * shared.STRING_SPACING), 15, "", "#E51400", circleLayer, 1, buttonClicked
+                    );
+
+                    shared.drawText(
+                        getNoteName(scale[0][0], scale[0][1]),
+                        (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret) - 6,
+                        50 + (string * shared.STRING_SPACING) - 7, circleLayer
+                    );
                 } else if (scale[i][0] == string && scale[i][1] == fret) {
-                    drawCircle((50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * fret), 50 + (string * STRING_SPACING), 15, "", "black", circleLayer);
-                    drawText(getNoteName(scale[i][0], scale[i][1]), (50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * fret) - 6, 50 + (string * STRING_SPACING) - 7, circleLayer, false, false, false, "white");
+                    shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret), 50 + (string * shared.STRING_SPACING), 15, "", "black", circleLayer, 1, buttonClicked);
+                    shared.drawText(getNoteName(scale[i][0], scale[i][1]), (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret) - 6, 50 + (string * shared.STRING_SPACING) - 7, circleLayer, false, false, false, "white");
                 }
             }
         }

@@ -1,4 +1,6 @@
-// integer representing the selected key - 0 for A, 11 for G#
+var shared = require('./exercisesShared');
+
+ // integer representing the selected key - 0 for A, 11 for G#
 var selectedKey = localStorage.getItem("selectedKey");
 
 // integer representing the selected scale (see intervalssettings.html & SCALE_NAMES)
@@ -30,9 +32,6 @@ var ROOT_NOTE_COORDINATES = [
     [3,2], // G
     [3,3]  // G♯
 ];
-
-// the position of the root note for the scale in the given key
-var ROOT_NOTE = ROOT_NOTE_COORDINATES[selectedKey];
 
 // holds a list of all intervals in each scale
 var SCALE_LIST = [
@@ -93,13 +92,9 @@ var SCALE_LIST = [
     ]
 ];
 
-// the list of intervals in the selected scale
-var SELECTED_SCALE_LIST = SCALE_LIST[selectedScale];
+// the position of the root note for the scale in the given key
+var ROOT_NOTE = ROOT_NOTE_COORDINATES[selectedKey];
 
-// the name of the selected scale
-var SCALE_NAME = NOTES[ROOT_NOTE[0]][ROOT_NOTE[1]] + " " + SCALE_NAMES[selectedScale];
-
-// the coordinates of each interval relative to the root note
 var INTERVAL_DIFFERENCE = {
     "Minor 2nd": [0,1],
     "Major 2nd": [0,2],
@@ -115,5 +110,20 @@ var INTERVAL_DIFFERENCE = {
     "Octave": [-2,2],
 };
 
-// the keys of the above object (i.e. the name of each interval)
-var INTERVAL_DIFFERENCE_KEYS = Object.keys(INTERVAL_DIFFERENCE);
+var scalesConstants = {
+    ROOT_NOTE: ROOT_NOTE,
+
+    // the list of intervals in the selected scale
+    SELECTED_SCALE_LIST: SCALE_LIST[selectedScale],
+
+    // the name of the selected scale
+    SCALE_NAME: shared.NOTES[ROOT_NOTE[0]][ROOT_NOTE[1]] + " " + SCALE_NAMES[selectedScale],
+
+    // the coordinates of each interval relative to the root note
+    INTERVAL_DIFFERENCE: INTERVAL_DIFFERENCE,
+
+    // the keys of the above object (i.e. the name of each interval)
+    INTERVAL_DIFFERENCE_KEYS: Object.keys(INTERVAL_DIFFERENCE)
+};
+
+module.exports = scalesConstants;
