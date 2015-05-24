@@ -1,7 +1,7 @@
 var consts = require('./scalesConstants');
 var shared = require('./exercisesShared');
 
-var previousRecordScales = localStorage.getItem("previousRecordScales");
+var previousRecordScales = localStorage.getItem('previousRecordScales');
 
 var scale = [
     consts.ROOT_NOTE
@@ -64,10 +64,10 @@ function drawCircles() {
     for (var string = 0; string < 4; string++) {
         for (var fret = 0; fret < shared.MAX_FRETS; fret++ ) {
             if (fret == rootFret && string == rootString) {
-                shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * rootFret), 50 + (rootString * shared.STRING_SPACING), 15, [string,fret], "#E51400", circleLayer, 1, buttonClicked);
+                shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * rootFret), 50 + (rootString * shared.STRING_SPACING), 15, [string,fret], '#E51400', circleLayer, 1, buttonClicked);
             }
             else {
-                shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret), 50 + (string * shared.STRING_SPACING), 15, [string,fret],  "black", circleLayer, 0.75, buttonClicked);
+                shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret), 50 + (string * shared.STRING_SPACING), 15, [string,fret],  'black', circleLayer, 0.75, buttonClicked);
             }
         }
     }
@@ -77,25 +77,25 @@ function drawCircles() {
 
 var textLayer = new Kinetic.Layer();
 var instructions = new Kinetic.Text({
-    text: "",
+    text: '',
     x: stage.width() / 2,
     y: 180,
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontSize: 32,
-    fill: "black",
-    align: "center"
+    fill: 'black',
+    align: 'center'
 });
 
 instructions.offsetX(instructions.getWidth() / 2);
 
 var feedback = new Kinetic.Text({
-    text: "",
+    text: '',
     x: stage.width() / 2,
     y: 180 + instructions.height(),
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontSize: 32,
-    fill: "black",
-    align: "center",
+    fill: 'black',
+    align: 'center',
     opacity: 0
 });
 
@@ -169,14 +169,14 @@ shared.drawStrings(stage);
  * @param  {string} note The coordinates of the clicked note
  */
 function buttonClicked(note) {
-    note = note.join(separator = "");
+    note = note.join(separator = '');
     if(exerciseIsRunning) {
-        if(note == currentNote.join(separator="")) {
-            setFeedbackText("Correct!", "green");
+        if(note == currentNote.join(separator='')) {
+            setFeedbackText('Correct!', 'green');
             shared.score += 1;
         }
         else {
-            setFeedbackText("Incorrect!", "red");
+            setFeedbackText('Incorrect!', 'red');
         }
 
         shared.totalQuestions += 1;
@@ -196,7 +196,7 @@ function gameState() {
         currentNote = scale[Math.floor(Math.random() * scale.length)];
     } while (currentNote == scale[0]);
 
-    setInstructionText(getIntervalName(currentNote) + " (" + getNoteName(currentNote[0], currentNote[1]) + ")");
+    setInstructionText(getIntervalName(currentNote) + ' (' + getNoteName(currentNote[0], currentNote[1]) + ')');
 }
 
 /**
@@ -216,10 +216,10 @@ function updateTimer() {
         extraZero = 0;
     }
     else {
-        extraZero = "";
+        extraZero = '';
     }
 
-    shared.TIMER_DISPLAY.innerHTML = shared.timerMinutes + ":" + extraZero + shared.timerSeconds;
+    shared.TIMER_DISPLAY.innerHTML = shared.timerMinutes + ':' + extraZero + shared.timerSeconds;
 
     // check if out of time
     if (shared.timerSeconds === 0 && shared.timerMinutes === 0) {
@@ -233,26 +233,26 @@ function updateTimer() {
 function endExercise() {
     exerciseIsRunning = false;
     clearInterval(shared.timerR);
-    shared.TIMER_DISPLAY.innerHTML = "0:00";
+    shared.TIMER_DISPLAY.innerHTML = '0:00';
 
-    document.getElementById("ootHeader").innerHTML = "Time's up!";
-    document.getElementById("finalCorrect").innerHTML = shared.score;
-    document.getElementById("finalTotal").innerHTML = shared.totalQuestions;
-    document.getElementById("outOfTime").style.display = "block";
+    document.getElementById('ootHeader').innerHTML = 'Time\'s up!';
+    document.getElementById('finalCorrect').innerHTML = shared.score;
+    document.getElementById('finalTotal').innerHTML = shared.totalQuestions;
+    document.getElementById('outOfTime').style.display = 'block';
 
     if (!previousRecordScales) {
-        document.getElementById("noRecord").style.display = "block";
-        document.getElementById("noPreviousRecordValue").innerHTML = shared.score;
-        localStorage.setItem("previousRecordScales", shared.score);
+        document.getElementById('noRecord').style.display = 'block';
+        document.getElementById('noPreviousRecordValue').innerHTML = shared.score;
+        localStorage.setItem('previousRecordScales', shared.score);
     }
     else if (previousRecordScales < shared.score) {
-        document.getElementById("beatRecord").style.display = "block";
-        document.getElementById("beatPreviousRecordValue").innerHTML = previousRecordScales;
-        localStorage.setItem("previousRecordScales", shared.score);
+        document.getElementById('beatRecord').style.display = 'block';
+        document.getElementById('beatPreviousRecordValue').innerHTML = previousRecordScales;
+        localStorage.setItem('previousRecordScales', shared.score);
     }
     else {
-        document.getElementById("lostRecord").style.display = "block";
-        document.getElementById("lostPreviousRecordValue").innerHTML = previousRecordScales;
+        document.getElementById('lostRecord').style.display = 'block';
+        document.getElementById('lostPreviousRecordValue').innerHTML = previousRecordScales;
     }
 
 }
@@ -271,21 +271,21 @@ function drawButtons() {
         y: 155 / 2,
         width: 250,
         height: 50,
-        fill: "lightgrey",
-        stroke: "black",
+        fill: 'lightgrey',
+        stroke: 'black',
         strokeWidth: 4,
         cornerRadius: 5,
     });
     var startButtonText = new Kinetic.Text({
-        text: "Start",
+        text: 'Start',
         x: centerText - 140,
         y: 155 / 2 + 7, // magic number !!
         width: 200,
         height: 50,
-        fontFamily: "Arial",
+        fontFamily: 'Arial',
         fontSize: 32,
-        fill: "black",
-        align: "center"
+        fill: 'black',
+        align: 'center'
     });
 
     var viewScaleButton = new Kinetic.Rect({
@@ -293,21 +293,21 @@ function drawButtons() {
         y: 155 / 2,
         width: 250,
         height: 50,
-        fill: "lightgrey",
-        stroke: "black",
+        fill: 'lightgrey',
+        stroke: 'black',
         strokeWidth: 4,
         cornerRadius: 5,
     });
     var viewScaleButtonText = new Kinetic.Text({
-        text: "View Scale",
+        text: 'View Scale',
         x: centerText + 140,
         y: 155 / 2 + 7, // magic number !!
         width: 200,
         height: 50,
-        fontFamily: "Arial",
+        fontFamily: 'Arial',
         fontSize: 32,
-        fill: "black",
-        align: "center"
+        fill: 'black',
+        align: 'center'
     });
 
     buttonLayer.add(startButton);
@@ -316,19 +316,19 @@ function drawButtons() {
     buttonLayer.add(viewScaleButtonText);
     stage.add(buttonLayer);
 
-    startButton.on("mousedown touchstart", function() {
+    startButton.on('mousedown touchstart', function() {
         start();
     });
 
-    startButtonText.on("mousedown touchstart", function() {
+    startButtonText.on('mousedown touchstart', function() {
         start();
     });
 
-    viewScaleButton.on("mousedown touchstart", function() {
+    viewScaleButton.on('mousedown touchstart', function() {
         viewScale();
     });
 
-    viewScaleButtonText.on("mousedown touchstart", function() {
+    viewScaleButtonText.on('mousedown touchstart', function() {
         viewScale();
     });
 }
@@ -361,7 +361,7 @@ function viewScale() {
                 if (scale[0][0] == string && scale[0][1] == fret) {
                     shared.drawCircle(
                         (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret),
-                        50 + (string * shared.STRING_SPACING), 15, "", "#E51400", circleLayer, 1, buttonClicked
+                        50 + (string * shared.STRING_SPACING), 15, '', '#E51400', circleLayer, 1, buttonClicked
                     );
 
                     shared.drawText(
@@ -370,8 +370,8 @@ function viewScale() {
                         50 + (string * shared.STRING_SPACING) - 7, circleLayer
                     );
                 } else if (scale[i][0] == string && scale[i][1] == fret) {
-                    shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret), 50 + (string * shared.STRING_SPACING), 15, "", "black", circleLayer, 1, buttonClicked);
-                    shared.drawText(getNoteName(scale[i][0], scale[i][1]), (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret) - 6, 50 + (string * shared.STRING_SPACING) - 7, circleLayer, false, false, false, "white");
+                    shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret), 50 + (string * shared.STRING_SPACING), 15, '', 'black', circleLayer, 1, buttonClicked);
+                    shared.drawText(getNoteName(scale[i][0], scale[i][1]), (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret) - 6, 50 + (string * shared.STRING_SPACING) - 7, circleLayer, false, false, false, 'white');
                 }
             }
         }
@@ -387,7 +387,7 @@ function resetExercise() {
     backButtonLayer.destroy();
     drawButtons();
     circleLayer.destroy();
-    setInstructionText("");
+    setInstructionText('');
 }
 
 var backButtonLayer = new Kinetic.Layer();
@@ -401,21 +401,21 @@ function drawBackButton() {
         y: 155 / 2 + 150,
         width: 250,
         height: 50,
-        fill: "lightgrey",
-        stroke: "black",
+        fill: 'lightgrey',
+        stroke: 'black',
         strokeWidth: 4,
         cornerRadius: 5,
     });
     var backButtonText = new Kinetic.Text({
-        text: "Back",
+        text: 'Back',
         x: stage.width() / 2 - 100,
         y: 155 / 2 + 157, // 7 = magic number !!
         width: 200,
         height: 50,
-        fontFamily: "Arial",
+        fontFamily: 'Arial',
         fontSize: 32,
-        fill: "black",
-        align: "center",
+        fill: 'black',
+        align: 'center',
     });
 
     backButtonLayer.add(backButton);
@@ -424,11 +424,11 @@ function drawBackButton() {
 
     backButtonLayer.draw();
 
-    backButton.on("mousedown touchstart", function() {
+    backButton.on('mousedown touchstart', function() {
         resetExercise();
     });
 
-    backButtonText.on("mousedown touchstart", function() {
+    backButtonText.on('mousedown touchstart', function() {
         resetExercise();
     });
 }

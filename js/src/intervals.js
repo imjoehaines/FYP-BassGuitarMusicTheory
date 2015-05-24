@@ -1,7 +1,7 @@
 var shared = require('./exercisesShared');
 
 var MAX_FRETS = 5;
-var previousRecordIntervals = localStorage.getItem("previousRecordIntervals");
+var previousRecordIntervals = localStorage.getItem('previousRecordIntervals');
 
 var stage = new Kinetic.Stage({
     container: 'container',
@@ -28,8 +28,8 @@ function drawCircles() {
                     (50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * rootFret),
                     50 + (rootString * shared.STRING_SPACING),
                     15,
-                    "rootNote",
-                    "#E51400",
+                    'rootNote',
+                    '#E51400',
                     circleLayer,
                     1,
                     buttonClicked
@@ -40,7 +40,7 @@ function drawCircles() {
                     50 + (string * shared.STRING_SPACING),
                     15,
                     string.toString() + fret.toString(),
-                    "black",
+                    'black',
                     circleLayer,
                     0.75,
                     buttonClicked
@@ -54,25 +54,25 @@ function drawCircles() {
 
 var textLayer = new Kinetic.Layer();
 var instructions = new Kinetic.Text({
-    text: "",
+    text: '',
     x: stage.width() / 2,
     y: 180,
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontSize: 32,
-    fill: "black",
-    align: "center"
+    fill: 'black',
+    align: 'center'
 });
 
 instructions.offsetX(instructions.getWidth() / 2);
 
 var feedback = new Kinetic.Text({
-    text: "",
+    text: '',
     x: stage.width() / 2,
     y: 180 + instructions.height(),
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontSize: 32,
-    fill: "black",
-    align: "center",
+    fill: 'black',
+    align: 'center',
     opacity: 0
 });
 
@@ -150,10 +150,10 @@ function updateTimer() {
         extraZero = 0;
     }
     else {
-        extraZero = "";
+        extraZero = '';
     }
 
-    shared.TIMER_DISPLAY.innerHTML = shared.timerMinutes + ":" + extraZero + shared.timerSeconds;
+    shared.TIMER_DISPLAY.innerHTML = shared.timerMinutes + ':' + extraZero + shared.timerSeconds;
 
     // check if out of time
     if (shared.timerSeconds === 0 && shared.timerMinutes === 0) {
@@ -164,26 +164,26 @@ function updateTimer() {
 function endExercise() {
     exerciseIsRunning = false;
     clearInterval(shared.timerR);
-    shared.TIMER_DISPLAY.innerHTML = "0:00";
+    shared.TIMER_DISPLAY.innerHTML = '0:00';
 
-    document.getElementById("ootHeader").innerHTML = "Time's up!";
-    document.getElementById("finalCorrect").innerHTML = shared.score;
-    document.getElementById("finalTotal").innerHTML = shared.totalQuestions;
-    document.getElementById("outOfTime").style.display = "block";
+    document.getElementById('ootHeader').innerHTML = 'Time\'s up!';
+    document.getElementById('finalCorrect').innerHTML = shared.score;
+    document.getElementById('finalTotal').innerHTML = shared.totalQuestions;
+    document.getElementById('outOfTime').style.display = 'block';
 
     if (!previousRecordIntervals) {
-        document.getElementById("noRecord").style.display = "block";
-        document.getElementById("noPreviousRecordValue").innerHTML = shared.score;
-        localStorage.setItem("previousRecordIntervals", shared.score);
+        document.getElementById('noRecord').style.display = 'block';
+        document.getElementById('noPreviousRecordValue').innerHTML = shared.score;
+        localStorage.setItem('previousRecordIntervals', shared.score);
     }
     else if (previousRecordIntervals < shared.score) {
-        document.getElementById("beatRecord").style.display = "block";
-        document.getElementById("beatPreviousRecordValue").innerHTML = previousRecordIntervals;
-        localStorage.setItem("previousRecordIntervals", shared.score);
+        document.getElementById('beatRecord').style.display = 'block';
+        document.getElementById('beatPreviousRecordValue').innerHTML = previousRecordIntervals;
+        localStorage.setItem('previousRecordIntervals', shared.score);
     }
     else {
-        document.getElementById("lostRecord").style.display = "block";
-        document.getElementById("lostPreviousRecordValue").innerHTML = previousRecordIntervals;
+        document.getElementById('lostRecord').style.display = 'block';
+        document.getElementById('lostPreviousRecordValue').innerHTML = previousRecordIntervals;
     }
 
 }
@@ -194,21 +194,21 @@ var startButton = new Kinetic.Rect({
     y: 155 / 2,
     width: 250,
     height: 50,
-    fill: "lightgrey",
-    stroke: "black",
+    fill: 'lightgrey',
+    stroke: 'black',
     strokeWidth: 4,
     cornerRadius: 5,
 });
 var startButtonText = new Kinetic.Text({
-    text: "Start",
+    text: 'Start',
     x: stage.width() / 2 - 100,
     y: 155 / 2 + 7, // magic number !!
     width: 200,
     height: 50,
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontSize: 32,
-    fill: "black",
-    align: "center"
+    fill: 'black',
+    align: 'center'
 });
 
 buttonLayer.add(startButton);
@@ -217,18 +217,18 @@ buttonLayer.add(startButtonText);
 // object to hold interval names and IDs used when drawing buttons - IDs are
 // the X & Y coordinates of each interval where 00 is 1st fret of G string
 var intervals = {
-    "Minor 2nd": "31",
-    "Major 2nd": "32",
-    "Minor 3rd": "33",
-    "Major 3rd": "34",
-    "Perfect 4th": "20",
-    "Tritone": "21",
-    "Perfect 5th": "22",
-    "Minor 6th": "23",
-    "Major 6th": "24",
-    "Minor 7th": "10",
-    "Major 7th": "11",
-    "Octave": "12",
+    'Minor 2nd': '31',
+    'Major 2nd': '32',
+    'Minor 3rd': '33',
+    'Major 3rd': '34',
+    'Perfect 4th': '20',
+    'Tritone': '21',
+    'Perfect 5th': '22',
+    'Minor 6th': '23',
+    'Major 6th': '24',
+    'Minor 7th': '10',
+    'Major 7th': '11',
+    'Octave': '12',
 };
 
 var intervalsKeys = Object.keys(intervals);
@@ -242,11 +242,11 @@ var currentInterval;
 function buttonClicked(interval) {
     if(exerciseIsRunning) {
         if(interval == currentInterval) {
-            setFeedbackText("Correct!", "green");
+            setFeedbackText('Correct!', 'green');
             shared.score += 1;
         }
         else {
-            setFeedbackText("Incorrect!", "red");
+            setFeedbackText('Incorrect!', 'red');
         }
 
         shared.totalQuestions += 1;
@@ -268,10 +268,10 @@ var intervalButtons = [];
 
 // attach interval names to correct buttons
 for(var interval in intervals) {
-    intervalButtons[interval] = stage.find("#" + intervals[interval])[0];
+    intervalButtons[interval] = stage.find('#' + intervals[interval])[0];
 
-    intervalButtons[interval].off("mousedown touchstart"); //remove previous function
-    intervalButtons[interval].on("mousedown touchstart", shared.makeFunction(interval, buttonClicked));
+    intervalButtons[interval].off('mousedown touchstart'); //remove previous function
+    intervalButtons[interval].on('mousedown touchstart', shared.makeFunction(interval, buttonClicked));
 }
 
 /**
@@ -294,10 +294,10 @@ function start() {
 }
 
 // sets start button to start the exercise
-startButton.on("mousedown touchstart", function() {
+startButton.on('mousedown touchstart', function() {
     start();
 });
 
-startButtonText.on("mousedown touchstart", function() {
+startButtonText.on('mousedown touchstart', function() {
     start();
 });

@@ -12,20 +12,17 @@
 * {
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
     box-sizing: border-box;
-    -webkit-box-sizing: border-box;
 }
 
 body {
-    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size: 16px;
-    margin:0px;
-    padding:0px;
+    margin: 0;
+    padding: 0;
 }
 
 img {
     display: inline-block;
-    float: left;
 }
 
 header {
@@ -47,7 +44,7 @@ h1 {
 
 header h2 {
     font-size: 100%;
-    margin: 0px;
+    margin: 0;
 }
 
 header em {
@@ -96,7 +93,7 @@ a {
     color:#E51400;
     text-decoration:none;
     float:left;
-    padding: 10px;
+    padding: 10;
     font-size: 100%;
     width: 100%;
 
@@ -136,7 +133,7 @@ a:active {
 }
 
 a.noDesc {
-    width:100%;
+    width: 100%;
 }
 
 #desc1, #desc2, #desc3, #desc4, #desc5 {
@@ -187,10 +184,6 @@ input[type=range] {
     clear:both;
 }
 
-#notesCanvas {
-
-}
-
 #outOfTime {
     background: rgba(0, 0, 0, 0.66);
     padding: 2%;
@@ -198,7 +191,7 @@ input[type=range] {
     height: 100%;
 
     position: absolute;
-    top: 0px;
+    top: 0;
     display: none;
 }
 

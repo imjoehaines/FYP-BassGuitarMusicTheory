@@ -27,10 +27,10 @@ function makeFunction (button, callback) {
  */
 function drawLine (startX, startY, endX, endY, width, colour, cap, layer) {
     width = width || 10;
-    colour = colour || "#000000";
-    cap = cap || "butt";
+    colour = colour || '#000000';
+    cap = cap || 'butt';
 
-    line = new Kinetic.Line({
+    var line = new Kinetic.Line({
         points: [startX, startY, endX, endY],
         stroke: colour,
         strokeWidth: width,
@@ -53,10 +53,10 @@ function drawLine (startX, startY, endX, endY, width, colour, cap, layer) {
  * @param  {string} colour The colour of the text (optional - defaults to black)
  */
 function drawText (text, x, y, layer, align, font, size, colour) {
-    align = align || "left";
-    font = font || "Arial";
+    align = align || 'left';
+    font = font || 'Arial';
     size = size || 16;
-    colour = colour || "black";
+    colour = colour || 'black';
 
     var label = new Kinetic.Text({
         text: text,
@@ -72,10 +72,10 @@ function drawText (text, x, y, layer, align, font, size, colour) {
 }
 
 var shared = {
-    TIMER_DISPLAY: document.getElementById("timer"),
-    SCORE_DISPLAY: document.getElementById("score"),
-    CORRECT_DISPLAY: document.getElementById("correct"),
-    TOTAL_DISPLAY: document.getElementById("total"),
+    TIMER_DISPLAY: document.getElementById('timer'),
+    SCORE_DISPLAY: document.getElementById('score'),
+    CORRECT_DISPLAY: document.getElementById('correct'),
+    TOTAL_DISPLAY: document.getElementById('total'),
 
     // Amount of time in ms between timer ticks | default should be 1000 (1 sec)
     TIMER_TICK_MS: 1000,
@@ -91,7 +91,7 @@ var shared = {
 
     // start at 1 second so first update shows correct total time
     timerSeconds: 1,
-    timerMinutes: localStorage.getItem("timeLimit"),
+    timerMinutes: localStorage.getItem('timeLimit'),
     exerciseIsRunning: false,
     score: 0,
     totalQuestions: 0,
@@ -102,10 +102,10 @@ var shared = {
 
     // array to hold the names of notes
     NOTES: [
-        ["G♯", "A", "A♯", "B", "C", "C♯", "D", "D♯", "E", "F", "F♯", "G"], // G string
-        ["D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B", "C", "C♯", "D"], // D string
-        ["A♯", "B", "C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A"], // A string
-        ["F", "F♯", "G", "G♯", "A", "A♯", "B", "C", "C♯", "D", "D♯", "E"]  // E string
+        ['G♯', 'A', 'A♯', 'B', 'C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G'], // G string
+        ['D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B', 'C', 'C♯', 'D'], // D string
+        ['A♯', 'B', 'C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A'], // A string
+        ['F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B', 'C', 'C♯', 'D', 'D♯', 'E']  // E string
     ],
 
     /**
@@ -132,7 +132,7 @@ var shared = {
         });
 
         layer.add(circle);
-        circle.on("mousedown touchstart", makeFunction(id, callback));
+        circle.on('mousedown touchstart', makeFunction(id, callback));
     },
 
     /**
@@ -151,23 +151,22 @@ var shared = {
 
         // draw strings
         for (i = 0; i < MAX_STRINGS; i++) {
-            drawLine(50, 50 + (STRING_SPACING * i), stringLength, 50 + (STRING_SPACING * i), 9, "#444", "round", backgroundLayer);
+            drawLine(50, 50 + (STRING_SPACING * i), stringLength, 50 + (STRING_SPACING * i), 9, '#444', 'round', backgroundLayer);
         }
 
         // draw string labels
-        drawText("G", 20, 42, backgroundLayer);
-        drawText("D", 20, 42 + STRING_SPACING, backgroundLayer);
-        drawText("A", 20, 42 + (STRING_SPACING * 2), backgroundLayer);
-        drawText("E", 20, 42 + (STRING_SPACING * 3), backgroundLayer);
+        drawText('G', 20, 42, backgroundLayer);
+        drawText('D', 20, 42 + STRING_SPACING, backgroundLayer);
+        drawText('A', 20, 42 + (STRING_SPACING * 2), backgroundLayer);
+        drawText('E', 20, 42 + (STRING_SPACING * 3), backgroundLayer);
 
         // draw frets
         for (i = 0; i < MAX_FRETS; i++) {
-
             // offset by 50 from start of the string
-            fretLineX = (50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * i);
-            drawLine(fretLineX, 35, fretLineX, 50 + (STRING_SPACING * 3) + 15, 5, "#aaa", "round", backgroundLayer);
+            var fretLineX = (50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * i);
+            drawLine(fretLineX, 35, fretLineX, 50 + (STRING_SPACING * 3) + 15, 5, '#aaa', 'round', backgroundLayer);
 
-            drawText(i + 1, fretLineX - 4, 10, backgroundLayer, "center");
+            drawText(i + 1, fretLineX - 4, 10, backgroundLayer, 'center');
         }
 
         stage.add(backgroundLayer);
@@ -183,10 +182,10 @@ module.exports = shared;
 },{}],2:[function(require,module,exports){
 var shared = require('./exercisesShared');
 
-var FEEDBACK_DIV = document.getElementById("feedback");
-var FEEDBACK_DISPLAY = document.getElementById("feedbackDisplay");
+var FEEDBACK_DIV = document.getElementById('feedback');
+var FEEDBACK_DISPLAY = document.getElementById('feedbackDisplay');
 
-var previousRecordNotes = localStorage.getItem("previousRecordNotes");
+var previousRecordNotes = localStorage.getItem('previousRecordNotes');
 var currentNote;
 var exerciseIsRunning = true;
 
@@ -221,7 +220,7 @@ function drawRandomNote() {
         50 + (string * 25),
         15,
         string.toString() + fret.toString(),
-        "#E51400",
+        '#E51400',
         circleLayer,
         1,
         buttonClicked
@@ -243,9 +242,9 @@ function answerButton(link) {
 
         if (currentNote == answer) {
             shared.score += 1;
-            FEEDBACK_DISPLAY.innerHTML = "Correct!";
+            FEEDBACK_DISPLAY.innerHTML = 'Correct!';
         } else {
-            FEEDBACK_DISPLAY.innerHTML = "Incorrect!";
+            FEEDBACK_DISPLAY.innerHTML = 'Incorrect!';
         }
 
         displayFeedback();
@@ -268,10 +267,10 @@ function displayFeedback() {
     var classToAdd;
     var timeout = 1250;
 
-    if (FEEDBACK_DISPLAY.innerHTML == "Correct!") {
-        classToAdd = "correctAnswer";
+    if (FEEDBACK_DISPLAY.innerHTML == 'Correct!') {
+        classToAdd = 'correctAnswer';
     } else {
-        classToAdd = "incorrectAnswer";
+        classToAdd = 'incorrectAnswer';
     }
 
     setTimeout(function() {
@@ -299,10 +298,10 @@ function updateTimer() {
     if (shared.timerSeconds < 10) {
         extraZero = 0;
     } else {
-        extraZero = "";
+        extraZero = '';
     }
 
-    shared.TIMER_DISPLAY.innerHTML = shared.timerMinutes + ":" + extraZero + shared.timerSeconds;
+    shared.TIMER_DISPLAY.innerHTML = shared.timerMinutes + ':' + extraZero + shared.timerSeconds;
 
     // check if out of time
     if (shared.timerSeconds === 0 && shared.timerMinutes === 0) {
@@ -316,24 +315,24 @@ function updateTimer() {
 function endExercise() {
     exerciseIsRunning = false;
     clearInterval(shared.timerR);
-    shared.TIMER_DISPLAY.innerHTML = "0:00";
+    shared.TIMER_DISPLAY.innerHTML = '0:00';
 
-    document.getElementById("ootHeader").innerHTML = "Time's up!";
-    document.getElementById("finalCorrect").innerHTML = shared.score;
-    document.getElementById("finalTotal").innerHTML = shared.totalQuestions;
-    document.getElementById("outOfTime").style.display = "block";
+    document.getElementById('ootHeader').innerHTML = 'Time\'s up!';
+    document.getElementById('finalCorrect').innerHTML = shared.score;
+    document.getElementById('finalTotal').innerHTML = shared.totalQuestions;
+    document.getElementById('outOfTime').style.display = 'block';
 
     if (!previousRecordNotes) {
-        document.getElementById("noRecord").style.display = "block";
-        document.getElementById("noPreviousRecordValue").innerHTML = shared.score;
-        localStorage.setItem("previousRecordNotes", shared.score);
+        document.getElementById('noRecord').style.display = 'block';
+        document.getElementById('noPreviousRecordValue').innerHTML = shared.score;
+        localStorage.setItem('previousRecordNotes', shared.score);
     } else if (previousRecordNotes < shared.score) {
-        document.getElementById("beatRecord").style.display = "block";
-        document.getElementById("beatPreviousRecordValue").innerHTML = previousRecordNotes;
-        localStorage.setItem("previousRecordNotes", shared.score);
+        document.getElementById('beatRecord').style.display = 'block';
+        document.getElementById('beatPreviousRecordValue').innerHTML = previousRecordNotes;
+        localStorage.setItem('previousRecordNotes', shared.score);
     } else {
-        document.getElementById("lostRecord").style.display = "block";
-        document.getElementById("lostPreviousRecordValue").innerHTML = previousRecordNotes;
+        document.getElementById('lostRecord').style.display = 'block';
+        document.getElementById('lostPreviousRecordValue').innerHTML = previousRecordNotes;
     }
 }
 

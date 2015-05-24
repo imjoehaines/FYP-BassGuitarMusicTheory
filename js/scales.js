@@ -27,10 +27,10 @@ function makeFunction (button, callback) {
  */
 function drawLine (startX, startY, endX, endY, width, colour, cap, layer) {
     width = width || 10;
-    colour = colour || "#000000";
-    cap = cap || "butt";
+    colour = colour || '#000000';
+    cap = cap || 'butt';
 
-    line = new Kinetic.Line({
+    var line = new Kinetic.Line({
         points: [startX, startY, endX, endY],
         stroke: colour,
         strokeWidth: width,
@@ -53,10 +53,10 @@ function drawLine (startX, startY, endX, endY, width, colour, cap, layer) {
  * @param  {string} colour The colour of the text (optional - defaults to black)
  */
 function drawText (text, x, y, layer, align, font, size, colour) {
-    align = align || "left";
-    font = font || "Arial";
+    align = align || 'left';
+    font = font || 'Arial';
     size = size || 16;
-    colour = colour || "black";
+    colour = colour || 'black';
 
     var label = new Kinetic.Text({
         text: text,
@@ -72,10 +72,10 @@ function drawText (text, x, y, layer, align, font, size, colour) {
 }
 
 var shared = {
-    TIMER_DISPLAY: document.getElementById("timer"),
-    SCORE_DISPLAY: document.getElementById("score"),
-    CORRECT_DISPLAY: document.getElementById("correct"),
-    TOTAL_DISPLAY: document.getElementById("total"),
+    TIMER_DISPLAY: document.getElementById('timer'),
+    SCORE_DISPLAY: document.getElementById('score'),
+    CORRECT_DISPLAY: document.getElementById('correct'),
+    TOTAL_DISPLAY: document.getElementById('total'),
 
     // Amount of time in ms between timer ticks | default should be 1000 (1 sec)
     TIMER_TICK_MS: 1000,
@@ -91,7 +91,7 @@ var shared = {
 
     // start at 1 second so first update shows correct total time
     timerSeconds: 1,
-    timerMinutes: localStorage.getItem("timeLimit"),
+    timerMinutes: localStorage.getItem('timeLimit'),
     exerciseIsRunning: false,
     score: 0,
     totalQuestions: 0,
@@ -102,10 +102,10 @@ var shared = {
 
     // array to hold the names of notes
     NOTES: [
-        ["G♯", "A", "A♯", "B", "C", "C♯", "D", "D♯", "E", "F", "F♯", "G"], // G string
-        ["D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B", "C", "C♯", "D"], // D string
-        ["A♯", "B", "C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A"], // A string
-        ["F", "F♯", "G", "G♯", "A", "A♯", "B", "C", "C♯", "D", "D♯", "E"]  // E string
+        ['G♯', 'A', 'A♯', 'B', 'C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G'], // G string
+        ['D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B', 'C', 'C♯', 'D'], // D string
+        ['A♯', 'B', 'C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A'], // A string
+        ['F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B', 'C', 'C♯', 'D', 'D♯', 'E']  // E string
     ],
 
     /**
@@ -132,7 +132,7 @@ var shared = {
         });
 
         layer.add(circle);
-        circle.on("mousedown touchstart", makeFunction(id, callback));
+        circle.on('mousedown touchstart', makeFunction(id, callback));
     },
 
     /**
@@ -151,23 +151,22 @@ var shared = {
 
         // draw strings
         for (i = 0; i < MAX_STRINGS; i++) {
-            drawLine(50, 50 + (STRING_SPACING * i), stringLength, 50 + (STRING_SPACING * i), 9, "#444", "round", backgroundLayer);
+            drawLine(50, 50 + (STRING_SPACING * i), stringLength, 50 + (STRING_SPACING * i), 9, '#444', 'round', backgroundLayer);
         }
 
         // draw string labels
-        drawText("G", 20, 42, backgroundLayer);
-        drawText("D", 20, 42 + STRING_SPACING, backgroundLayer);
-        drawText("A", 20, 42 + (STRING_SPACING * 2), backgroundLayer);
-        drawText("E", 20, 42 + (STRING_SPACING * 3), backgroundLayer);
+        drawText('G', 20, 42, backgroundLayer);
+        drawText('D', 20, 42 + STRING_SPACING, backgroundLayer);
+        drawText('A', 20, 42 + (STRING_SPACING * 2), backgroundLayer);
+        drawText('E', 20, 42 + (STRING_SPACING * 3), backgroundLayer);
 
         // draw frets
         for (i = 0; i < MAX_FRETS; i++) {
-
             // offset by 50 from start of the string
-            fretLineX = (50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * i);
-            drawLine(fretLineX, 35, fretLineX, 50 + (STRING_SPACING * 3) + 15, 5, "#aaa", "round", backgroundLayer);
+            var fretLineX = (50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * i);
+            drawLine(fretLineX, 35, fretLineX, 50 + (STRING_SPACING * 3) + 15, 5, '#aaa', 'round', backgroundLayer);
 
-            drawText(i + 1, fretLineX - 4, 10, backgroundLayer, "center");
+            drawText(i + 1, fretLineX - 4, 10, backgroundLayer, 'center');
         }
 
         stage.add(backgroundLayer);
@@ -184,20 +183,20 @@ module.exports = shared;
 var shared = require('./exercisesShared');
 
  // integer representing the selected key - 0 for A, 11 for G#
-var selectedKey = localStorage.getItem("selectedKey");
+var selectedKey = localStorage.getItem('selectedKey');
 
 // integer representing the selected scale (see intervalssettings.html & SCALE_NAMES)
-var selectedScale = localStorage.getItem("selectedScale");
+var selectedScale = localStorage.getItem('selectedScale');
 
 // holds names of the scales
 var SCALE_NAMES = [
-    "Major",
-    "Minor Pentatonic",
-    "Major Pentatonic",
-    "Major Triad",
-    "Major 7th",
-    "Dominant 7th",
-    "Mixolydian"
+    'Major',
+    'Minor Pentatonic',
+    'Major Pentatonic',
+    'Major Triad',
+    'Major 7th',
+    'Dominant 7th',
+    'Mixolydian'
 ];
 
 // holds coordinates for each root note - x being the string, y the fret
@@ -219,59 +218,59 @@ var ROOT_NOTE_COORDINATES = [
 // holds a list of all intervals in each scale
 var SCALE_LIST = [
     Major = [
-        "Major 2nd",
-        "Major 3rd",
-        "Perfect 4th",
-        "Perfect 5th",
-        "Major 6th",
-        "Major 7th",
-        "Octave"
+        'Major 2nd',
+        'Major 3rd',
+        'Perfect 4th',
+        'Perfect 5th',
+        'Major 6th',
+        'Major 7th',
+        'Octave'
     ],
 
     MinorPentatonic =[
-        "Minor 3rd",
-        "Perfect 4th",
-        "Perfect 5th",
-        "Minor 7th",
-        "Octave"
+        'Minor 3rd',
+        'Perfect 4th',
+        'Perfect 5th',
+        'Minor 7th',
+        'Octave'
     ],
 
     MajorPentatonic =[
-        "Major 2nd",
-        "Major 3rd",
-        "Perfect 5th",
-        "Major 6th",
-        "Octave"
+        'Major 2nd',
+        'Major 3rd',
+        'Perfect 5th',
+        'Major 6th',
+        'Octave'
     ],
 
     MajorTriad = [
-        "Major 3rd",
-        "Perfect 5th",
-        "Octave"
+        'Major 3rd',
+        'Perfect 5th',
+        'Octave'
     ],
 
     Major7th = [
-        "Major 3rd",
-        "Perfect 5th",
-        "Major 7th",
-        "Octave"
+        'Major 3rd',
+        'Perfect 5th',
+        'Major 7th',
+        'Octave'
     ],
 
     Dominant7th = [
-        "Major 3rd",
-        "Perfect 5th",
-        "Minor 7th",
-        "Octave"
+        'Major 3rd',
+        'Perfect 5th',
+        'Minor 7th',
+        'Octave'
     ],
 
     Mixolydian =[
-        "Major 2nd",
-        "Major 3rd",
-        "Perfect 4th",
-        "Perfect 5th",
-        "Major 6th",
-        "Minor 7th",
-        "Octave"
+        'Major 2nd',
+        'Major 3rd',
+        'Perfect 4th',
+        'Perfect 5th',
+        'Major 6th',
+        'Minor 7th',
+        'Octave'
     ]
 ];
 
@@ -279,18 +278,18 @@ var SCALE_LIST = [
 var ROOT_NOTE = ROOT_NOTE_COORDINATES[selectedKey];
 
 var INTERVAL_DIFFERENCE = {
-    "Minor 2nd": [0,1],
-    "Major 2nd": [0,2],
-    "Minor 3rd": [0, 3],
-    "Major 3rd": [-1,-1],
-    "Perfect 4th": [-1,0],
-    "Tritone": [-1,1],
-    "Perfect 5th": [-1,2],
-    //"minor 6th": "", //UNUSED
-    "Major 6th": [-2,-1],
-    "Minor 7th": [-2,0],
-    "Major 7th": [-2,1],
-    "Octave": [-2,2],
+    'Minor 2nd': [0,1],
+    'Major 2nd': [0,2],
+    'Minor 3rd': [0, 3],
+    'Major 3rd': [-1,-1],
+    'Perfect 4th': [-1,0],
+    'Tritone': [-1,1],
+    'Perfect 5th': [-1,2],
+    //'minor 6th': ', //UNUSED
+    'Major 6th': [-2,-1],
+    'Minor 7th': [-2,0],
+    'Major 7th': [-2,1],
+    'Octave': [-2,2],
 };
 
 var scalesConstants = {
@@ -300,7 +299,7 @@ var scalesConstants = {
     SELECTED_SCALE_LIST: SCALE_LIST[selectedScale],
 
     // the name of the selected scale
-    SCALE_NAME: shared.NOTES[ROOT_NOTE[0]][ROOT_NOTE[1]] + " " + SCALE_NAMES[selectedScale],
+    SCALE_NAME: shared.NOTES[ROOT_NOTE[0]][ROOT_NOTE[1]] + ' ' + SCALE_NAMES[selectedScale],
 
     // the coordinates of each interval relative to the root note
     INTERVAL_DIFFERENCE: INTERVAL_DIFFERENCE,
@@ -315,7 +314,7 @@ module.exports = scalesConstants;
 var consts = require('./scalesConstants');
 var shared = require('./exercisesShared');
 
-var previousRecordScales = localStorage.getItem("previousRecordScales");
+var previousRecordScales = localStorage.getItem('previousRecordScales');
 
 var scale = [
     consts.ROOT_NOTE
@@ -378,10 +377,10 @@ function drawCircles() {
     for (var string = 0; string < 4; string++) {
         for (var fret = 0; fret < shared.MAX_FRETS; fret++ ) {
             if (fret == rootFret && string == rootString) {
-                shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * rootFret), 50 + (rootString * shared.STRING_SPACING), 15, [string,fret], "#E51400", circleLayer, 1, buttonClicked);
+                shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * rootFret), 50 + (rootString * shared.STRING_SPACING), 15, [string,fret], '#E51400', circleLayer, 1, buttonClicked);
             }
             else {
-                shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret), 50 + (string * shared.STRING_SPACING), 15, [string,fret],  "black", circleLayer, 0.75, buttonClicked);
+                shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret), 50 + (string * shared.STRING_SPACING), 15, [string,fret],  'black', circleLayer, 0.75, buttonClicked);
             }
         }
     }
@@ -391,25 +390,25 @@ function drawCircles() {
 
 var textLayer = new Kinetic.Layer();
 var instructions = new Kinetic.Text({
-    text: "",
+    text: '',
     x: stage.width() / 2,
     y: 180,
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontSize: 32,
-    fill: "black",
-    align: "center"
+    fill: 'black',
+    align: 'center'
 });
 
 instructions.offsetX(instructions.getWidth() / 2);
 
 var feedback = new Kinetic.Text({
-    text: "",
+    text: '',
     x: stage.width() / 2,
     y: 180 + instructions.height(),
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontSize: 32,
-    fill: "black",
-    align: "center",
+    fill: 'black',
+    align: 'center',
     opacity: 0
 });
 
@@ -483,14 +482,14 @@ shared.drawStrings(stage);
  * @param  {string} note The coordinates of the clicked note
  */
 function buttonClicked(note) {
-    note = note.join(separator = "");
+    note = note.join(separator = '');
     if(exerciseIsRunning) {
-        if(note == currentNote.join(separator="")) {
-            setFeedbackText("Correct!", "green");
+        if(note == currentNote.join(separator='')) {
+            setFeedbackText('Correct!', 'green');
             shared.score += 1;
         }
         else {
-            setFeedbackText("Incorrect!", "red");
+            setFeedbackText('Incorrect!', 'red');
         }
 
         shared.totalQuestions += 1;
@@ -510,7 +509,7 @@ function gameState() {
         currentNote = scale[Math.floor(Math.random() * scale.length)];
     } while (currentNote == scale[0]);
 
-    setInstructionText(getIntervalName(currentNote) + " (" + getNoteName(currentNote[0], currentNote[1]) + ")");
+    setInstructionText(getIntervalName(currentNote) + ' (' + getNoteName(currentNote[0], currentNote[1]) + ')');
 }
 
 /**
@@ -530,10 +529,10 @@ function updateTimer() {
         extraZero = 0;
     }
     else {
-        extraZero = "";
+        extraZero = '';
     }
 
-    shared.TIMER_DISPLAY.innerHTML = shared.timerMinutes + ":" + extraZero + shared.timerSeconds;
+    shared.TIMER_DISPLAY.innerHTML = shared.timerMinutes + ':' + extraZero + shared.timerSeconds;
 
     // check if out of time
     if (shared.timerSeconds === 0 && shared.timerMinutes === 0) {
@@ -547,26 +546,26 @@ function updateTimer() {
 function endExercise() {
     exerciseIsRunning = false;
     clearInterval(shared.timerR);
-    shared.TIMER_DISPLAY.innerHTML = "0:00";
+    shared.TIMER_DISPLAY.innerHTML = '0:00';
 
-    document.getElementById("ootHeader").innerHTML = "Time's up!";
-    document.getElementById("finalCorrect").innerHTML = shared.score;
-    document.getElementById("finalTotal").innerHTML = shared.totalQuestions;
-    document.getElementById("outOfTime").style.display = "block";
+    document.getElementById('ootHeader').innerHTML = 'Time\'s up!';
+    document.getElementById('finalCorrect').innerHTML = shared.score;
+    document.getElementById('finalTotal').innerHTML = shared.totalQuestions;
+    document.getElementById('outOfTime').style.display = 'block';
 
     if (!previousRecordScales) {
-        document.getElementById("noRecord").style.display = "block";
-        document.getElementById("noPreviousRecordValue").innerHTML = shared.score;
-        localStorage.setItem("previousRecordScales", shared.score);
+        document.getElementById('noRecord').style.display = 'block';
+        document.getElementById('noPreviousRecordValue').innerHTML = shared.score;
+        localStorage.setItem('previousRecordScales', shared.score);
     }
     else if (previousRecordScales < shared.score) {
-        document.getElementById("beatRecord").style.display = "block";
-        document.getElementById("beatPreviousRecordValue").innerHTML = previousRecordScales;
-        localStorage.setItem("previousRecordScales", shared.score);
+        document.getElementById('beatRecord').style.display = 'block';
+        document.getElementById('beatPreviousRecordValue').innerHTML = previousRecordScales;
+        localStorage.setItem('previousRecordScales', shared.score);
     }
     else {
-        document.getElementById("lostRecord").style.display = "block";
-        document.getElementById("lostPreviousRecordValue").innerHTML = previousRecordScales;
+        document.getElementById('lostRecord').style.display = 'block';
+        document.getElementById('lostPreviousRecordValue').innerHTML = previousRecordScales;
     }
 
 }
@@ -585,21 +584,21 @@ function drawButtons() {
         y: 155 / 2,
         width: 250,
         height: 50,
-        fill: "lightgrey",
-        stroke: "black",
+        fill: 'lightgrey',
+        stroke: 'black',
         strokeWidth: 4,
         cornerRadius: 5,
     });
     var startButtonText = new Kinetic.Text({
-        text: "Start",
+        text: 'Start',
         x: centerText - 140,
         y: 155 / 2 + 7, // magic number !!
         width: 200,
         height: 50,
-        fontFamily: "Arial",
+        fontFamily: 'Arial',
         fontSize: 32,
-        fill: "black",
-        align: "center"
+        fill: 'black',
+        align: 'center'
     });
 
     var viewScaleButton = new Kinetic.Rect({
@@ -607,21 +606,21 @@ function drawButtons() {
         y: 155 / 2,
         width: 250,
         height: 50,
-        fill: "lightgrey",
-        stroke: "black",
+        fill: 'lightgrey',
+        stroke: 'black',
         strokeWidth: 4,
         cornerRadius: 5,
     });
     var viewScaleButtonText = new Kinetic.Text({
-        text: "View Scale",
+        text: 'View Scale',
         x: centerText + 140,
         y: 155 / 2 + 7, // magic number !!
         width: 200,
         height: 50,
-        fontFamily: "Arial",
+        fontFamily: 'Arial',
         fontSize: 32,
-        fill: "black",
-        align: "center"
+        fill: 'black',
+        align: 'center'
     });
 
     buttonLayer.add(startButton);
@@ -630,19 +629,19 @@ function drawButtons() {
     buttonLayer.add(viewScaleButtonText);
     stage.add(buttonLayer);
 
-    startButton.on("mousedown touchstart", function() {
+    startButton.on('mousedown touchstart', function() {
         start();
     });
 
-    startButtonText.on("mousedown touchstart", function() {
+    startButtonText.on('mousedown touchstart', function() {
         start();
     });
 
-    viewScaleButton.on("mousedown touchstart", function() {
+    viewScaleButton.on('mousedown touchstart', function() {
         viewScale();
     });
 
-    viewScaleButtonText.on("mousedown touchstart", function() {
+    viewScaleButtonText.on('mousedown touchstart', function() {
         viewScale();
     });
 }
@@ -675,7 +674,7 @@ function viewScale() {
                 if (scale[0][0] == string && scale[0][1] == fret) {
                     shared.drawCircle(
                         (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret),
-                        50 + (string * shared.STRING_SPACING), 15, "", "#E51400", circleLayer, 1, buttonClicked
+                        50 + (string * shared.STRING_SPACING), 15, '', '#E51400', circleLayer, 1, buttonClicked
                     );
 
                     shared.drawText(
@@ -684,8 +683,8 @@ function viewScale() {
                         50 + (string * shared.STRING_SPACING) - 7, circleLayer
                     );
                 } else if (scale[i][0] == string && scale[i][1] == fret) {
-                    shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret), 50 + (string * shared.STRING_SPACING), 15, "", "black", circleLayer, 1, buttonClicked);
-                    shared.drawText(getNoteName(scale[i][0], scale[i][1]), (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret) - 6, 50 + (string * shared.STRING_SPACING) - 7, circleLayer, false, false, false, "white");
+                    shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret), 50 + (string * shared.STRING_SPACING), 15, '', 'black', circleLayer, 1, buttonClicked);
+                    shared.drawText(getNoteName(scale[i][0], scale[i][1]), (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret) - 6, 50 + (string * shared.STRING_SPACING) - 7, circleLayer, false, false, false, 'white');
                 }
             }
         }
@@ -701,7 +700,7 @@ function resetExercise() {
     backButtonLayer.destroy();
     drawButtons();
     circleLayer.destroy();
-    setInstructionText("");
+    setInstructionText('');
 }
 
 var backButtonLayer = new Kinetic.Layer();
@@ -715,21 +714,21 @@ function drawBackButton() {
         y: 155 / 2 + 150,
         width: 250,
         height: 50,
-        fill: "lightgrey",
-        stroke: "black",
+        fill: 'lightgrey',
+        stroke: 'black',
         strokeWidth: 4,
         cornerRadius: 5,
     });
     var backButtonText = new Kinetic.Text({
-        text: "Back",
+        text: 'Back',
         x: stage.width() / 2 - 100,
         y: 155 / 2 + 157, // 7 = magic number !!
         width: 200,
         height: 50,
-        fontFamily: "Arial",
+        fontFamily: 'Arial',
         fontSize: 32,
-        fill: "black",
-        align: "center",
+        fill: 'black',
+        align: 'center',
     });
 
     backButtonLayer.add(backButton);
@@ -738,11 +737,11 @@ function drawBackButton() {
 
     backButtonLayer.draw();
 
-    backButton.on("mousedown touchstart", function() {
+    backButton.on('mousedown touchstart', function() {
         resetExercise();
     });
 
-    backButtonText.on("mousedown touchstart", function() {
+    backButtonText.on('mousedown touchstart', function() {
         resetExercise();
     });
 }
