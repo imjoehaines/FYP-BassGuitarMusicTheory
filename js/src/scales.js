@@ -239,7 +239,7 @@ function endExercise() {
     document.getElementById("finalCorrect").innerHTML = shared.score;
     document.getElementById("finalTotal").innerHTML = shared.totalQuestions;
     document.getElementById("outOfTime").style.display = "block";
-console.log(previousRecordScales)
+
     if (!previousRecordScales) {
         document.getElementById("noRecord").style.display = "block";
         document.getElementById("noPreviousRecordValue").innerHTML = shared.score;
@@ -263,8 +263,11 @@ var buttonLayer = new Kinetic.Layer();
  * Draws the buttons for viewing a scale and starting the exercise
  */
 function drawButtons() {
+    var centerButton = stage.width() / 2 - 125;
+    var centerText = stage.width() / 2 - 100;
+
     var startButton = new Kinetic.Rect({
-        x: stage.width() / 3 - 150,
+        x: centerButton - 140,
         y: 155 / 2,
         width: 250,
         height: 50,
@@ -275,7 +278,7 @@ function drawButtons() {
     });
     var startButtonText = new Kinetic.Text({
         text: "Start",
-        x: stage.width() / 3 - 125,
+        x: centerText - 140,
         y: 155 / 2 + 7, // magic number !!
         width: 200,
         height: 50,
@@ -286,7 +289,7 @@ function drawButtons() {
     });
 
     var viewScaleButton = new Kinetic.Rect({
-        x: stage.width() / 3 + 150,
+        x: centerButton + 140,
         y: 155 / 2,
         width: 250,
         height: 50,
@@ -297,7 +300,7 @@ function drawButtons() {
     });
     var viewScaleButtonText = new Kinetic.Text({
         text: "View Scale",
-        x: stage.width() / 3 + 175,
+        x: centerText + 140,
         y: 155 / 2 + 7, // magic number !!
         width: 200,
         height: 50,
