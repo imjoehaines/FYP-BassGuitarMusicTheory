@@ -2,6 +2,8 @@ var consts = require('./scalesConstants');
 var shared = require('./exercisesShared');
 
 var previousRecordScales = localStorage.getItem('previousRecordScales');
+var currentNote,
+    exerciseIsRunning;
 
 var scale = [
     consts.ROOT_NOTE
@@ -169,9 +171,10 @@ shared.drawStrings(stage);
  * @param  {string} note The coordinates of the clicked note
  */
 function buttonClicked(note) {
-    note = note.join(separator = '');
+    var separator = '';
+    note = note.join(separator);
     if(exerciseIsRunning) {
-        if(note == currentNote.join(separator='')) {
+        if(note == currentNote.join(separator)) {
             setFeedbackText('Correct!', 'green');
             shared.score += 1;
         }
@@ -358,7 +361,7 @@ function viewScale() {
     for (var string = 0; string < 4; string++) {
         for (var fret = 0; fret < shared.MAX_FRETS; fret++ ) {
             for (var i = 0; i < scale.length; i++) {
-                if (scale[0][0] == string && scale[0][1] == fret) {
+                if (scale[0][0] === string && scale[0][1] === fret) {
                     shared.drawCircle(
                         (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret),
                         50 + (string * shared.STRING_SPACING), 15, '', '#E51400', circleLayer, 1, buttonClicked
@@ -369,7 +372,7 @@ function viewScale() {
                         (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret) - 6,
                         50 + (string * shared.STRING_SPACING) - 7, circleLayer
                     );
-                } else if (scale[i][0] == string && scale[i][1] == fret) {
+                } else if (scale[i][0] === string && scale[i][1] === fret) {
                     shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret), 50 + (string * shared.STRING_SPACING), 15, '', 'black', circleLayer, 1, buttonClicked);
                     shared.drawText(getNoteName(scale[i][0], scale[i][1]), (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret) - 6, 50 + (string * shared.STRING_SPACING) - 7, circleLayer, false, false, false, 'white');
                 }
@@ -380,6 +383,8 @@ function viewScale() {
     stage.add(circleLayer);
 }
 
+var backButtonLayer = new Kinetic.Layer();
+
 /**
  * Resets the exercise to initial state
  */
@@ -389,8 +394,6 @@ function resetExercise() {
     circleLayer.destroy();
     setInstructionText('');
 }
-
-var backButtonLayer = new Kinetic.Layer();
 
 /**
  * Draws the back button when viewing an exercise

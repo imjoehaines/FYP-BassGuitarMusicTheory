@@ -58,7 +58,7 @@ function answerButton(link) {
     if (exerciseIsRunning) {
         var answer = link.innerHTML;
 
-        if (currentNote == answer) {
+        if (currentNote === answer) {
             shared.score += 1;
             FEEDBACK_DISPLAY.innerHTML = 'Correct!';
         } else {
