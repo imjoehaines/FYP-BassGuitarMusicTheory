@@ -1,9 +1,13 @@
+/*global require, module, localStorage, window, setInterval, clearInterval */
+'use strict'; // jshint ignore:line
+
 var shared = require('./exercisesShared');
 var $ = require('jquery');
 var Konva = require('konva');
 
 var MAX_FRETS = 5;
 var previousRecordIntervals = localStorage.getItem('previousRecordIntervals');
+var exerciseIsRunning = false;
 
 var stage = new Konva.Stage({
     container: 'container',

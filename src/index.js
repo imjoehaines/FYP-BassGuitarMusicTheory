@@ -1,3 +1,6 @@
+/*global require, localStorage */
+'use strict'; // jshint ignore:line
+
 var $ = require('jquery');
 
 var lastID = -1;

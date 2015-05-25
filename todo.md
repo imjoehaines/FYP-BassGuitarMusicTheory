@@ -9,8 +9,6 @@ In (rough) order:
     - Use JSON in localstorage instead of just ints
 - Shorter range of exercise lengths (e.g. 30 seconds - 5 mins)
 - Improve visuals of exercises
-- Update KineticJS version or switch to Konva
 - Refactor things so code is easier to follow
 - Fix pluralisation in settings pages
 - Use a library for timers
-- Switch to 'use strict'

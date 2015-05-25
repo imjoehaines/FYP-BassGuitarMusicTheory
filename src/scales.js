@@ -1,3 +1,6 @@
+/*global require, module, localStorage, window, setInterval, clearInterval */
+'use strict'; // jshint ignore:line
+
 var consts = require('./scalesConstants');
 var shared = require('./exercisesShared');
 var $ = require('jquery');

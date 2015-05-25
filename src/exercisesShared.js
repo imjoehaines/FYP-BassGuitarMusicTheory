@@ -1,3 +1,6 @@
+/*global require, module */
+'use strict'; // jshint ignore:line
+
 var $ = require('jquery');
 var Konva = require('konva');
 

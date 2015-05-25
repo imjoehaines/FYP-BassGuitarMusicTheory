@@ -1,3 +1,6 @@
+/*global require, module, localStorage */
+'use strict'; // jshint ignore:line
+
 var shared = require('./exercisesShared');
 
  // integer representing the selected key - 0 for A, 11 for G#
@@ -35,7 +38,8 @@ var ROOT_NOTE_COORDINATES = [
 
 // holds a list of all intervals in each scale
 var SCALE_LIST = [
-    Major = [
+    // Major
+    [
         'Major 2nd',
         'Major 3rd',
         'Perfect 4th',
@@ -44,44 +48,44 @@ var SCALE_LIST = [
         'Major 7th',
         'Octave'
     ],
-
-    MinorPentatonic =[
+    // MinorPentatonic
+    [
         'Minor 3rd',
         'Perfect 4th',
         'Perfect 5th',
         'Minor 7th',
         'Octave'
     ],
-
-    MajorPentatonic =[
+    // MajorPentatonic
+    [
         'Major 2nd',
         'Major 3rd',
         'Perfect 5th',
         'Major 6th',
         'Octave'
     ],
-
-    MajorTriad = [
+    // MajorTriad
+    [
         'Major 3rd',
         'Perfect 5th',
         'Octave'
     ],
-
-    Major7th = [
+    // Major7th
+    [
         'Major 3rd',
         'Perfect 5th',
         'Major 7th',
         'Octave'
     ],
-
-    Dominant7th = [
+    // Dominant7th
+    [
         'Major 3rd',
         'Perfect 5th',
         'Minor 7th',
         'Octave'
     ],
-
-    Mixolydian =[
+    // Mixolydian
+    [
         'Major 2nd',
         'Major 3rd',
         'Perfect 4th',

@@ -1,3 +1,6 @@
+/*global require, module, localStorage, window, setInterval, clearInterval, setTimeout */
+'use strict'; // jshint ignore:line
+
 var shared = require('./exercisesShared');
 var $ = require('jquery');
 var Konva = require('konva');
