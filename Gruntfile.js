@@ -11,11 +11,10 @@ module.exports = function(grunt) {
         },
 
         watch: {
-            files: [ "src/**/*.js"],
-            tasks: [ 'browserify' ]
+            files: ['src/**/*.js'],
+            tasks: ['browserify']
         }
-
-    })
+    });
 
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-watch');

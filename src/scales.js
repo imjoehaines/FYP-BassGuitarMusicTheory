@@ -1,5 +1,6 @@
 var consts = require('./scalesConstants');
 var shared = require('./exercisesShared');
+var $ = require('jquery');
 
 var previousRecordScales = localStorage.getItem('previousRecordScales');
 var currentNote,
@@ -238,24 +239,24 @@ function endExercise() {
     clearInterval(shared.timerR);
     shared.TIMER_DISPLAY.innerHTML = '0:00';
 
-    document.getElementById('ootHeader').innerHTML = 'Time\'s up!';
-    document.getElementById('finalCorrect').innerHTML = shared.score;
-    document.getElementById('finalTotal').innerHTML = shared.totalQuestions;
-    document.getElementById('outOfTime').style.display = 'block';
+    $('#ootHeader').text('Time\'s up!');
+    $('#finalCorrect').text(shared.score);
+    $('#finalTotal').text(shared.totalQuestions);
+    $('#outOfTime').css('display', 'block');
 
     if (!previousRecordScales) {
-        document.getElementById('noRecord').style.display = 'block';
-        document.getElementById('noPreviousRecordValue').innerHTML = shared.score;
+        $('#noRecord').css('display', 'block');
+        $('#noPreviousRecordValue').text(shared.score);
         localStorage.setItem('previousRecordScales', shared.score);
     }
     else if (previousRecordScales < shared.score) {
-        document.getElementById('beatRecord').style.display = 'block';
-        document.getElementById('beatPreviousRecordValue').innerHTML = previousRecordScales;
+        $('#beatRecord').css('display', 'block');
+        $('#beatPreviousRecordValue').text(previousRecordScales);
         localStorage.setItem('previousRecordScales', shared.score);
     }
     else {
-        document.getElementById('lostRecord').style.display = 'block';
-        document.getElementById('lostPreviousRecordValue').innerHTML = previousRecordScales;
+        $('#lostRecord').css('display', 'block');
+        $('#lostPreviousRecordValue').text(previousRecordScales);
     }
 
 }
