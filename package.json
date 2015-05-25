@@ -1,0 +1,27 @@
+{
+  "name": "fyp",
+  "version": "1.2.0",
+  "description": "My Final Year Project - a music theory tutor for the bass guitar",
+  "main": "index.html",
+  "dependencies": {
+    "jquery": "^2.1.4"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^3.8.0",
+    "grunt-contrib-watch": "^0.6.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imjoehaines/fyp.git"
+  },
+  "author": "imjoehaines",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/imjoehaines/fyp/issues"
+  },
+  "homepage": "https://github.com/imjoehaines/fyp#readme"
+}

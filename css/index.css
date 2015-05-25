@@ -93,7 +93,7 @@ a {
     color:#E51400;
     text-decoration:none;
     float:left;
-    padding: 10;
+    padding: 10px;
     font-size: 100%;
     width: 100%;
 
@@ -121,7 +121,7 @@ a:active {
 
 .description {
     width: 100%;
-    margin:0 auto;
+    margin: 0 auto;
     padding: 15px;
     border-top: 1px solid #eee;
     overflow: hidden;
@@ -181,7 +181,7 @@ input[type=range] {
 }
 
 .row:after {
-    clear:both;
+    clear: both;
 }
 
 #outOfTime {
@@ -225,7 +225,7 @@ input[type=range] {
 #feedback {
     width: 30%;
     position:absolute;
-    top:0;
+    top: 0;
     left: 35%;
     padding: 15px;
     margin: 0 auto;
@@ -249,9 +249,9 @@ input[type=range] {
 
 select {
     margin: 15px;
-    margin-top:0;
+    margin-top: 0;
 }
 
 #noRecord, #beatRecord, #lostRecord {
-    display:none;
+    display: none;
 }
