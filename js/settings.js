@@ -9221,7 +9221,7 @@ localStorage.setItem('timeLimit', 5);
  * @param  {string} time The updated time limit
  */
 function timeOutputUpdate(time) {
-    document.getElementById('timeSliderOutput').innerHTML = time;
+    $('#timeSliderOutput').text(time);
 }
 
 /**
@@ -9229,7 +9229,8 @@ function timeOutputUpdate(time) {
  */
 function saveSettings() {
     localStorage.removeItem('timeLimit');
-    var timeLimit = document.getElementById('timeSlider').value;
+
+    var timeLimit = $('#timeSlider').val();
     localStorage.setItem('timeLimit', timeLimit);
 }
 
@@ -9238,17 +9239,26 @@ function saveSettings() {
  */
 function saveScalesSettings() {
     localStorage.removeItem('selectedKey');
-    var selectedKey = document.getElementById('keyList').value;
+
+    var selectedKey = $('#keyList').val();
     localStorage.setItem('selectedKey', selectedKey);
 
     localStorage.removeItem('selectedScale');
-    var selectedScale = document.getElementById('scaleList').value;
+
+    var selectedScale = $('#scaleList').val();
     localStorage.setItem('selectedScale', selectedScale);
 
     saveSettings();
 }
 
 // update label values for first load
-timeOutputUpdate(document.getElementById('timeSlider').value);
+timeOutputUpdate($('#timeSlider').val());
+saveScalesSettings();
+
+$('.scaleSettings').change(saveScalesSettings);
+$('#timeSlider').change(function () {
+    saveScalesSettings();
+    timeOutputUpdate($(this).val());
+});
 
 },{"jquery":1}]},{},[2]);
