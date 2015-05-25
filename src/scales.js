@@ -344,7 +344,7 @@ function drawButtons() {
 function start() {
     buttonLayer.destroy();
     exerciseIsRunning = true;
-    shared.timerR = setInterval(updateTimer, shared.TIMER_TICK_MS); // in ms - 1000 msec = 1 sec
+    shared.timerR = setInterval(updateTimer, shared.TIMER_TICK_MS);
     drawCircles();
     gameState();
     updateTimer();
