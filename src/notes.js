@@ -1,4 +1,5 @@
 var shared = require('./exercisesShared');
+var $ = require('jquery');
 
 var FEEDBACK_DIV = document.getElementById('feedback');
 var FEEDBACK_DISPLAY = document.getElementById('feedbackDisplay');
@@ -135,22 +136,22 @@ function endExercise() {
     clearInterval(shared.timerR);
     shared.TIMER_DISPLAY.innerHTML = '0:00';
 
-    document.getElementById('ootHeader').innerHTML = 'Time\'s up!';
-    document.getElementById('finalCorrect').innerHTML = shared.score;
-    document.getElementById('finalTotal').innerHTML = shared.totalQuestions;
-    document.getElementById('outOfTime').style.display = 'block';
+    $('#ootHeader').text('Time\'s up!');
+    $('#finalCorrect').text(shared.score);
+    $('#finalTotal').text(shared.totalQuestions);
+    $('#outOfTime').css('display', 'block');
 
     if (!previousRecordNotes) {
-        document.getElementById('noRecord').style.display = 'block';
-        document.getElementById('noPreviousRecordValue').innerHTML = shared.score;
+        $('#noRecord').css('display', 'block');
+        $('#noPreviousRecordValue').text(shared.score);
         localStorage.setItem('previousRecordNotes', shared.score);
     } else if (previousRecordNotes < shared.score) {
-        document.getElementById('beatRecord').style.display = 'block';
-        document.getElementById('beatPreviousRecordValue').innerHTML = previousRecordNotes;
+        $('#beatRecord').css('display', 'block');
+        $('#beatPreviousRecordValue').text(previousRecordNotes);
         localStorage.setItem('previousRecordNotes', shared.score);
     } else {
-        document.getElementById('lostRecord').style.display = 'block';
-        document.getElementById('lostPreviousRecordValue').innerHTML = previousRecordNotes;
+        $('#lostRecord').css('display', 'block');
+        $('#lostPreviousRecordValue').text(previousRecordNotes);
     }
 }
 
@@ -166,9 +167,6 @@ shared.drawStrings(stage, stringSpacing);
 
 drawRandomNote();
 
-var notesAnswerButtons = document.getElementsByClassName('notesAnswerButton');
-for (var i = notesAnswerButtons.length - 1; i >= 0; i--) {
-    notesAnswerButtons[i].onclick = function () {
-        answerButton(this);
-    };
-}
+$('.notesAnswerButton').click(function () {
+    answerButton(this);
+});
