@@ -1,8 +1,8 @@
 var shared = require('./exercisesShared');
 var $ = require('jquery');
 
-var FEEDBACK_DIV = document.getElementById('feedback');
-var FEEDBACK_DISPLAY = document.getElementById('feedbackDisplay');
+var FEEDBACK_DIV = $('#feedback');
+var FEEDBACK_DISPLAY = $('#feedbackDisplay');
 
 var previousRecordNotes = localStorage.getItem('previousRecordNotes');
 var currentNote;
@@ -57,20 +57,20 @@ function drawRandomNote() {
  */
 function answerButton(link) {
     if (exerciseIsRunning) {
-        var answer = link.innerHTML;
+        var answer = link.text();
 
         if (currentNote === answer) {
             shared.score += 1;
-            FEEDBACK_DISPLAY.innerHTML = 'Correct!';
+            FEEDBACK_DISPLAY.text('Correct!');
         } else {
-            FEEDBACK_DISPLAY.innerHTML = 'Incorrect!';
+            FEEDBACK_DISPLAY.text('Incorrect!');
         }
 
         displayFeedback();
         shared.totalQuestions += 1;
-        shared.TOTAL_DISPLAY.innerHTML = shared.totalQuestions;
-        shared.SCORE_DISPLAY.innerHTML = Math.round((shared.score / shared.totalQuestions) * 100);
-        shared.CORRECT_DISPLAY.innerHTML = shared.score;
+        shared.TOTAL_DISPLAY.text(shared.totalQuestions);
+        shared.SCORE_DISPLAY.text(Math.round((shared.score / shared.totalQuestions) * 100));
+        shared.CORRECT_DISPLAY.text(shared.score);
 
         // remove old drawn notes
         circleLayer.removeChildren();
@@ -86,19 +86,19 @@ function displayFeedback() {
     var classToAdd;
     var timeout = 1250;
 
-    if (FEEDBACK_DISPLAY.innerHTML == 'Correct!') {
+    if (FEEDBACK_DISPLAY.text() === 'Correct!') {
         classToAdd = 'correctAnswer';
     } else {
         classToAdd = 'incorrectAnswer';
     }
 
     setTimeout(function() {
-        FEEDBACK_DIV.classList.remove(classToAdd);
-        FEEDBACK_DIV.style.opacity = 0;
+        FEEDBACK_DIV.removeClass(classToAdd);
+        FEEDBACK_DIV.css('opacity', 0);
     }, timeout);
 
-    FEEDBACK_DIV.style.opacity = 1;
-    FEEDBACK_DIV.classList.add(classToAdd);
+    FEEDBACK_DIV.css('opacity', 1);
+    FEEDBACK_DIV.addClass(classToAdd);
 }
 
 /**
@@ -120,7 +120,7 @@ function updateTimer() {
         extraZero = '';
     }
 
-    shared.TIMER_DISPLAY.innerHTML = shared.timerMinutes + ':' + extraZero + shared.timerSeconds;
+    shared.TIMER_DISPLAY.text(shared.timerMinutes + ':' + extraZero + shared.timerSeconds);
 
     // check if out of time
     if (shared.timerSeconds === 0 && shared.timerMinutes === 0) {
@@ -134,7 +134,7 @@ function updateTimer() {
 function endExercise() {
     exerciseIsRunning = false;
     clearInterval(shared.timerR);
-    shared.TIMER_DISPLAY.innerHTML = '0:00';
+    shared.TIMER_DISPLAY.text('0:00');
 
     $('#ootHeader').text('Time\'s up!');
     $('#finalCorrect').text(shared.score);
@@ -168,5 +168,5 @@ shared.drawStrings(stage, stringSpacing);
 drawRandomNote();
 
 $('.notesAnswerButton').click(function () {
-    answerButton(this);
+    answerButton($(this));
 });

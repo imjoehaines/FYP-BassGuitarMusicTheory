@@ -1,3 +1,5 @@
+var $ = require('jquery');
+
 var MAX_STRINGS = 4;
 var STRING_SPACING = 35;
 var MAX_FRETS = 12;
@@ -71,10 +73,10 @@ function drawText (text, x, y, layer, align, font, size, colour) {
 }
 
 var shared = {
-    TIMER_DISPLAY: document.getElementById('timer'),
-    SCORE_DISPLAY: document.getElementById('score'),
-    CORRECT_DISPLAY: document.getElementById('correct'),
-    TOTAL_DISPLAY: document.getElementById('total'),
+    TIMER_DISPLAY: $('#timer'),
+    SCORE_DISPLAY: $('#score'),
+    CORRECT_DISPLAY: $('#correct'),
+    TOTAL_DISPLAY: $('#total'),
 
     // Amount of time in ms between timer ticks | default should be 1000 (1 sec)
     TIMER_TICK_MS: 1000,
