@@ -1,5 +1,6 @@
 var shared = require('./exercisesShared');
 var $ = require('jquery');
+var Konva = require('konva');
 
 var FEEDBACK_DIV = $('#feedback');
 var FEEDBACK_DISPLAY = $('#feedbackDisplay');
@@ -8,7 +9,7 @@ var previousRecordNotes = localStorage.getItem('previousRecordNotes');
 var currentNote;
 var exerciseIsRunning = true;
 
-var stage = new Kinetic.Stage({
+var stage = new Konva.Stage({
     container: 'container',
     width: window.innerWidth,
     height: 150
@@ -17,7 +18,7 @@ var stage = new Kinetic.Stage({
 var stringLength = stage.getWidth() - 50;
 
 // layer to hold notes
-var circleLayer = new Kinetic.Layer();
+var circleLayer = new Konva.Layer();
 
 // empty function as button clicks wont do anything in this exercise
 // TODO: fix this

@@ -1,10 +1,11 @@
 var shared = require('./exercisesShared');
 var $ = require('jquery');
+var Konva = require('konva');
 
 var MAX_FRETS = 5;
 var previousRecordIntervals = localStorage.getItem('previousRecordIntervals');
 
-var stage = new Kinetic.Stage({
+var stage = new Konva.Stage({
     container: 'container',
     width: window.innerWidth,
     height: 400
@@ -17,7 +18,7 @@ var stringLength = stage.getWidth() - 50;
  * highlighted red, others semi-transparent black
  */
 function drawCircles() {
-    var circleLayer = new Kinetic.Layer();
+    var circleLayer = new Konva.Layer();
     var rootFret = 0;
     var rootString = 3;
 
@@ -53,8 +54,8 @@ function drawCircles() {
     stage.add(circleLayer);
 }
 
-var textLayer = new Kinetic.Layer();
-var instructions = new Kinetic.Text({
+var textLayer = new Konva.Layer();
+var instructions = new Konva.Text({
     text: '',
     x: stage.width() / 2,
     y: 180,
@@ -66,7 +67,7 @@ var instructions = new Kinetic.Text({
 
 instructions.offsetX(instructions.getWidth() / 2);
 
-var feedback = new Kinetic.Text({
+var feedback = new Konva.Text({
     text: '',
     x: stage.width() / 2,
     y: 180 + instructions.height(),
@@ -91,12 +92,12 @@ function setInstructionText(newInstruction) {
     instructions.offsetX(instructions.getWidth() / 2);
     textLayer.draw();
 
-    var scaleTween = new Kinetic.Tween({
+    var scaleTween = new Konva.Tween({
         node: instructions,
         duration: 0.25,
         scaleX: 1.15,
         scaleY: 1.15,
-        easing: Kinetic.Easings.EaseInOut,
+        easing: Konva.Easings.EaseInOut,
         onFinish: function() {
             scaleTween.reverse();
         }
@@ -114,12 +115,12 @@ function setFeedbackText(newFeedback, colour) {
     feedback.setFill(colour);
     textLayer.draw();
 
-    var scaleTween = new Kinetic.Tween({
+    var scaleTween = new Konva.Tween({
         node: feedback,
         duration: 0.25,
         scaleX: 1.5,
         scaleY: 1.5,
-        easing: Kinetic.Easings.EaseInOut,
+        easing: Konva.Easings.EaseInOut,
         onFinish: function() {
             scaleTween.reverse();
         }
@@ -127,11 +128,11 @@ function setFeedbackText(newFeedback, colour) {
 
     scaleTween.play();
 
-    var opacityTween = new Kinetic.Tween({
+    var opacityTween = new Konva.Tween({
         node: feedback,
         duration: 1,
         opacity: 1,
-        easing: Kinetic.Easings.ElasticEaseOut,
+        easing: Konva.Easings.ElasticEaseOut,
     });
 
     opacityTween.play();
@@ -189,8 +190,8 @@ function endExercise() {
 
 }
 
-var buttonLayer = new Kinetic.Layer();
-var startButton = new Kinetic.Rect({
+var buttonLayer = new Konva.Layer();
+var startButton = new Konva.Rect({
     x: stage.width() / 2 - 125,
     y: 155 / 2,
     width: 250,
@@ -200,7 +201,7 @@ var startButton = new Kinetic.Rect({
     strokeWidth: 4,
     cornerRadius: 5,
 });
-var startButtonText = new Kinetic.Text({
+var startButtonText = new Konva.Text({
     text: 'Start',
     x: stage.width() / 2 - 100,
     y: 155 / 2 + 7, // magic number !!

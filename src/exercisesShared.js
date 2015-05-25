@@ -1,4 +1,5 @@
 var $ = require('jquery');
+var Konva = require('konva');
 
 var MAX_STRINGS = 4;
 var STRING_SPACING = 35;
@@ -16,22 +17,22 @@ function makeFunction (button, callback) {
 }
 
 /**
- * Helper function to draw a line using KineticJS
+ * Helper function to draw a line using Konva
  * @param  {int} startX    Starting X coordinate
  * @param  {int} startY    Starting Y coordinate
  * @param  {int} endX      Ending X coordinate
  * @param  {int} endY      Ending Y coordinate
  * @param  {int} width     Stroke width (optional - defaults to 10px)
  * @param  {string} colour Hex colour code (optional - defauls to black)
- * @param  {string} cap    KineticJS 'cap' type i.e. end of line (optional - defaults to butt)
- * @param  {object} layer  KineticJS layer to add the line to
+ * @param  {string} cap    Konva 'cap' type i.e. end of line (optional - defaults to butt)
+ * @param  {object} layer  Konva layer to add the line to
  */
 function drawLine (startX, startY, endX, endY, width, colour, cap, layer) {
     width = width || 10;
     colour = colour || '#000000';
     cap = cap || 'butt';
 
-    var line = new Kinetic.Line({
+    var line = new Konva.Line({
         points: [startX, startY, endX, endY],
         stroke: colour,
         strokeWidth: width,
@@ -43,11 +44,11 @@ function drawLine (startX, startY, endX, endY, width, colour, cap, layer) {
 
 
 /**
- * Helper function to draw text using KineticJS
+ * Helper function to draw text using Konva
  * @param  {string} text   The text to draw
  * @param  {int} x         The X coordinate of the text
  * @param  {int} y         The Y coordinate of the text
- * @param  {object} layer  KineticJS layer to add the text to
+ * @param  {object} layer  Konva layer to add the text to
  * @param  {string} align  How to align the text (left/right/center) (optional - defaults to left)
  * @param  {string} font   The font name to use (optional - defaults to Arial)
  * @param  {int} size      The size of the text (optional - defaults to 16)
@@ -59,7 +60,7 @@ function drawText (text, x, y, layer, align, font, size, colour) {
     size = size || 16;
     colour = colour || 'black';
 
-    var label = new Kinetic.Text({
+    var label = new Konva.Text({
         text: text,
         x: x,
         y: y,
@@ -110,7 +111,7 @@ var shared = {
     ],
 
     /**
-     * Helper function to draw a circle using KineticJS
+     * Helper function to draw a circle using Konva
      * @param  {int} centerX       The center X coordinate of the circle
      * @param  {int} centerY       The center Y coordinate of the circle
      * @param  {int} radius        The radius of the circle
@@ -123,7 +124,7 @@ var shared = {
     drawCircle: function (centerX, centerY, radius, id, fillColour, layer, opacity, callback) {
         opacity = opacity || 1;
 
-        var circle = new Kinetic.Circle({
+        var circle = new Konva.Circle({
             x: centerX,
             y: centerY,
             radius: radius,
@@ -144,7 +145,7 @@ var shared = {
     drawStrings: function (stage, stringSpacing, maxFrets) {
         STRING_SPACING = stringSpacing || STRING_SPACING;
         MAX_FRETS = maxFrets || MAX_FRETS;
-        var backgroundLayer = new Kinetic.Layer();
+        var backgroundLayer = new Konva.Layer();
         var i;
 
         // make strings slightly smaller than width of screen

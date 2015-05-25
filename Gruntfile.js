@@ -7,7 +7,13 @@ module.exports = function(grunt) {
             'js/intervals.js': ['src/intervals.js'],
             'js/notes.js': ['src/notes.js'],
             'js/scales.js': ['src/scales.js'],
-            'js/settings.js': ['src/settings.js']
+            'js/settings.js': ['src/settings.js'],
+            options: {
+                browserifyOptions: {
+                    debug: true
+                }
+            }
+
         },
 
         watch: {
