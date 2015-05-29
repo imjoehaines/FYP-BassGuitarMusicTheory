@@ -14,10 +14,22 @@ module.exports = function(grunt) {
         watch: {
             files: ['src/**/*.js'],
             tasks: ['browserify']
+        },
+
+        uglify: {
+            build: {
+                files: {
+                    'js/fyp.min.js': ['js/fyp.js']
+                }
+            }
         }
+
     });
+
+    grunt.registerTask('default', ['browserify', 'uglify:build']);
 
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
 }
