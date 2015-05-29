@@ -10,7 +10,7 @@ module.exports = function (grunt) {
             },
             develop: {
                 files: {
-                    'js/fyp.js': ['src/intervals.js', 'src/notes.js', 'src/scales.js', 'src/index.js', 'src/settings.js']
+                    'js/fyp.min.js': ['src/intervals.js', 'src/notes.js', 'src/scales.js', 'src/index.js', 'src/settings.js']
                 },
                 options: {
                     browserifyOptions: {
