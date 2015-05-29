@@ -1,7 +1,7 @@
 /*global require, module, localStorage */
 'use strict'; // jshint ignore:line
 
-var shared = require('./exercisesShared');
+var notes = require('./exercisesShared').NOTES;
 
  // integer representing the selected key - 0 for A, 11 for G#
 var selectedKey = localStorage.getItem('selectedKey');
@@ -121,7 +121,7 @@ var scalesConstants = {
     SELECTED_SCALE_LIST: SCALE_LIST[selectedScale],
 
     // the name of the selected scale
-    SCALE_NAME: shared.NOTES[ROOT_NOTE[0]][ROOT_NOTE[1]] + ' ' + SCALE_NAMES[selectedScale],
+    SCALE_NAME: notes[ROOT_NOTE[0]][ROOT_NOTE[1]] + ' ' + SCALE_NAMES[selectedScale],
 
     // the coordinates of each interval relative to the root note
     INTERVAL_DIFFERENCE: INTERVAL_DIFFERENCE,

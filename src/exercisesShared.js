@@ -1,4 +1,4 @@
-/*global require, module */
+/*global require, module, localStorage */
 'use strict'; // jshint ignore:line
 
 var $ = require('jquery');
@@ -94,15 +94,6 @@ var shared = {
     // number of frets to draw - intervals overrides this
     MAX_FRETS: MAX_FRETS,
 
-    // start at 1 second so first update shows correct total time
-    timerSeconds: 1,
-    timerMinutes: localStorage.getItem('timeLimit'),
-    exerciseIsRunning: false,
-    score: 0,
-    totalQuestions: 0,
-    currentNote: 0,
-    timerR: null,
-
     makeFunction: makeFunction,
 
     // array to hold the names of notes
@@ -146,8 +137,8 @@ var shared = {
      * @param {integer} stringSpacing custom string spacing (optional)
      */
     drawStrings: function (stage, stringSpacing, maxFrets) {
-        STRING_SPACING = stringSpacing || STRING_SPACING;
-        MAX_FRETS = maxFrets || MAX_FRETS;
+        stringSpacing = stringSpacing || STRING_SPACING;
+        maxFrets = maxFrets || MAX_FRETS;
         var backgroundLayer = new Konva.Layer();
         var i;
 
@@ -156,20 +147,20 @@ var shared = {
 
         // draw strings
         for (i = 0; i < MAX_STRINGS; i++) {
-            drawLine(50, 50 + (STRING_SPACING * i), stringLength, 50 + (STRING_SPACING * i), 9, '#444', 'round', backgroundLayer);
+            drawLine(50, 50 + (stringSpacing * i), stringLength, 50 + (stringSpacing * i), 9, '#444', 'round', backgroundLayer);
         }
 
         // draw string labels
         drawText('G', 20, 42, backgroundLayer);
-        drawText('D', 20, 42 + STRING_SPACING, backgroundLayer);
-        drawText('A', 20, 42 + (STRING_SPACING * 2), backgroundLayer);
-        drawText('E', 20, 42 + (STRING_SPACING * 3), backgroundLayer);
+        drawText('D', 20, 42 + stringSpacing, backgroundLayer);
+        drawText('A', 20, 42 + (stringSpacing * 2), backgroundLayer);
+        drawText('E', 20, 42 + (stringSpacing * 3), backgroundLayer);
 
         // draw frets
-        for (i = 0; i < MAX_FRETS; i++) {
+        for (i = 0; i < maxFrets; i++) {
             // offset by 50 from start of the string
-            var fretLineX = (50 + ((stringLength / MAX_FRETS) / 2)) + (((stringLength - 50) / MAX_FRETS)  * i);
-            drawLine(fretLineX, 35, fretLineX, 50 + (STRING_SPACING * 3) + 15, 5, '#aaa', 'round', backgroundLayer);
+            var fretLineX = (50 + ((stringLength / maxFrets) / 2)) + (((stringLength - 50) / maxFrets)  * i);
+            drawLine(fretLineX, 35, fretLineX, 50 + (stringSpacing * 3) + 15, 5, '#aaa', 'round', backgroundLayer);
 
             drawText(i + 1, fretLineX - 4, 10, backgroundLayer, 'center');
         }

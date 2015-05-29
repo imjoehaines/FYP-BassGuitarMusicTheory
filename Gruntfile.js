@@ -3,11 +3,12 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         browserify: {
-            'js/index.js': ['src/index.js'],
-            'js/intervals.js': ['src/intervals.js'],
-            'js/notes.js': ['src/notes.js'],
-            'js/scales.js': ['src/scales.js'],
-            'js/settings.js': ['src/settings.js']
+            'js/fyp.js': ['src/intervals.js', 'src/notes.js', 'src/scales.js', 'src/index.js', 'src/settings.js'],
+            options: {
+                browserifyOptions: {
+                    debug: true
+                }
+            }
         },
 
         watch: {
