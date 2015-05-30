@@ -1,4 +1,4 @@
-/*global require, module, localStorage, window, setInterval, clearInterval */
+/*global require, localStorage, window, setInterval, clearInterval */
 function runScales () {
     'use strict';
 

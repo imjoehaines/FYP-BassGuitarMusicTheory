@@ -25187,7 +25187,7 @@ var Konva = {};
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"canvas":1,"jsdom":1}],4:[function(require,module,exports){
-/*global require, module, localStorage */
+/*global require, module */
 'use strict'; // jshint ignore:line
 
 var $ = require('jquery');
@@ -25427,7 +25427,7 @@ $('.expand').click(function () {
 });
 
 },{"jquery":2}],6:[function(require,module,exports){
-/*global require, module, localStorage, window, setInterval, clearInterval */
+/*global require, localStorage, window, setInterval, clearInterval */
 function runIntervals () {
         'use strict';
 
@@ -25579,30 +25579,6 @@ function runIntervals () {
         opacityTween.play();
     }
 
-    function updateTimer() {
-        var extraZero = 0;
-
-        timerSeconds -= 1;
-
-        if (timerSeconds < 0) {
-            timerMinutes -= 1;
-            timerSeconds = 59;
-        }
-
-        if (timerSeconds < 10) {
-            extraZero = 0;
-        } else {
-            extraZero = '';
-        }
-
-        shared.TIMER_DISPLAY.text(timerMinutes + ':' + extraZero + timerSeconds);
-
-        // check if out of time
-        if (timerSeconds === 0 && timerMinutes === 0) {
-            endExercise();
-        }
-    }
-
     function endExercise() {
         exerciseIsRunning = false;
         clearInterval(timer);
@@ -25627,7 +25603,30 @@ function runIntervals () {
             $('#lostRecord').css('display', 'block');
             $('#lostPreviousRecordValue').text(previousRecordIntervals);
         }
+    }
 
+    function updateTimer() {
+        var extraZero = 0;
+
+        timerSeconds -= 1;
+
+        if (timerSeconds < 0) {
+            timerMinutes -= 1;
+            timerSeconds = 59;
+        }
+
+        if (timerSeconds < 10) {
+            extraZero = 0;
+        } else {
+            extraZero = '';
+        }
+
+        shared.TIMER_DISPLAY.text(timerMinutes + ':' + extraZero + timerSeconds);
+
+        // check if out of time
+        if (timerSeconds === 0 && timerMinutes === 0) {
+            endExercise();
+        }
     }
 
     var buttonLayer = new Konva.Layer();
@@ -25750,7 +25749,7 @@ if (/intervalsexercise/.test(window.location.href)) {
 }
 
 },{"./exercisesShared":4,"jquery":2,"konva":3}],7:[function(require,module,exports){
-/*global require, module, localStorage, window, setInterval, clearInterval, setTimeout */
+/*global require, localStorage, window, setInterval, clearInterval, setTimeout */
 function runNotes () {
     'use strict';
 
@@ -25894,7 +25893,7 @@ function runNotes () {
      */
     function endExercise() {
         exerciseIsRunning = false;
-        clearInterval(shared.timerR);
+        clearInterval(timer);
         shared.TIMER_DISPLAY.text('0:00');
 
         $('#ootHeader').text('Time\'s up!');
@@ -25938,7 +25937,7 @@ if (/notesexercise/.test(window.location.href)) {
 }
 
 },{"./exercisesShared":4,"jquery":2,"konva":3}],8:[function(require,module,exports){
-/*global require, module, localStorage, window, setInterval, clearInterval */
+/*global require, localStorage, window, setInterval, clearInterval */
 function runScales () {
     'use strict';
 

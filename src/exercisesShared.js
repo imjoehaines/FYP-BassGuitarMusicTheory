@@ -1,4 +1,4 @@
-/*global require, module, localStorage */
+/*global require, module */
 'use strict'; // jshint ignore:line
 
 var $ = require('jquery');

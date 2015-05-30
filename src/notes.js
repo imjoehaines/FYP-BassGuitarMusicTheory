@@ -1,4 +1,4 @@
-/*global require, module, localStorage, window, setInterval, clearInterval, setTimeout */
+/*global require, localStorage, window, setInterval, clearInterval, setTimeout */
 function runNotes () {
     'use strict';
 
@@ -142,7 +142,7 @@ function runNotes () {
      */
     function endExercise() {
         exerciseIsRunning = false;
-        clearInterval(shared.timerR);
+        clearInterval(timer);
         shared.TIMER_DISPLAY.text('0:00');
 
         $('#ootHeader').text('Time\'s up!');

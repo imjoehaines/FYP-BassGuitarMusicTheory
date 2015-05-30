@@ -1,4 +1,4 @@
-/*global require, module, localStorage, window, setInterval, clearInterval */
+/*global require, localStorage, window, setInterval, clearInterval */
 function runIntervals () {
         'use strict';
 
@@ -150,30 +150,6 @@ function runIntervals () {
         opacityTween.play();
     }
 
-    function updateTimer() {
-        var extraZero = 0;
-
-        timerSeconds -= 1;
-
-        if (timerSeconds < 0) {
-            timerMinutes -= 1;
-            timerSeconds = 59;
-        }
-
-        if (timerSeconds < 10) {
-            extraZero = 0;
-        } else {
-            extraZero = '';
-        }
-
-        shared.TIMER_DISPLAY.text(timerMinutes + ':' + extraZero + timerSeconds);
-
-        // check if out of time
-        if (timerSeconds === 0 && timerMinutes === 0) {
-            endExercise();
-        }
-    }
-
     function endExercise() {
         exerciseIsRunning = false;
         clearInterval(timer);
@@ -198,7 +174,30 @@ function runIntervals () {
             $('#lostRecord').css('display', 'block');
             $('#lostPreviousRecordValue').text(previousRecordIntervals);
         }
+    }
 
+    function updateTimer() {
+        var extraZero = 0;
+
+        timerSeconds -= 1;
+
+        if (timerSeconds < 0) {
+            timerMinutes -= 1;
+            timerSeconds = 59;
+        }
+
+        if (timerSeconds < 10) {
+            extraZero = 0;
+        } else {
+            extraZero = '';
+        }
+
+        shared.TIMER_DISPLAY.text(timerMinutes + ':' + extraZero + timerSeconds);
+
+        // check if out of time
+        if (timerSeconds === 0 && timerMinutes === 0) {
+            endExercise();
+        }
     }
 
     var buttonLayer = new Konva.Layer();
