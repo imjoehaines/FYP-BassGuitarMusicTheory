@@ -37,7 +37,7 @@ function runIntervals () {
         for (var string = 0; string < 4; string++) {
             for (var fret = 0; fret < 5; fret++ ) {
 
-                if (fret == rootFret && string == rootString) {
+                if (fret === rootFret && string === rootString) {
                     shared.drawCircle(
                         (50 + ((stringLength / maxFrets) / 2)) + (((stringLength - 50) / maxFrets)  * rootFret),
                         50 + (rootString * shared.STRING_SPACING),
@@ -253,11 +253,10 @@ function runIntervals () {
      */
     function buttonClicked(interval) {
         if(exerciseIsRunning) {
-            if(interval == currentInterval) {
+            if(interval === currentInterval) {
                 setFeedbackText('Correct!', 'green');
                 score += 1;
-            }
-            else {
+            } else {
                 setFeedbackText('Incorrect!', 'red');
             }
 
@@ -279,11 +278,13 @@ function runIntervals () {
     var intervalButtons = [];
 
     // attach interval names to correct buttons
-    for(var interval in intervals) {
-        intervalButtons[interval] = stage.find('#' + intervals[interval])[0];
+    for (var interval in intervals) {
+        if (intervals.hasOwnProperty(interval)) {
+            intervalButtons[interval] = stage.find('#' + intervals[interval])[0];
 
-        intervalButtons[interval].off('mousedown touchstart'); //remove previous function
-        intervalButtons[interval].on('mousedown touchstart', shared.makeFunction(interval, buttonClicked));
+            intervalButtons[interval].off('mousedown touchstart'); //remove previous function
+            intervalButtons[interval].on('mousedown touchstart', shared.makeFunction(interval, buttonClicked));
+        }
     }
 
     /**
