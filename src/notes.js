@@ -17,6 +17,8 @@ function runNotes () {
     var exerciseIsRunning = true;
     var currentNote;
 
+    // overwrite string spacing as this canvas is smaller than others
+    var stringSpacing = 25;
     var stage = new Konva.Stage({
         container: 'container',
         width: window.innerWidth,
@@ -27,6 +29,7 @@ function runNotes () {
 
     // layer to hold notes
     var circleLayer = new Konva.Layer();
+
 
     // empty function as button clicks wont do anything in this exercise
     // TODO: fix this
@@ -60,6 +63,28 @@ function runNotes () {
     }
 
     /**
+     * Displays feedback (correct/incorrect) after an answer has been submitted
+     */
+    function displayFeedback() {
+        var classToAdd;
+        var timeout = 1250;
+
+        if (FEEDBACK_DISPLAY.text() === 'Correct!') {
+            classToAdd = 'correctAnswer';
+        } else {
+            classToAdd = 'incorrectAnswer';
+        }
+
+        setTimeout(function() {
+            FEEDBACK_DIV.removeClass(classToAdd);
+            FEEDBACK_DIV.css('opacity', 0);
+        }, timeout);
+
+        FEEDBACK_DIV.css('opacity', 1);
+        FEEDBACK_DIV.addClass(classToAdd);
+    }
+
+    /**
      * Function called when a button is clicked on the notes page. Handles answers,
      * updates score and draws a new random note.
      * @param  {object} link The link that was clicked
@@ -85,55 +110,6 @@ function runNotes () {
             circleLayer.removeChildren();
 
             drawRandomNote();
-        }
-    }
-
-    /**
-     * Displays feedback (correct/incorrect) after an answer has been submitted
-     */
-    function displayFeedback() {
-        var classToAdd;
-        var timeout = 1250;
-
-        if (FEEDBACK_DISPLAY.text() === 'Correct!') {
-            classToAdd = 'correctAnswer';
-        } else {
-            classToAdd = 'incorrectAnswer';
-        }
-
-        setTimeout(function() {
-            FEEDBACK_DIV.removeClass(classToAdd);
-            FEEDBACK_DIV.css('opacity', 0);
-        }, timeout);
-
-        FEEDBACK_DIV.css('opacity', 1);
-        FEEDBACK_DIV.addClass(classToAdd);
-    }
-
-    /**
-     * Called every second to update the timer
-     */
-    function updateTimer() {
-        var extraZero = 0;
-
-        timerSeconds -= 1;
-
-        if (timerSeconds < 0) {
-            timerMinutes -= 1;
-            timerSeconds = 59;
-        }
-
-        if (timerSeconds < 10) {
-            extraZero = 0;
-        } else {
-            extraZero = '';
-        }
-
-        shared.TIMER_DISPLAY.text(timerMinutes + ':' + extraZero + timerSeconds);
-
-        // check if out of time
-        if (timerSeconds === 0 && timerMinutes === 0) {
-            endExercise();
         }
     }
 
@@ -164,14 +140,39 @@ function runNotes () {
         }
     }
 
+    /**
+     * Called every second to update the timer
+     */
+    function updateTimer() {
+        var extraZero = 0;
+
+        timerSeconds -= 1;
+
+        if (timerSeconds < 0) {
+            timerMinutes -= 1;
+            timerSeconds = 59;
+        }
+
+        if (timerSeconds < 10) {
+            extraZero = 0;
+        } else {
+            extraZero = '';
+        }
+
+        shared.TIMER_DISPLAY.text(timerMinutes + ':' + extraZero + timerSeconds);
+
+        // check if out of time
+        if (timerSeconds === 0 && timerMinutes === 0) {
+            endExercise();
+        }
+    }
+
     // update the timer before interval starts so it displays correctly on page load
     updateTimer();
 
     // create a variable to allow clearInterval to work
     var timer = setInterval(updateTimer, shared.TIMER_TICK_MS);
 
-    // overwrite string spacing as this canvas is smaller than others
-    var stringSpacing = 25;
     shared.drawStrings(stage, stringSpacing, shared.MAX_FRETS);
 
     drawRandomNote();
