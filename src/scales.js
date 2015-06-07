@@ -21,10 +21,22 @@ function runScales () {
         consts.ROOT_NOTE
     ];
 
+    var circleLayer = new Konva.Layer();
+    var buttonLayer = new Konva.Layer();
+    var backButtonLayer = new Konva.Layer();
+
+    var stage = new Konva.Stage({
+        container: 'container',
+        width: window.innerWidth,
+        height: 400
+    });
+
+    var stringLength = stage.getWidth() - 50;
+
     // Creates the scale table with positions of each note in the selected scale
     for (var i = 0; i < consts.INTERVAL_DIFFERENCE_KEYS.length; i++) {
         for (var j = 0; j < consts.SELECTED_SCALE_LIST.length; j++) {
-            if(consts.SELECTED_SCALE_LIST[j] == consts.INTERVAL_DIFFERENCE_KEYS[i]) {
+            if (consts.SELECTED_SCALE_LIST[j] === consts.INTERVAL_DIFFERENCE_KEYS[i]) {
                 scale.push([
                     consts.ROOT_NOTE[0] + consts.INTERVAL_DIFFERENCE[consts.INTERVAL_DIFFERENCE_KEYS[i]][0],
                     consts.ROOT_NOTE[1] + consts.INTERVAL_DIFFERENCE[consts.INTERVAL_DIFFERENCE_KEYS[i]][1]
@@ -40,9 +52,8 @@ function runScales () {
      */
     function getIntervalName(currentNote) {
         for (var i = 0; i < scale.length; i++) {
-
             // if the given note matches one in the scale it is the correct interval
-            if (currentNote.toString() == scale[i].toString()) {
+            if (currentNote.toString() === scale[i].toString()) {
                 // -1 because no root note in selectedScale table
                 return(consts.SELECTED_SCALE_LIST[i - 1]);
             }
@@ -59,14 +70,6 @@ function runScales () {
         return shared.NOTES[string][fret];
     }
 
-    var stage = new Konva.Stage({
-        container: 'container',
-        width: window.innerWidth,
-        height: 400
-    });
-
-    var stringLength = stage.getWidth() - 50;
-
     /**
      * Draws buttons on each fret
      */
@@ -77,10 +80,9 @@ function runScales () {
 
         for (var string = 0; string < 4; string++) {
             for (var fret = 0; fret < shared.MAX_FRETS; fret++ ) {
-                if (fret == rootFret && string == rootString) {
+                if (fret === rootFret && string === rootString) {
                     shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * rootFret), 50 + (rootString * shared.STRING_SPACING), 15, [string,fret], '#E51400', circleLayer, 1, buttonClicked);
-                }
-                else {
+                } else {
                     shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret), 50 + (string * shared.STRING_SPACING), 15, [string,fret],  'black', circleLayer, 0.75, buttonClicked);
                 }
             }
@@ -185,12 +187,11 @@ function runScales () {
     function buttonClicked(note) {
         var separator = '';
         note = note.join(separator);
-        if(exerciseIsRunning) {
-            if(note == currentNote.join(separator)) {
+        if (exerciseIsRunning) {
+            if (note === currentNote.join(separator)) {
                 setFeedbackText('Correct!', 'green');
                 score += 1;
-            }
-            else {
+            } else {
                 setFeedbackText('Incorrect!', 'red');
             }
 
@@ -209,7 +210,7 @@ function runScales () {
     function gameState() {
         do {
             currentNote = scale[Math.floor(Math.random() * scale.length)];
-        } while (currentNote == scale[0]);
+        } while (currentNote === scale[0]);
 
         setInstructionText(getIntervalName(currentNote) + ' (' + getNoteName(currentNote[0], currentNote[1]) + ')');
     }
@@ -231,20 +232,102 @@ function runScales () {
             $('#noRecord').css('display', 'block');
             $('#noPreviousRecordValue').text(score);
             localStorage.setItem('previousRecordScales', score);
-        }
-        else if (previousRecordScales < score) {
+        } else if (previousRecordScales < score) {
             $('#beatRecord').css('display', 'block');
             $('#beatPreviousRecordValue').text(previousRecordScales);
             localStorage.setItem('previousRecordScales', score);
-        }
-        else {
+        } else {
             $('#lostRecord').css('display', 'block');
             $('#lostPreviousRecordValue').text(previousRecordScales);
         }
 
     }
 
-    var buttonLayer = new Konva.Layer();
+    /**
+     * Starts the exercise - hides buttons, starts timer and draws circle buttons
+     */
+    function start() {
+        buttonLayer.destroy();
+        exerciseIsRunning = true;
+        timer = setInterval(updateTimer, shared.TIMER_TICK_MS);
+        drawCircles();
+        gameState();
+        updateTimer();
+    }
+
+    /**
+     * Draws the back button when viewing an exercise
+     */
+    function drawBackButton() {
+        var backButton = new Konva.Rect({
+            x: stage.width() / 2 - 125,
+            y: 155 / 2 + 150,
+            width: 250,
+            height: 50,
+            fill: 'lightgrey',
+            stroke: 'black',
+            strokeWidth: 4,
+            cornerRadius: 5,
+        });
+        var backButtonText = new Konva.Text({
+            text: 'Back',
+            x: stage.width() / 2 - 100,
+            y: 155 / 2 + 157, // 7 = magic number !!
+            width: 200,
+            height: 50,
+            fontFamily: 'Arial',
+            fontSize: 32,
+            fill: 'black',
+            align: 'center',
+        });
+
+        backButtonLayer.add(backButton);
+        backButtonLayer.add(backButtonText);
+        stage.add(backButtonLayer);
+
+        backButtonLayer.draw();
+
+        backButton.on('mousedown touchstart', function() {
+            resetExercise();
+        });
+
+        backButtonText.on('mousedown touchstart', function() {
+            resetExercise();
+        });
+    }
+
+    /**
+     * Function to view the selected scale
+     */
+    function viewScale() {
+        buttonLayer.destroy();
+        drawBackButton();
+        setInstructionText(consts.SCALE_NAME);
+
+        for (var string = 0; string < 4; string++) {
+            for (var fret = 0; fret < shared.MAX_FRETS; fret++ ) {
+                for (var i = 0; i < scale.length; i++) {
+                    if (scale[0][0] === string && scale[0][1] === fret) {
+                        shared.drawCircle(
+                            (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret),
+                            50 + (string * shared.STRING_SPACING), 15, '', '#E51400', circleLayer, 1, buttonClicked
+                        );
+
+                        shared.drawText(
+                            getNoteName(scale[0][0], scale[0][1]),
+                            (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret) - 6,
+                            50 + (string * shared.STRING_SPACING) - 7, circleLayer
+                        );
+                    } else if (scale[i][0] === string && scale[i][1] === fret) {
+                        shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret), 50 + (string * shared.STRING_SPACING), 15, '', 'black', circleLayer, 1, buttonClicked);
+                        shared.drawText(getNoteName(scale[i][0], scale[i][1]), (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret) - 6, 50 + (string * shared.STRING_SPACING) - 7, circleLayer, false, false, false, 'white');
+                    }
+                }
+            }
+        }
+
+        stage.add(circleLayer);
+    }
 
     /**
      * Draws the buttons for viewing a scale and starting the exercise
@@ -348,55 +431,6 @@ function runScales () {
     }
 
     /**
-     * Starts the exercise - hides buttons, starts timer and draws circle buttons
-     */
-    function start() {
-        buttonLayer.destroy();
-        exerciseIsRunning = true;
-        timer = setInterval(updateTimer, shared.TIMER_TICK_MS);
-        drawCircles();
-        gameState();
-        updateTimer();
-    }
-
-    var circleLayer = new Konva.Layer();
-
-    /**
-     * Function to view the selected scale
-     */
-    function viewScale() {
-        buttonLayer.destroy();
-        drawBackButton();
-        setInstructionText(consts.SCALE_NAME);
-
-        for (var string = 0; string < 4; string++) {
-            for (var fret = 0; fret < shared.MAX_FRETS; fret++ ) {
-                for (var i = 0; i < scale.length; i++) {
-                    if (scale[0][0] === string && scale[0][1] === fret) {
-                        shared.drawCircle(
-                            (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret),
-                            50 + (string * shared.STRING_SPACING), 15, '', '#E51400', circleLayer, 1, buttonClicked
-                        );
-
-                        shared.drawText(
-                            getNoteName(scale[0][0], scale[0][1]),
-                            (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret) - 6,
-                            50 + (string * shared.STRING_SPACING) - 7, circleLayer
-                        );
-                    } else if (scale[i][0] === string && scale[i][1] === fret) {
-                        shared.drawCircle((50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret), 50 + (string * shared.STRING_SPACING), 15, '', 'black', circleLayer, 1, buttonClicked);
-                        shared.drawText(getNoteName(scale[i][0], scale[i][1]), (50 + ((stringLength / shared.MAX_FRETS) / 2)) + (((stringLength - 50) / shared.MAX_FRETS)  * fret) - 6, 50 + (string * shared.STRING_SPACING) - 7, circleLayer, false, false, false, 'white');
-                    }
-                }
-            }
-        }
-
-        stage.add(circleLayer);
-    }
-
-    var backButtonLayer = new Konva.Layer();
-
-    /**
      * Resets the exercise to initial state
      */
     function resetExercise() {
@@ -404,47 +438,6 @@ function runScales () {
         drawButtons();
         circleLayer.destroy();
         setInstructionText('');
-    }
-
-    /**
-     * Draws the back button when viewing an exercise
-     */
-    function drawBackButton() {
-        var backButton = new Konva.Rect({
-            x: stage.width() / 2 - 125,
-            y: 155 / 2 + 150,
-            width: 250,
-            height: 50,
-            fill: 'lightgrey',
-            stroke: 'black',
-            strokeWidth: 4,
-            cornerRadius: 5,
-        });
-        var backButtonText = new Konva.Text({
-            text: 'Back',
-            x: stage.width() / 2 - 100,
-            y: 155 / 2 + 157, // 7 = magic number !!
-            width: 200,
-            height: 50,
-            fontFamily: 'Arial',
-            fontSize: 32,
-            fill: 'black',
-            align: 'center',
-        });
-
-        backButtonLayer.add(backButton);
-        backButtonLayer.add(backButtonText);
-        stage.add(backButtonLayer);
-
-        backButtonLayer.draw();
-
-        backButton.on('mousedown touchstart', function() {
-            resetExercise();
-        });
-
-        backButtonText.on('mousedown touchstart', function() {
-            resetExercise();
-        });
     }
 
     drawButtons();
