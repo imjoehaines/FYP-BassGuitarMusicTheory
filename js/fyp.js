@@ -25208,7 +25208,7 @@ function toggleDescription (idnum, link) {
         description.css('display', 'block');
     }
 
-    if (lastID != -1 && lastID != idnum) {
+    if (lastID !== -1 && lastID !== idnum) {
         $('#desc' + lastID).css('display', 'none');
     }
 
