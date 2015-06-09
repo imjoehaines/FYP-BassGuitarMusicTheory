@@ -11,8 +11,8 @@ function runNotes () {
     var timerMinutes = localStorage.getItem('timeLimit');
     var score = 0;
     var totalQuestions = 0;
-    var FEEDBACK_DIV = $('#feedback');
-    var FEEDBACK_DISPLAY = $('#feedbackDisplay');
+    var $feedbackDiv = $('#feedback');
+    var $feedbackDisplay = $('#feedbackDisplay');
     var previousRecordNotes = localStorage.getItem('previousRecordNotes');
     var exerciseIsRunning = true;
     var currentNote;
@@ -29,7 +29,6 @@ function runNotes () {
 
     // layer to hold notes
     var circleLayer = new Konva.Layer();
-
 
     // empty function as button clicks wont do anything in this exercise
     // TODO: fix this
@@ -69,19 +68,19 @@ function runNotes () {
         var classToAdd;
         var timeout = 1250;
 
-        if (FEEDBACK_DISPLAY.text() === 'Correct!') {
+        if ($feedbackDisplay.text() === 'Correct!') {
             classToAdd = 'correctAnswer';
         } else {
             classToAdd = 'incorrectAnswer';
         }
 
         setTimeout(function() {
-            FEEDBACK_DIV.removeClass(classToAdd);
-            FEEDBACK_DIV.css('opacity', 0);
+            $feedbackDiv.removeClass(classToAdd);
+            $feedbackDiv.css('opacity', 0);
         }, timeout);
 
-        FEEDBACK_DIV.css('opacity', 1);
-        FEEDBACK_DIV.addClass(classToAdd);
+        $feedbackDiv.css('opacity', 1);
+        $feedbackDiv.addClass(classToAdd);
     }
 
     /**
@@ -95,9 +94,9 @@ function runNotes () {
 
             if (currentNote === answer) {
                 score += 1;
-                FEEDBACK_DISPLAY.text('Correct!');
+                $feedbackDisplay.text('Correct!');
             } else {
-                FEEDBACK_DISPLAY.text('Incorrect!');
+                $feedbackDisplay.text('Incorrect!');
             }
 
             displayFeedback();

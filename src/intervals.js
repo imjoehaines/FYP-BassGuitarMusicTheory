@@ -1,6 +1,6 @@
 /*global require, localStorage, window, setInterval, clearInterval */
 function runIntervals () {
-        'use strict';
+    'use strict';
 
     var shared = require('./exercisesShared');
     var $ = require('jquery');
